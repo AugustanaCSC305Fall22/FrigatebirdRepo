@@ -14,7 +14,7 @@ public class ProjectMenuController {
 
     @FXML
     private void switchToEditPage() throws IOException {
-        App.setRoot("editPage");
+        App.setRoot("EditPage");
     }
     
 
