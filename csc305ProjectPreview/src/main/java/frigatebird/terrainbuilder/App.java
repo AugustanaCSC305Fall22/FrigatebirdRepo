@@ -1,4 +1,4 @@
-package edu.augustana.csc305ProjectPreview;
+package frigatebird.terrainbuilder;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

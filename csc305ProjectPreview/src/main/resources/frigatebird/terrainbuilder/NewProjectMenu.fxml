@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.csc305ProjectPreview.SecondaryController">
+<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.terrainbuilder.NewProjectMenuController">
    <center>
       <VBox alignment="CENTER" spacing="20.0">
           <children>
@@ -18,7 +18,7 @@
             </Label>
             <Button mnemonicParsing="false" text="Blank Template" />
             <Button mnemonicParsing="false" text="Premade Template" />
-              <Button fx:id="secondaryButton" onAction="#switchToPrimary" text="Main Menu" />
+              <Button fx:id="secondaryButton" onAction="#switchToMainMenu" text="Main Menu" />
           </children>
           <padding>
               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

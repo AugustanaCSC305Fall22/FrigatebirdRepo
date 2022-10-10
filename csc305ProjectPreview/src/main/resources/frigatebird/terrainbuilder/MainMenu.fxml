@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.csc305ProjectPreview.PrimaryController">
+<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.terrainbuilder.MainMenuController">
    <center>
       <VBox alignment="CENTER" spacing="20.0">
          <children>
@@ -17,10 +16,10 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Button fx:id="primaryButton" onAction="#switchToSecondary" text="New Project" />
-            <Button mnemonicParsing="false" text="Load Project" />
-            <Button mnemonicParsing="false" text="Export Project" />
-            <Button mnemonicParsing="false" text="Quit" />
+            <Button fx:id="newProjectButton" onAction="#switchToNewProjectMenu" text="New Project" />
+            <Button fx:id="menuLoadButton" mnemonicParsing="false" onAction="#switchToProjectMenu" text="Load Project" />
+            <Button fx:id="menuExportButton" mnemonicParsing="false" onAction="#switchToProjectMenu" text="Export Project" />
+            <Button fx:id="quitProgramButton" mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
