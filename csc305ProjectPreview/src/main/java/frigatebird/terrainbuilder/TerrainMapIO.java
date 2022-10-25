@@ -1,17 +1,27 @@
 package frigatebird.terrainbuilder;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.google.gson.*;
 
 public class TerrainMapIO {
 	
-	public static String terrainMapToJSON(TerrainMap map) {
+	public static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		return gson.toJson(map);		
+		FileWriter writer = new FileWriter(outputFile);
+		gson.toJson(map, writer);
+		writer.close();		
 	}
 	
-	public static TerrainMap jsonToTerrainMap(String jsonText) {
+	public static TerrainMap jsonToTerrainMap(File inputFile) throws JsonSyntaxException, JsonIOException, IOException {
 		Gson gson = new Gson();
-		TerrainMap map = gson.fromJson(jsonText, TerrainMap.class);
+		FileReader reader = new FileReader(inputFile);
+		TerrainMap map = gson.fromJson(reader, TerrainMap.class);
+		reader.close();
 		return map;
 	}
 	
