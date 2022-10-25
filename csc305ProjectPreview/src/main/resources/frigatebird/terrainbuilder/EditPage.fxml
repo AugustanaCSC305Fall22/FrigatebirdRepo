@@ -8,7 +8,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="427.0" prefWidth="378.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
+
+<BorderPane prefHeight="427.0" prefWidth="378.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.terrainbuilder.EditorController">
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="382.0" prefWidth="114.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
