@@ -1,4 +1,4 @@
-package frigatebird.ui;
+package frigatebird.terrainbuilder;
 
 import java.io.IOException;
 
