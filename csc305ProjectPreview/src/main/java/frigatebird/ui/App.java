@@ -1,4 +1,4 @@
-package frigatebird.terrainbuilder;
+package frigatebird.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
