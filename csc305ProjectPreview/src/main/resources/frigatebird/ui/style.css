@@ -1,0 +1,20 @@
+.parent{
+	-fx-border-radius:60px;
+}
+
+.sidebar{
+	-fx-background-color:linear-gradient(to bottom right, #4c4ca6, bd8edb);
+}
+
+.default_text{
+	-fx-font-family:'Verdana';
+}
+
+.template_text_button{
+	-fx-background-color:'slateblue';
+}
+
+.title_text{
+	-fx-font-family:'Verdana';
+		-fx-background-color:'slateblue';
+}
