@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="parent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutY="-7.0" prefHeight="592.0" prefWidth="57.0" styleClass="sidebar">
+      <AnchorPane layoutY="-7.0" prefHeight="611.0" prefWidth="21.0" styleClass="sidebar">
          <children>
-            <FontAwesomeIconView fill="WHITE" glyphName="HOME" layoutX="20.0" layoutY="210.1428565979004" size="1.5em" wrappingWidth="27.0" AnchorPane.bottomAnchor="401.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="187.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </FontAwesomeIconView>
-            <FontAwesomeIconView fill="WHITE" glyphName="IMAGE" layoutX="15.0" layoutY="278.0" size="1.5em" text="" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="22.714284896850586" />
-            <FontAwesomeIconView fill="#ff8c8c" glyphName="POWER_OFF" layoutX="17.0" layoutY="350.0" size="1.5em" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="24.571428298950195" />
+            <FontAwesomeIconView fill="#ff8c8c" glyphName="POWER_OFF" layoutX="17.0" layoutY="350.0" size="1.5em" styleClass="icon_power" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="24.571428298950195" />
+            <JFXButton layoutX="-3.0" layoutY="172.0" prefHeight="58.0" prefWidth="63.0" styleClass="menu_button" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="HOME" size="1.5em" styleClass="icon" text="" wrappingWidth="27.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </FontAwesomeIconView>
+               </graphic>
+            </JFXButton>
+            <JFXButton layoutX="-1.0" layoutY="244.0" prefHeight="58.0" prefWidth="63.0" styleClass="menu_button" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="IMAGE" size="1.5em" styleClass="icon" text="" />
+               </graphic>
+            </JFXButton>
          </children>
       </AnchorPane>
       <Label layoutX="252.0" layoutY="220.0" prefHeight="43.0" prefWidth="470.0" styleClass="default_text" text="You have no projects yet." textFill="#d0d0d0">
@@ -26,17 +33,23 @@
             <Font size="34.0" />
          </font>
       </Label>
-      <Button layoutX="352.0" layoutY="285.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Circle fill="#8ac656" layoutX="838.0" layoutY="546.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-      <FontAwesomeIconView fill="WHITE" glyphName="PLUS" layoutX="829.0" layoutY="554.0" size="2em" />
       <Label layoutX="76.0" layoutY="22.0" text="3D TableTop" textFill="#695accd7">
          <font>
             <Font name="Verdana Bold" size="22.0" />
          </font>
       </Label>
+      <JFXButton buttonType="RAISED" layoutX="376.0" layoutY="281.0" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
+         <padding>
+            <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="807.0" layoutY="518.0" prefHeight="58.0" prefWidth="58.0" rotate="-90.0" styleClass="add_button" stylesheets="@style.css" text=" ">
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="2em" styleClass="icon-plus" translateX="4.0" />
+         </graphic>
+      </JFXButton>
    </children>
 </AnchorPane>
