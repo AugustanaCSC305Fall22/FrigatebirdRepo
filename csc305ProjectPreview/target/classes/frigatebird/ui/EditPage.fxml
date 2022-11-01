@@ -32,6 +32,6 @@
       </Label>
    </top>
    <center>
-      <Canvas fx:id="editingCanvas" height="271.0" width="424.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="editingCanvas" height="500.0" width="500.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
