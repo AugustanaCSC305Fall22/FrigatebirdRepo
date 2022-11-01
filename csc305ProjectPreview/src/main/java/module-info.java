@@ -4,7 +4,12 @@ module edu.augustana.csc305ProjectPreview {
     requires javafx.fxml;
     requires com.google.gson;
 	requires javafx.graphics;
-
+	requires de.jensd.fx.glyphs.commons;
+	requires de.jensd.fx.glyphs.materialdesignicons;
+	requires de.jensd.fx.glyphs.fontawesome;
+	
+	
+	
     opens frigatebird.ui to javafx.fxml;
     opens frigatebird.terrainbuilder to com.google.gson;
     exports frigatebird.ui;

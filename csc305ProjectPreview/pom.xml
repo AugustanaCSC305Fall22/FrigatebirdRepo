@@ -26,6 +26,31 @@
 		    <artifactId>gson</artifactId>
 		    <version>2.9.1</version>
 		</dependency>
+	<!-- https://mvnrepository.com/artifact/com.jfoenix/jfoenix -->
+		<dependency>
+	    	<groupId>com.jfoenix</groupId>
+	    	<artifactId>jfoenix</artifactId>
+	    	<version>9.0.10</version>
+		</dependency>
+
+			<dependency>
+			            <groupId>de.jensd</groupId>
+			            <artifactId>fontawesomefx-materialdesignfont</artifactId>
+			            <version>2.0.26-9.1.2</version>
+			        </dependency>
+
+			        <dependency>
+			            <groupId>de.jensd</groupId>
+			            <artifactId>fontawesomefx-commons</artifactId>
+			            <version>9.1.2</version>
+			</dependency>
+
+				<dependency>
+				            <groupId>de.jensd</groupId>
+				            <artifactId>fontawesomefx-fontawesome</artifactId>
+				            <version>4.7.0-9.1.2</version>
+				        </dependency>
+
     </dependencies>
     <build>
         <plugins>
