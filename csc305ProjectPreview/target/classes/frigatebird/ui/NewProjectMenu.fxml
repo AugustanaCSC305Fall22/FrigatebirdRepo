@@ -16,7 +16,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" text="Blank Template" />
+            <Button mnemonicParsing="false" onAction="#switchToEditPage" text="Blank Template" />
             <Button mnemonicParsing="false" text="Premade Template" />
               <Button fx:id="secondaryButton" onAction="#switchToMainMenu" text="Main Menu" />
           </children>

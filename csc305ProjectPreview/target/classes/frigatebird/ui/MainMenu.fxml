@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="parent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="parent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.MainMenuController">
    <children>
       <AnchorPane layoutY="-7.0" prefHeight="611.0" prefWidth="21.0" styleClass="sidebar">
          <children>
@@ -46,7 +46,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="807.0" layoutY="518.0" prefHeight="58.0" prefWidth="58.0" rotate="-90.0" styleClass="add_button" stylesheets="@style.css" text=" ">
+      <JFXButton buttonType="RAISED" layoutX="807.0" layoutY="518.0" onAction="#switchToNewProjectMenu" prefHeight="58.0" prefWidth="58.0" rotate="-90.0" styleClass="add_button" stylesheets="@style.css" text=" ">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="2em" styleClass="icon-plus" translateX="4.0" />
          </graphic>

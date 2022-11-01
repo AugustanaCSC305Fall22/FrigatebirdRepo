@@ -1,11 +1,12 @@
 package frigatebird.terrainbuilder;
 
 public class Tile {
-	
+
+	// consider row/column info too?
 	private int height;
 	
 	public Tile() {
-		this.height = 1;
+		this.height = 0;
 	}
 	
 	public Tile(int height) {

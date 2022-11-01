@@ -8,12 +8,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import frigatebird.terrainbuilder.TerrainMap;
+
 /**
  * JavaFX App
  */
 public class App extends Application {
 
     private static Scene scene;
+    private static TerrainMap map = new TerrainMap();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -34,5 +37,15 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+	public static TerrainMap getMap() {
+		return map;
+	}
+
+	public static void setMap(TerrainMap map) {
+		App.map = map;
+	}
+    
+    
 
 }

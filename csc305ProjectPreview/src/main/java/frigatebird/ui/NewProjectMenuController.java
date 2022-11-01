@@ -9,4 +9,11 @@ public class NewProjectMenuController {
     private void switchToMainMenu() throws IOException {
         App.setRoot("MainMenu");
     }
+    
+    @FXML
+    private void switchToEditPage() throws IOException {
+        App.setRoot("EditPage");
+    }
+
+    
 }
