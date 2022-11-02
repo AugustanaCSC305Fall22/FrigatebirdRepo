@@ -38,12 +38,17 @@ public class EditorController {
 				double x = c * tileSize;
 				double y = r * tileSize;
 				gc.fillRect(x, y, tileSize - 1, tileSize - 1);
-				
+				gc.setFill(Color.BLACK);
+				gc.fillText(Integer.toString(height), x + 10, y + 20);
 				// draw filled rectangle where the color
 				// is determined by the height of the Tile
 				}
 			}
 		}
+	
+	public void setHeightText(double x) {
+		
+    }
 	
 	/**
      * Given an x-coordinate of a pixel in the MosaicCanvas, this method returns
