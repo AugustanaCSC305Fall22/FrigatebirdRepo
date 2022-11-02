@@ -7,6 +7,7 @@ import frigatebird.terrainbuilder.Tile;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -39,17 +40,17 @@ public class EditorController {
 				double y = r * tileSize;
 				gc.fillRect(x, y, tileSize - 1, tileSize - 1);
 				gc.setFill(Color.BLACK);
-				gc.fillText(Integer.toString(height), x + 10, y + 20);
+				if(tile.getHeight() < 10) {
+					gc.fillText(Integer.toString(height), x + 10, y + 20);
+				} else {
+					gc.fillText(Integer.toString(height), x + 7, y + 20);
+				}
 				// draw filled rectangle where the color
 				// is determined by the height of the Tile
 				}
 			}
 		}
-	
-	public void setHeightText(double x) {
-		
-    }
-	
+
 	/**
      * Given an x-coordinate of a pixel in the MosaicCanvas, this method returns
      * the row number of the mosaic rectangle that contains that pixel.  If
@@ -85,18 +86,22 @@ public class EditorController {
     }	
     
     private void changeHeight(MouseEvent evt, int num) {
-        int row = yCoordToRowNumber((int)evt.getY());
+    	int row = yCoordToRowNumber((int)evt.getY());
         int col = xCoordToColumnNumber((int)evt.getX());
-        if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
-            Tile tile = map.getTileAt(row, col);
-            tile.setHeight(tile.getHeight() + num);
-            try {
+    	Tile tile = map.getTileAt(row, col);
+	    if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
+	        if (evt.getButton().equals(MouseButton.PRIMARY) && tile.getHeight() < 15) {
+	        	tile.setHeight(tile.getHeight() + num);
+	        } else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
+	        	tile.setHeight(tile.getHeight() - num);
+	        }
+	           try {
 				refresh();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 			}
-        }
+	    }
     }
 	
 	@FXML
