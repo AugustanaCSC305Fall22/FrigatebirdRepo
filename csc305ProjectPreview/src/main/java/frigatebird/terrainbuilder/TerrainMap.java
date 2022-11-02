@@ -19,7 +19,7 @@ public class TerrainMap {
 	}
 	
 	public TerrainMap() {
-		this(5, 3);
+		this(15, 15);
 	}
 	
 	public Tile getTileAt(int row, int col) {
