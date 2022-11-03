@@ -1,15 +1,22 @@
 package frigatebird.ui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import frigatebird.terrainbuilder.TerrainMap;
+import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 
 public class EditorController {
 	
@@ -95,20 +102,39 @@ public class EditorController {
 	        } else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
 	        	tile.setHeight(tile.getHeight() - num);
 	        }
-	           try {
-				refresh();
+	        try {
+	        	refresh();
 			} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 	    }
     }
-	
-	@FXML
+    
     private void refresh() throws IOException {
         App.setRoot("EditPage");
     }
+    
+    @FXML
+    private void save() throws IOException {
+    	File file = App.getCurrentFile();
+    	if (file != null) {
+    		TerrainMapIO.terrainMapToJSON(App.getMap(), file);
+    	}
+    	else {
+    		saveAs();
+    	}
+    }
 	
+    @FXML
+    private void saveAs() throws IOException {
+    	File file = App.saveFile();
+    	if (file != null) {
+    		App.setCurrentFile(file);
+    		TerrainMapIO.terrainMapToJSON(App.getMap(), file);
+    	}
+    }
+    
     @FXML
     private void switchToMainMenu() throws IOException {
         App.setRoot("MainMenu");

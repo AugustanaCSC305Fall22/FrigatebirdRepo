@@ -4,8 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
 
 import frigatebird.terrainbuilder.TerrainMap;
@@ -16,11 +20,15 @@ import frigatebird.terrainbuilder.TerrainMap;
 public class App extends Application {
 
     private static Scene scene;
+    private static Scene fileWindow;
     private static TerrainMap map = new TerrainMap();
+    private static File currentFile = null;
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("mainMenu"), 900, 600);
+        BorderPane b = new BorderPane();
+        fileWindow = new Scene(b, 1, 1);
         stage.setScene(scene);
         stage.show();
     }
@@ -44,6 +52,26 @@ public class App extends Application {
 
 	public static void setMap(TerrainMap map) {
 		App.map = map;
+	}
+	
+	public static File getCurrentFile() {
+		return currentFile;
+	}
+	
+	public static void setCurrentFile(File file) {
+		currentFile = file;
+	}
+	
+	public static File saveFile() {
+		FileChooser fileChooser = new FileChooser();
+		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
+		saveWindow.setScene(fileWindow);
+		saveWindow.show();
+    	File file = fileChooser.showSaveDialog(saveWindow);
+    	saveWindow.close();
+    	//File rename = new File(file.getName() + ".json");
+    	//file.renameTo(rename);
+    	return file;
 	}
     
     

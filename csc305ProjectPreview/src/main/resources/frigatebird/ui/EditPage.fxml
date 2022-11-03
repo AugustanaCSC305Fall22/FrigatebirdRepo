@@ -15,8 +15,8 @@
             <Button mnemonicParsing="false" text="3D Preview" />
             <Button mnemonicParsing="false" text="Tile Tool" />
             <Button mnemonicParsing="false" text="Height Tool" />
-            <Button mnemonicParsing="false" text="Save" />
-            <Button mnemonicParsing="false" text="Save As" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" text="Save" />
+            <Button fx:id="saveAsButton" mnemonicParsing="false" onAction="#saveAs" text="Save As" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
          </children>
          <BorderPane.margin>
