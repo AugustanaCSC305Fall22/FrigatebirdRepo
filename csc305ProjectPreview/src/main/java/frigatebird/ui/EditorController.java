@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
@@ -40,7 +41,6 @@ public class EditorController {
 
 	private void drawMap(TerrainMap map) {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
-		gc.setStroke(Color.BLACK);
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
@@ -161,9 +161,51 @@ public class EditorController {
 			}
 		}
 	}
+	
+    @FXML
+    void frontView(ActionEvent event) throws IOException {
+		ArrayList<Integer> heightList = new ArrayList<>();
+		int height = 0;
+		int max = Integer.MIN_VALUE;
+		for(int c = 0; c < map.getNumColumns(); c++) {
+			for(int r = 0; r < map.getNumRows(); r++) {
+				height = map.getTileAt(r, c).getHeight();
+				if(height > max) {
+					max = height;
+				}
+			}
+			heightList.add(max);
+			max = 0;
+		}
+		drawFrontPerspective(heightList);
+	}
+    
+    
+    
+    public void drawFrontPerspective(ArrayList<Integer> heightList) {
 
+    	GraphicsContext gc = editingCanvas.getGraphicsContext2D();
+    	int index = heightList.size()-1;
+  
+		for(int c = 0; c < map.getNumColumns(); c++) {
+			for(int r = index ; r > index - heightList.get(c); r--) {
+				double x = c * tileSize;
+				double y = r * tileSize;
+		    	
+		    	map.getTileAt(r, c);
+				gc.fillRect(x, y, tileSize-1, tileSize-1);
+				gc.setFill(Color.BLACK);
+			}
+		}
+    
+    	
+   
+    }
+    
+    
 	@FXML
 	private void switchToMainMenu() throws IOException {
 		App.setRoot("MainMenu");
 	}
+	
 }

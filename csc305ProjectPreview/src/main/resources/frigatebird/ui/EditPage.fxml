@@ -9,13 +9,13 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
+<BorderPane prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="378.0" prefWidth="114.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" text="3D Preview" />
             <Button mnemonicParsing="false" text="Tile Tool" />
-            <Button mnemonicParsing="false" text="Height Tool" />
+            <Button mnemonicParsing="false" onAction="#frontView" text="Height Tool" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
          </children>
          <BorderPane.margin>
@@ -37,10 +37,15 @@
                   <MenuItem mnemonicParsing="false" onAction="#saveAs" text="Save As" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
+          <Menu mnemonicParsing="false" text="View">
+               <items>
+                  <Menu mnemonicParsing="false" text="Preview">
+                    <items>
+                     <!--  <MenuItem mnemonicParsing="false" onAction="#switchToFrontView" text="Front View" /> -->
+                        <MenuItem mnemonicParsing="false" onAction="#frontView" text="Front View" />
+                    </items>
+                  </Menu>
+               </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
