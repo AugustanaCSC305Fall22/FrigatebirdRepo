@@ -153,6 +153,7 @@ public class EditorController {
 			try {
 				TerrainMap map = TerrainMapIO.jsonToTerrainMap(inputFile);
 				drawMap(map);
+				App.setMap(map);
 			} catch (FileNotFoundException ex) {
 				new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
 			} catch (IOException ex) {
