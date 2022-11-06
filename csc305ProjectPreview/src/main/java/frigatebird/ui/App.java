@@ -64,6 +64,9 @@ public class App extends Application {
 	
 	public static File saveFile() {
 		FileChooser fileChooser = new FileChooser();
+    	FileChooser.ExtensionFilter filter = 
+                new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)", "*.terrainmap");
+        fileChooser.getExtensionFilters().add(filter);
 		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
 		saveWindow.setScene(fileWindow);
 		saveWindow.show();
