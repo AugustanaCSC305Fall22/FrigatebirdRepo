@@ -3,21 +3,19 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="427.0" prefWidth="378.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
+<BorderPane prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="382.0" prefWidth="114.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="378.0" prefWidth="114.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" text="3D Preview" />
             <Button mnemonicParsing="false" text="Tile Tool" />
             <Button mnemonicParsing="false" text="Height Tool" />
-            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" text="Save" />
-            <Button mnemonicParsing="false" onAction="#loadFile" text="Load" />
-            <Button fx:id="saveAsButton" mnemonicParsing="false" onAction="#saveAs" text="Save As" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
          </children>
          <BorderPane.margin>
@@ -25,14 +23,31 @@
          </BorderPane.margin>
       </VBox>
    </right>
-   <top>
-      <Label text="Map Editor" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-   </top>
    <center>
       <Canvas fx:id="editingCanvas" height="500.0" width="500.0" BorderPane.alignment="CENTER" />
    </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#initialize" text="New " />
+                  <MenuItem mnemonicParsing="false" onAction="#loadFile" text="Load" />
+                  <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveAs" text="Save As" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
 </BorderPane>
