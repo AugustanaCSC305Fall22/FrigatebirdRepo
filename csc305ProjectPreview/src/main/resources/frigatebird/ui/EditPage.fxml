@@ -16,6 +16,7 @@
             <Button mnemonicParsing="false" text="Tile Tool" />
             <Button mnemonicParsing="false" text="Height Tool" />
             <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" text="Save" />
+            <Button mnemonicParsing="false" onAction="#loadFile" text="Load" />
             <Button fx:id="saveAsButton" mnemonicParsing="false" onAction="#saveAs" text="Save As" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
          </children>
