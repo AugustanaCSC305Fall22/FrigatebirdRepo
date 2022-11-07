@@ -269,6 +269,11 @@ public class EditorController {
 		}
 	}
     
+    @FXML
+	private void switchToAboutScreen() throws IOException {
+		App.setRoot("AboutScreen");
+	}
+    
 	@FXML
 	private void switchToMainMenu() throws IOException {
 		App.setRoot("MainMenu");
