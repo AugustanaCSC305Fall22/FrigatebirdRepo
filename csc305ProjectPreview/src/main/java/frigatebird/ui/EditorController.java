@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
@@ -250,6 +251,22 @@ public class EditorController {
     void sideView() throws IOException {
     	App.setView("Side View");
 		refresh();
+	}
+    
+    @FXML
+    private void randomizeTiles() {
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				Random randGen = new Random();
+				tile.setHeight(randGen.nextInt(16));
+				try {
+					refresh();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
     
 	@FXML

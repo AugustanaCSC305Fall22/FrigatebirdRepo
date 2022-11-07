@@ -16,6 +16,7 @@
             <Button mnemonicParsing="false" text="3D Preview" />
             <Button mnemonicParsing="false" text="Tile Tool" />
             <Button mnemonicParsing="false" text="Height Tool" />
+            <Button mnemonicParsing="false" onAction="#randomizeTiles" text="Randomizer" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
          </children>
          <BorderPane.margin>
