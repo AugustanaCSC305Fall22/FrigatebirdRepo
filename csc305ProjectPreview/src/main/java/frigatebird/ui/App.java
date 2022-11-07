@@ -23,12 +23,12 @@ public class App extends Application {
     private static Scene fileWindow;
     private static TerrainMap map = new TerrainMap();
     private static File currentFile = null;
+    private static String view = "Top Down View";
+	private static String tool = "Height Tool";
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("mainMenu"), 900, 600);
-        BorderPane b = new BorderPane();
-        fileWindow = new Scene(b, 1, 1);
         stage.setScene(scene);
         stage.show();
     }
@@ -61,21 +61,21 @@ public class App extends Application {
 	public static void setCurrentFile(File file) {
 		currentFile = file;
 	}
-	
-	public static File saveFile() {
-		FileChooser fileChooser = new FileChooser();
-    	FileChooser.ExtensionFilter filter = 
-                new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)", "*.terrainmap");
-        fileChooser.getExtensionFilters().add(filter);
-		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
-		saveWindow.setScene(fileWindow);
-		saveWindow.show();
-    	File file = fileChooser.showSaveDialog(saveWindow);
-    	saveWindow.close();
-    	//File rename = new File(file.getName() + ".json");
-    	//file.renameTo(rename);
-    	return file;
+
+	public static String getView() {
+		return view;
 	}
-    
+
+	public static void setView(String view) {
+		App.view = view;
+	}
+
+	public static String getTool() {
+		return tool;
+	}
+
+	public static void setTool(String tool) {
+		App.tool = tool;
+	}
 
 }

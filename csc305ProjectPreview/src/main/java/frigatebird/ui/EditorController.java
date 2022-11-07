@@ -36,10 +36,15 @@ public class EditorController {
 	private void initialize() {
 		this.map = App.getMap();
 		editingCanvas.setOnMousePressed(e -> changeHeight(e, 1));
-		drawMap(this.map);
+		if(App.getView().equals("Top Down View")) {
+			drawMap();
+		}
+		else if(App.getView().equals("Side View")) {
+			drawFrontPerspective();
+		}
 	}
 
-	private void drawMap(TerrainMap map) {
+	private void drawMap() {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
@@ -63,6 +68,35 @@ public class EditorController {
 			}
 		}
 	}
+	
+    public void drawFrontPerspective() {
+    	ArrayList<Integer> heightList = new ArrayList<>();
+		int height = 0;
+		int max = Integer.MIN_VALUE;
+		for(int c = 0; c < map.getNumColumns(); c++) {
+			for(int r = 0; r < map.getNumRows(); r++) {
+				height = map.getTileAt(r, c).getHeight();
+				if(height > max) {
+					max = height;
+				}
+			}
+			heightList.add(max);
+			max = 0;
+		}
+    	GraphicsContext gc = editingCanvas.getGraphicsContext2D();
+    	int index = heightList.size()-1;
+  
+		for(int c = 0; c < map.getNumColumns(); c++) {
+			for(int r = index ; r > index - heightList.get(c); r--) {
+				double x = c * tileSize;
+				double y = r * tileSize;
+		    	
+		    	map.getTileAt(r, c);
+				gc.fillRect(x, y, tileSize-1, tileSize-1);
+				gc.setFill(Color.BLACK);
+			}
+		}
+    }
 
 	/**
 	 * Given an x-coordinate of a pixel in the MosaicCanvas, this method returns the
@@ -99,20 +133,21 @@ public class EditorController {
 	}
 
 	private void changeHeight(MouseEvent evt, int num) {
-		int row = yCoordToRowNumber((int) evt.getY());
-		int col = xCoordToColumnNumber((int) evt.getX());
-		Tile tile = map.getTileAt(row, col);
-		if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
-			if (evt.getButton().equals(MouseButton.PRIMARY) && tile.getHeight() < 15) {
-				tile.setHeight(tile.getHeight() + num);
-			} else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
-				tile.setHeight(tile.getHeight() - num);
-			}
-			try {
-				refresh();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(App.getView().equals("Top Down View") && App.getTool().equals("Height Tool")) {
+			int row = yCoordToRowNumber((int) evt.getY());
+			int col = xCoordToColumnNumber((int) evt.getX());
+			Tile tile = map.getTileAt(row, col);
+			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
+				if (evt.getButton().equals(MouseButton.PRIMARY) && tile.getHeight() < 15) {
+					tile.setHeight(tile.getHeight() + num);
+				} else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
+					tile.setHeight(tile.getHeight() - num);
+				}
+				try {
+					refresh();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -133,7 +168,11 @@ public class EditorController {
 
 	@FXML
 	private void saveAs() throws IOException {
-		File file = App.saveFile();
+		FileChooser fileChooser = new FileChooser();
+    	FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)", "*.terrainmap");
+        fileChooser.getExtensionFilters().add(filter);
+		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
+    	File file = fileChooser.showSaveDialog(saveWindow);
 		if (file != null) {
 			App.setCurrentFile(file);
 			TerrainMapIO.terrainMapToJSON(App.getMap(), file);
@@ -151,58 +190,28 @@ public class EditorController {
 
 		if (inputFile != null) {
 			try {
-				TerrainMap map = TerrainMapIO.jsonToTerrainMap(inputFile);
-				drawMap(map);
+				map = TerrainMapIO.jsonToTerrainMap(inputFile);
+				drawMap();
 				App.setMap(map);
 			} catch (FileNotFoundException ex) {
 				new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
 			} catch (IOException ex) {
-				new Alert(AlertType.ERROR, "Error opening file. Pleae make sure the file type is of '.terrainmap' ")
-						.show();
+				new Alert(AlertType.ERROR, "Error opening file. Please make sure the file type is of '.terrainmap' ").show();
 			}
 		}
 	}
 	
-    @FXML
-    void frontView(ActionEvent event) throws IOException {
-		ArrayList<Integer> heightList = new ArrayList<>();
-		int height = 0;
-		int max = Integer.MIN_VALUE;
-		for(int c = 0; c < map.getNumColumns(); c++) {
-			for(int r = 0; r < map.getNumRows(); r++) {
-				height = map.getTileAt(r, c).getHeight();
-				if(height > max) {
-					max = height;
-				}
-			}
-			heightList.add(max);
-			max = 0;
-		}
-		drawFrontPerspective(heightList);
+	@FXML
+    void topDownView() throws IOException {
+		App.setView("Top Down View");
+		refresh();
 	}
-    
-    
-    
-    public void drawFrontPerspective(ArrayList<Integer> heightList) {
-
-    	GraphicsContext gc = editingCanvas.getGraphicsContext2D();
-    	int index = heightList.size()-1;
-  
-		for(int c = 0; c < map.getNumColumns(); c++) {
-			for(int r = index ; r > index - heightList.get(c); r--) {
-				double x = c * tileSize;
-				double y = r * tileSize;
-		    	
-		    	map.getTileAt(r, c);
-				gc.fillRect(x, y, tileSize-1, tileSize-1);
-				gc.setFill(Color.BLACK);
-			}
-		}
-    
-    	
-   
-    }
-    
+	
+    @FXML
+    void sideView() throws IOException {
+    	App.setView("Side View");
+		refresh();
+	}
     
 	@FXML
 	private void switchToMainMenu() throws IOException {
