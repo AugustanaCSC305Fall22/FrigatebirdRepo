@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
@@ -17,6 +18,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -31,6 +33,7 @@ public class EditorController {
 	private TerrainMap map;
 	private int tileSize = 30;
 	private int numColors = 16;
+	private boolean isSaved = false;
 
 	@FXML
 	private void initialize() {
@@ -155,12 +158,39 @@ public class EditorController {
 	private void refresh() throws IOException {
 		App.setRoot("EditPage");
 	}
+	
+	public void confirmSave(String caller) throws IOException {
+		Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+		confirm.setTitle("You forgot to save!");
+		confirm.setContentText("Would you like to save the chanes made?");
+		Optional<ButtonType> answer = confirm.showAndWait();
+		
+		if(answer.get() == ButtonType.OK) {
+			saveAs();
+		}
+		else {
+			isSaved = true;
+			 if(caller.equals("load")) {
+				 loadFile();
+			 }
+			 else {
+				 newFile(); //Has not yet been implemented.
+			 }
+		}
+	}
+	
+	
+	@FXML
+	private void newFile() {
+		//Will allow user to get a new terrain map to work on. 
+	}
 
 	@FXML
 	private void save() throws IOException {
 		File file = App.getCurrentFile();
 		if (file != null) {
 			TerrainMapIO.terrainMapToJSON(App.getMap(), file);
+			isSaved = true;
 		} else {
 			saveAs();
 		}
@@ -176,30 +206,39 @@ public class EditorController {
 		if (file != null) {
 			App.setCurrentFile(file);
 			TerrainMapIO.terrainMapToJSON(App.getMap(), file);
+			isSaved = true;
 		}
 	}
 
 	@FXML
-	public void loadFile() {
-		FileChooser loadChooser = new FileChooser();
-		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
-				"*.terrainmap");
-		loadChooser.getExtensionFilters().add(filter);
-		Stage loadWindow = new Stage(StageStyle.TRANSPARENT);
-		File inputFile = loadChooser.showOpenDialog(loadWindow);
-
-		if (inputFile != null) {
-			try {
-				map = TerrainMapIO.jsonToTerrainMap(inputFile);
-				drawMap();
-				App.setMap(map);
-			} catch (FileNotFoundException ex) {
-				new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
-			} catch (IOException ex) {
-				new Alert(AlertType.ERROR, "Error opening file. Please make sure the file type is of '.terrainmap' ").show();
+	public void loadFile() throws IOException{
+		if(isSaved) {
+			FileChooser loadChooser = new FileChooser();
+			FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
+					"*.terrainmap");
+			loadChooser.getExtensionFilters().add(filter);
+			Stage loadWindow = new Stage(StageStyle.TRANSPARENT);
+			File inputFile = loadChooser.showOpenDialog(loadWindow);
+	
+			if (inputFile != null) {
+				try {
+					map = TerrainMapIO.jsonToTerrainMap(inputFile);
+					drawMap();
+					App.setMap(map);
+				} catch (FileNotFoundException ex) {
+					new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
+				} catch (IOException ex) {
+					new Alert(AlertType.ERROR, "Error opening file. Please make sure the file type is of '.terrainmap' ").show();
+				}
 			}
 		}
+		else {
+			confirmSave("load");
+		}
 	}
+	
+	
+	
 	
 	@FXML
     void topDownView() throws IOException {
