@@ -18,7 +18,7 @@ public class MainMenuController {
     }
     
     @FXML
-    private void exitProgram() throws IOException {
+    private void exitAction() throws IOException {
         Platform.exit();
     }
 }
