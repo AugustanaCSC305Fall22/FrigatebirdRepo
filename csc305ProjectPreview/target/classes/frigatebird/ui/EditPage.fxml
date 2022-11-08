@@ -12,16 +12,16 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
+<BorderPane prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="378.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <ToggleButton fx:id="selectToolButton" mnemonicParsing="false" text="Select Tool">
+            <ToggleButton mnemonicParsing="false" onAction="#selectTool" text="Select Tool">
                <toggleGroup>
                   <ToggleGroup fx:id="toolButtonGroup" />
                </toggleGroup>
             </ToggleButton>
-            <ToggleButton fx:id="raiseLowerToolButton" layoutX="21.0" layoutY="51.0" mnemonicParsing="false" onAction="#activateFlattenTool" text="Raise/Lower Tool" toggleGroup="$toolButtonGroup">
+            <ToggleButton layoutX="21.0" layoutY="51.0" mnemonicParsing="false" onAction="#heightTool" text="Height Tool" toggleGroup="$toolButtonGroup">
                <tooltip>
                   <Tooltip text="Does stuff" />
                </tooltip>

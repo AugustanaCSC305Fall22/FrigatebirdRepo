@@ -73,6 +73,18 @@ public class EditorController {
 				double x = c * tileSize;
 				double y = r * tileSize;
 				gc.fillRect(x, y, tileSize - 1, tileSize - 1);
+			}
+		}
+		gc.setFill(Color.LIGHTBLUE);
+		for(Tile tile: selectedTileSet) {
+			gc.fillRect(tile.getCol() * tileSize, tile.getRow() * tileSize, tileSize-1, tileSize-1);
+		}
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				int height = tile.getHeight();
+				double x = c * tileSize;
+				double y = r * tileSize;
 				gc.setFill(Color.BLACK);
 				if (tile.getHeight() < 10) {
 					gc.fillText(Integer.toString(height), x + 10, y + 20);
@@ -154,8 +166,8 @@ public class EditorController {
 		return row;
 	}
 
-	private void changeHeight(MouseEvent evt, int num) {
-		if(App.getView().equals("Top Down View") && App.getTool().equals("Height Tool")) {
+	private void changeHeight(MouseEvent evt, int num) { // Some repeated code. I'll fix it later, but right now it works for sprint 2.
+		if(selectedTileSet.isEmpty()) {
 			int row = yCoordToRowNumber((int) evt.getY());
 			int col = xCoordToColumnNumber((int) evt.getX());
 			Tile tile = map.getTileAt(row, col);
@@ -165,54 +177,48 @@ public class EditorController {
 				} else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
 					tile.setHeight(tile.getHeight() - num);
 				}		
-				refresh();
 			}
 		}
+		else {
+			for(Tile tile: selectedTileSet) {
+				if (evt.getButton().equals(MouseButton.PRIMARY) && tile.getHeight() < 15) {
+					tile.setHeight(tile.getHeight() + num);
+				} else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
+					tile.setHeight(tile.getHeight() - num);
+				}
+			}
+		}
+		refresh();
 	}
 	
-	private  void handleCanvasClick(MouseEvent e) {
-		if(toolButtonGroup.getSelectedToggle() == selectToolButton) {
-			selectTiles(e);
-		}
-			else if(toolButtonGroup.getSelectedToggle() == raiseLowerToolButton) {
+	private void handleCanvasClick(MouseEvent e) {
+		if(App.getView().equals("Top Down View")) {
+			if(App.getTool().equals("Height Tool")) {
 				changeHeight(e, 1);
+			}
+			else if(App.getTool().equals("Select Tool")) {
+				selectTiles(e);
+			}
 		}
-		
 	}
 
 	private void selectTiles(MouseEvent e) {
 		if(App.getView() == "Side View") {
 			new Alert(AlertType.ERROR, "Revert back to Top Down View to make more changes.").show();
-		} else {
-			int r = yCoordToRowNumber((int) e.getY());
-			int c = xCoordToColumnNumber((int) e.getX());
-			Tile tile = map.getTileAt(r, c);
-			selectedTileSet.add(tile);
-			
-			GraphicsContext gc = editingCanvas.getGraphicsContext2D();
-			double x = c * tileSize;
-			double y = r * tileSize;
-	    	
-	    	map.getTileAt(r, c);
-	    	gc.setFill(Color.LIGHTBLUE);
-			gc.fillRect(x, y, tileSize-1, tileSize-1);
 		}
+		else if(e.getButton().equals(MouseButton.PRIMARY)) {
+			int row = yCoordToRowNumber((int) e.getY());
+			int col = xCoordToColumnNumber((int) e.getX());
+			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
+				Tile tile = map.getTileAt(row, col);
+				selectedTileSet.add(tile);
+			}
+		}
+		else if(e.getButton().equals(MouseButton.SECONDARY)) {
+			selectedTileSet.clear();
+		}
+		refresh();
 	}
-	
-    @FXML
-    void activateFlattenTool(ActionEvent e) {
-    	refresh();
-        for (Tile t : selectedTileSet) {
-        	int height = t.getHeight();
-            t.setHeight(height + 6);
-        }
-        
-        refresh();
-        selectedTileSet.clear();
-    }
-	
-	
-
 
 	private void refresh(){
 		if(App.getView().equals("Top Down View")) {
@@ -226,7 +232,7 @@ public class EditorController {
 	public void confirmSave(String caller) throws IOException {
 		Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
 		confirm.setTitle("You forgot to save!");
-		confirm.setContentText("Would you like to save the chanes made?");
+		confirm.setContentText("Would you like to save the changes made?");
 		Optional<ButtonType> answer = confirm.showAndWait();
 		
 		if(answer.get() == ButtonType.OK) {
@@ -234,12 +240,12 @@ public class EditorController {
 		}
 		else {
 			isSaved = true;
-			 if(caller.equals("load")) {
-				 loadFile();
-			 }
-			 else {
-				 newFile(); //Has not yet been implemented.
-			 }
+			if(caller.equals("load")) {
+				loadFile();
+			}
+			else {
+				newFile(); //Has not yet been implemented.
+			}
 		}
 	}
 	
@@ -286,9 +292,10 @@ public class EditorController {
 	
 			if (inputFile != null) {
 				try {
-					map = TerrainMapIO.jsonToTerrainMap(inputFile);
-					drawMap();
-					App.setMap(map);
+					selectedTileSet.clear();
+					App.setMap(TerrainMapIO.jsonToTerrainMap(inputFile));
+					
+					refresh();
 				} catch (FileNotFoundException ex) {
 					new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
 				} catch (IOException ex) {
@@ -301,20 +308,29 @@ public class EditorController {
 		}
 	}
 	
-	
-	
-	
 	@FXML
-    void topDownView(){
+    public void topDownView() {
 		App.setView("Top Down View");
 		refresh();
 	}
 	
     @FXML
-    void sideView(){
+    public void sideView() {
     	App.setView("Side View");
 		refresh();
 	}
+    
+    @FXML
+    public void selectTool() {
+    	App.setTool("Select Tool");
+    	refresh();
+    }
+    
+    @FXML
+    public void heightTool() {
+    	App.setTool("Height Tool");
+    	refresh();
+    }
     
     @FXML
     private void randomizeTiles() {

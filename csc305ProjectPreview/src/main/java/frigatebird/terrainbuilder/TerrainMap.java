@@ -13,7 +13,7 @@ public class TerrainMap {
 		
 		for(int r = 0; r < numRows; r++) {
 			for(int c = 0; c < numColumns; c++) {
-				tileGrid[r][c] = new Tile();
+				tileGrid[r][c] = new Tile(0, r, c);
 			}
 		}
 	}

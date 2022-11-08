@@ -24,7 +24,7 @@ public class App extends Application {
     private static TerrainMap map = new TerrainMap();
     private static File currentFile = null;
     private static String view = "Top Down View";
-	private static String tool = "Height Tool";
+	private static String tool = "Select Tool";
 
     @Override
     public void start(Stage stage) throws IOException {
