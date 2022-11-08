@@ -6,8 +6,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
@@ -20,6 +23,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -29,17 +34,21 @@ import javafx.stage.StageStyle;
 
 public class EditorController {
 
-	@FXML
-	private Canvas editingCanvas;
+	@FXML private Canvas editingCanvas;	
+	@FXML private ToggleGroup toolButtonGroup;
+    @FXML private ToggleButton selectToolButton;
+    @FXML private ToggleButton raiseLowerToolButton;
+    
 	private TerrainMap map;
 	private int tileSize = 30;
 	private int numColors = 16;
 	private boolean isSaved = false;
+	private Set<Tile> selectedTileSet = new HashSet<Tile>();
 
 	@FXML
 	private void initialize() {
 		this.map = App.getMap();
-		editingCanvas.setOnMousePressed(e -> changeHeight(e, 1));
+		editingCanvas.setOnMousePressed(e -> handleCanvasClick(e));
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
@@ -47,6 +56,7 @@ public class EditorController {
 			drawFrontPerspective();
 		}
 	}
+
 
 	private void drawMap() {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
@@ -74,20 +84,28 @@ public class EditorController {
 	}
 	
     public void drawFrontPerspective() {
+    	GraphicsContext gc = editingCanvas.getGraphicsContext2D();
     	ArrayList<Integer> heightList = new ArrayList<>();
 		int height = 0;
 		int max = Integer.MIN_VALUE;
 		for(int c = 0; c < map.getNumColumns(); c++) {
 			for(int r = 0; r < map.getNumRows(); r++) {
 				height = map.getTileAt(r, c).getHeight();
+				double x = c * tileSize;
+				double y = r * tileSize;
+
+		    	map.getTileAt(r, c);
+		    	gc.setFill(Color.WHITE);
+				gc.fillRect(x, y, tileSize-1, tileSize-1);
+				
 				if(height > max) {
 					max = height;
 				}
 			}
+			
 			heightList.add(max);
 			max = 0;
 		}
-    	GraphicsContext gc = editingCanvas.getGraphicsContext2D();
     	int index = heightList.size()-1;
   
 		for(int c = 0; c < map.getNumColumns(); c++) {
@@ -96,8 +114,8 @@ public class EditorController {
 				double y = r * tileSize;
 		    	
 		    	map.getTileAt(r, c);
-				gc.fillRect(x, y, tileSize-1, tileSize-1);
 				gc.setFill(Color.BLACK);
+				gc.fillRect(x, y, tileSize-1, tileSize-1);
 			}
 		}
     }
@@ -146,18 +164,63 @@ public class EditorController {
 					tile.setHeight(tile.getHeight() + num);
 				} else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
 					tile.setHeight(tile.getHeight() - num);
-				}
-				try {
-					refresh();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				}		
+				refresh();
 			}
 		}
 	}
+	
+	private  void handleCanvasClick(MouseEvent e) {
+		if(toolButtonGroup.getSelectedToggle() == selectToolButton) {
+			selectTiles(e);
+		}
+			else if(toolButtonGroup.getSelectedToggle() == raiseLowerToolButton) {
+				changeHeight(e, 1);
+		}
+		
+	}
 
-	private void refresh() throws IOException {
-		App.setRoot("EditPage");
+	private void selectTiles(MouseEvent e) {
+		if(App.getView() == "Side View") {
+			new Alert(AlertType.ERROR, "Revert back to Top Down View to make more changes.").show();
+		} else {
+			int r = yCoordToRowNumber((int) e.getY());
+			int c = xCoordToColumnNumber((int) e.getX());
+			Tile tile = map.getTileAt(r, c);
+			selectedTileSet.add(tile);
+			
+			GraphicsContext gc = editingCanvas.getGraphicsContext2D();
+			double x = c * tileSize;
+			double y = r * tileSize;
+	    	
+	    	map.getTileAt(r, c);
+	    	gc.setFill(Color.LIGHTBLUE);
+			gc.fillRect(x, y, tileSize-1, tileSize-1);
+		}
+	}
+	
+    @FXML
+    void activateFlattenTool(ActionEvent e) {
+    	refresh();
+        for (Tile t : selectedTileSet) {
+        	int height = t.getHeight();
+            t.setHeight(height + 6);
+        }
+        
+        refresh();
+        selectedTileSet.clear();
+    }
+	
+	
+
+
+	private void refresh(){
+		if(App.getView().equals("Top Down View")) {
+			drawMap();
+		}
+		else if(App.getView().equals("Side View")) {
+			drawFrontPerspective();
+		}
 	}
 	
 	public void confirmSave(String caller) throws IOException {
@@ -242,13 +305,13 @@ public class EditorController {
 	
 	
 	@FXML
-    void topDownView() throws IOException {
+    void topDownView(){
 		App.setView("Top Down View");
 		refresh();
 	}
 	
     @FXML
-    void sideView() throws IOException {
+    void sideView(){
     	App.setView("Side View");
 		refresh();
 	}
@@ -260,14 +323,11 @@ public class EditorController {
 				Tile tile = map.getTileAt(r, c);
 				Random randGen = new Random();
 				tile.setHeight(randGen.nextInt(16));
-				try {
-					refresh();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
 		}
+		refresh();
 	}
+    
     
     @FXML
 	private void switchToAboutScreen() throws IOException {
