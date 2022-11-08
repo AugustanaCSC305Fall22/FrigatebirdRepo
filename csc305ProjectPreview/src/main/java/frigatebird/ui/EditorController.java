@@ -112,7 +112,7 @@ public class EditorController {
     	ArrayList<Integer> heightList = new ArrayList<>();
 		int height = 0;
 		int max = Integer.MIN_VALUE;
-		Color color = Color.rgb(60, 60, 60);
+		Color color = Color.rgb(245, 245, 245);
 		gc.setFill(color);
 		gc.fillRect(0, 0, 1000, 1000);
 		for(int c = 0; c < map.getNumColumns(); c++) {
@@ -300,7 +300,6 @@ public class EditorController {
 
 		if (inputFile != null) {
 			try {
-				selectedTileSet.clear();
 				App.setCurrentFile(inputFile);
 				App.setMap(TerrainMapIO.jsonToTerrainMap(inputFile));
 			} catch (FileNotFoundException ex) {
@@ -309,6 +308,7 @@ public class EditorController {
 				new Alert(AlertType.ERROR, "Error opening file. Please make sure the file type is of '.terrainmap' ").show();
 			}
 		}
+		selectedTileSet.clear();
 		refresh();
 	}
 	
