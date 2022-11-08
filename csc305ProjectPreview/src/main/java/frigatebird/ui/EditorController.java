@@ -60,6 +60,19 @@ public class EditorController {
 
 	private void drawMap() {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
+		Color color = Color.rgb(245, 245, 245);
+		gc.setFill(color);
+		gc.fillRect(0, 0, 1000, 1000);
+		drawMapTiles(gc);
+		gc.setFill(Color.LIGHTBLUE);
+		for(Tile tile: selectedTileSet) {
+			gc.fillRect(tile.getCol() * tileSize, tile.getRow() * tileSize, tileSize-1, tileSize-1);
+		}
+		drawMapNumbers(gc);
+		
+	}
+	
+	private void drawMapTiles(GraphicsContext gc) {
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
@@ -75,10 +88,9 @@ public class EditorController {
 				gc.fillRect(x, y, tileSize - 1, tileSize - 1);
 			}
 		}
-		gc.setFill(Color.LIGHTBLUE);
-		for(Tile tile: selectedTileSet) {
-			gc.fillRect(tile.getCol() * tileSize, tile.getRow() * tileSize, tileSize-1, tileSize-1);
-		}
+	}
+	
+	private void drawMapNumbers(GraphicsContext gc) {
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
@@ -100,6 +112,9 @@ public class EditorController {
     	ArrayList<Integer> heightList = new ArrayList<>();
 		int height = 0;
 		int max = Integer.MIN_VALUE;
+		Color color = Color.rgb(60, 60, 60);
+		gc.setFill(color);
+		gc.fillRect(0, 0, 1000, 1000);
 		for(int c = 0; c < map.getNumColumns(); c++) {
 			for(int r = 0; r < map.getNumRows(); r++) {
 				height = map.getTileAt(r, c).getHeight();
@@ -166,29 +181,29 @@ public class EditorController {
 		return row;
 	}
 
-	private void changeHeight(MouseEvent evt, int num) { // Some repeated code. I'll fix it later, but right now it works for sprint 2.
+	private void changeHeight(MouseEvent e, int num) {
 		if(selectedTileSet.isEmpty()) {
-			int row = yCoordToRowNumber((int) evt.getY());
-			int col = xCoordToColumnNumber((int) evt.getX());
+			int row = yCoordToRowNumber((int) e.getY());
+			int col = xCoordToColumnNumber((int) e.getX());
 			Tile tile = map.getTileAt(row, col);
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
-				if (evt.getButton().equals(MouseButton.PRIMARY) && tile.getHeight() < 15) {
-					tile.setHeight(tile.getHeight() + num);
-				} else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
-					tile.setHeight(tile.getHeight() - num);
-				}		
+				changeHeightHelper(e, num, tile);	
 			}
 		}
 		else {
 			for(Tile tile: selectedTileSet) {
-				if (evt.getButton().equals(MouseButton.PRIMARY) && tile.getHeight() < 15) {
-					tile.setHeight(tile.getHeight() + num);
-				} else if (evt.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
-					tile.setHeight(tile.getHeight() - num);
-				}
+				changeHeightHelper(e, num, tile);
 			}
 		}
 		refresh();
+	}
+	
+	private void changeHeightHelper(MouseEvent e, int num, Tile tile) {
+		if (e.getButton().equals(MouseButton.PRIMARY) && tile.getHeight() < 15) {
+			tile.setHeight(tile.getHeight() + num);
+		} else if (e.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
+			tile.setHeight(tile.getHeight() - num);
+		}
 	}
 	
 	private void handleCanvasClick(MouseEvent e) {
@@ -221,6 +236,7 @@ public class EditorController {
 	}
 
 	private void refresh(){
+		this.map = App.getMap();
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
@@ -229,7 +245,7 @@ public class EditorController {
 		}
 	}
 	
-	public void confirmSave(String caller) throws IOException {
+	public void confirmSave() throws IOException {
 		Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
 		confirm.setTitle("You forgot to save!");
 		confirm.setContentText("Would you like to save the changes made?");
@@ -237,15 +253,6 @@ public class EditorController {
 		
 		if(answer.get() == ButtonType.OK) {
 			saveAs();
-		}
-		else {
-			isSaved = true;
-			if(caller.equals("load")) {
-				loadFile();
-			}
-			else {
-				newFile(); //Has not yet been implemented.
-			}
 		}
 	}
 	
@@ -282,30 +289,27 @@ public class EditorController {
 
 	@FXML
 	public void loadFile() throws IOException{
-		if(isSaved) {
-			FileChooser loadChooser = new FileChooser();
-			FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
-					"*.terrainmap");
-			loadChooser.getExtensionFilters().add(filter);
-			Stage loadWindow = new Stage(StageStyle.TRANSPARENT);
-			File inputFile = loadChooser.showOpenDialog(loadWindow);
-	
-			if (inputFile != null) {
-				try {
-					selectedTileSet.clear();
-					App.setMap(TerrainMapIO.jsonToTerrainMap(inputFile));
-					
-					refresh();
-				} catch (FileNotFoundException ex) {
-					new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
-				} catch (IOException ex) {
-					new Alert(AlertType.ERROR, "Error opening file. Please make sure the file type is of '.terrainmap' ").show();
-				}
+		if(!isSaved) {
+			confirmSave();
+		}
+		FileChooser loadChooser = new FileChooser();
+		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)", "*.terrainmap");
+		loadChooser.getExtensionFilters().add(filter);
+		Stage loadWindow = new Stage(StageStyle.TRANSPARENT);
+		File inputFile = loadChooser.showOpenDialog(loadWindow);
+
+		if (inputFile != null) {
+			try {
+				selectedTileSet.clear();
+				App.setCurrentFile(inputFile);
+				App.setMap(TerrainMapIO.jsonToTerrainMap(inputFile));
+			} catch (FileNotFoundException ex) {
+				new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
+			} catch (IOException ex) {
+				new Alert(AlertType.ERROR, "Error opening file. Please make sure the file type is of '.terrainmap' ").show();
 			}
 		}
-		else {
-			confirmSave("load");
-		}
+		refresh();
 	}
 	
 	@FXML

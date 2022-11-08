@@ -1,11 +1,13 @@
 package frigatebird.terrainbuilder;
 
+import java.util.Arrays;
+
 public class TerrainMap {
 	
 	private Tile[][] tileGrid;
 	private int numRows;
 	private int numColumns;
-	
+
 	public TerrainMap(int rows, int columns) {
 		this.tileGrid = new Tile[rows][columns];
 		this.numRows = rows;
@@ -34,5 +36,17 @@ public class TerrainMap {
 		return numColumns;
 	}
 
-
+	@Override
+	public String toString() {
+		String text = "TerrainMap [tileGrid=[";
+		for(int r = 0; r < numRows; r++) {
+			text += "[";
+			for(int c = 0; c < numColumns; c++) {
+				text += tileGrid[r][c].toString();
+			}
+			text += "]";
+		}
+		text += "], numRows=" + numRows + ", numColumns=" + numColumns + "]";
+		return text;
+	}
 }
