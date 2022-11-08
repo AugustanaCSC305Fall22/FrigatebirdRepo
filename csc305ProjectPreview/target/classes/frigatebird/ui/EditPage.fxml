@@ -6,13 +6,14 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
+<BorderPane prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="378.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -21,17 +22,26 @@
                   <ToggleGroup fx:id="toolButtonGroup" />
                </toggleGroup>
             </ToggleButton>
-            <ToggleButton fx:id="raiseLowerToolButton" layoutX="21.0" layoutY="51.0" mnemonicParsing="false" onAction="#activateFlattenTool" text="Raise/Lower Tool" toggleGroup="$toolButtonGroup">
+            <ToggleButton fx:id="raiseLowerToolButton" layoutX="21.0" layoutY="51.0" mnemonicParsing="false" onAction="#raiseSelectedTiles" text="Raise Tool" toggleGroup="$toolButtonGroup">
                <tooltip>
                   <Tooltip text="Does stuff" />
                </tooltip>
             </ToggleButton>
+            <ToggleButton fx:id="LowerToolButton" layoutX="75.0" layoutY="45.0" mnemonicParsing="false" onAction="#lowerSelectedTiles" text="Lower Tool" toggleGroup="$toolButtonGroup">
+               <tooltip>
+                  <Tooltip text="Does stuff" />
+               </tooltip>
+            </ToggleButton>
+            <TextField fx:id="heightValue" prefHeight="25.0" prefWidth="10.0" promptText="   Height Value">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+            </TextField>
             <Button mnemonicParsing="false" onAction="#randomizeTiles" text="Randomizer">
                <VBox.margin>
                   <Insets bottom="25.0" top="25.0" />
                </VBox.margin></Button>
             <Button mnemonicParsing="false" text="3D Preview" />
-            <Button mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
          </children>
          <BorderPane.margin>
@@ -66,7 +76,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
             </items>
           </Menu>
         </menus>

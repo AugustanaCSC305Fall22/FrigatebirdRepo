@@ -23,6 +23,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
@@ -38,6 +39,7 @@ public class EditorController {
 	@FXML private ToggleGroup toolButtonGroup;
     @FXML private ToggleButton selectToolButton;
     @FXML private ToggleButton raiseLowerToolButton;
+    @FXML private TextField heightValue;
     
 	private TerrainMap map;
 	private int tileSize = 30;
@@ -174,8 +176,8 @@ public class EditorController {
 		if(toolButtonGroup.getSelectedToggle() == selectToolButton) {
 			selectTiles(e);
 		}
-			else if(toolButtonGroup.getSelectedToggle() == raiseLowerToolButton) {
-				changeHeight(e, 1);
+			else{
+				changeHeight(e, Integer.parseInt(heightValue.getText()));
 		}
 		
 	}
@@ -200,11 +202,21 @@ public class EditorController {
 	}
 	
     @FXML
-    void activateFlattenTool(ActionEvent e) {
-    	refresh();
+    void raiseSelectedTiles(ActionEvent e) {
         for (Tile t : selectedTileSet) {
         	int height = t.getHeight();
-            t.setHeight(height + 6);
+            t.setHeight(height + Integer.parseInt(heightValue.getText()));
+        }
+        
+        refresh();
+        selectedTileSet.clear();
+    }
+    
+    @FXML
+    void lowerSelectedTiles(ActionEvent e) {
+        for (Tile t : selectedTileSet) {
+        	int height = t.getHeight();
+            t.setHeight(height - Integer.parseInt(heightValue.getText()));
         }
         
         refresh();
