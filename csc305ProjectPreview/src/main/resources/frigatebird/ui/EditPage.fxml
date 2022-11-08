@@ -31,7 +31,6 @@
                   <Insets bottom="25.0" top="25.0" />
                </VBox.margin></Button>
             <Button mnemonicParsing="false" text="3D Preview" />
-            <Button mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
          </children>
          <BorderPane.margin>
@@ -66,7 +65,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
             </items>
           </Menu>
         </menus>
