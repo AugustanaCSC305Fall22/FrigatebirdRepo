@@ -23,10 +23,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -35,20 +36,22 @@ import javafx.stage.StageStyle;
 public class EditorController {
 
 	@FXML private Canvas editingCanvas;	
-	@FXML private ToggleGroup toolButtonGroup;
-    @FXML private ToggleButton selectToolButton;
-    @FXML private ToggleButton raiseLowerToolButton;
+	@FXML private TextField heightNumTextField;
     
 	private TerrainMap map;
 	private int tileSize = 30;
 	private int numColors = 16;
+	private int heightNum = 1;
+	private int maxTileHeight = 15;
 	private boolean isSaved = false;
 	private Set<Tile> selectedTileSet = new HashSet<Tile>();
 
 	@FXML
 	private void initialize() {
 		this.map = App.getMap();
+		heightNumTextField.setText(Integer.toString(heightNum));
 		editingCanvas.setOnMousePressed(e -> handleCanvasClick(e));
+		heightNumTextField.setOnKeyTyped(e -> handleTextFieldEvent(e));
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
@@ -181,41 +184,73 @@ public class EditorController {
 		return row;
 	}
 
-	private void changeHeight(MouseEvent e, int num) {
+	private void changeHeight(MouseEvent e) {
 		if(selectedTileSet.isEmpty()) {
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
 			Tile tile = map.getTileAt(row, col);
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
-				changeHeightHelper(e, num, tile);	
+				changeHeightHelper(e, tile);	
 			}
 		}
 		else {
 			for(Tile tile: selectedTileSet) {
-				changeHeightHelper(e, num, tile);
+				changeHeightHelper(e, tile);
 			}
 		}
 		refresh();
 	}
 	
-	private void changeHeightHelper(MouseEvent e, int num, Tile tile) {
-		if (e.getButton().equals(MouseButton.PRIMARY) && tile.getHeight() < 15) {
-			tile.setHeight(tile.getHeight() + num);
-		} else if (e.getButton().equals(MouseButton.SECONDARY) && tile.getHeight() > 0) {
-			tile.setHeight(tile.getHeight() - num);
+	private void changeHeightHelper(MouseEvent e, Tile tile) {
+		if (e.getButton().equals(MouseButton.PRIMARY)) {
+			if(tile.getHeight() + heightNum < maxTileHeight) {
+				tile.setHeight(tile.getHeight() + heightNum);
+			}
+			else {
+				tile.setHeight(maxTileHeight);
+			}
+		} else if (e.getButton().equals(MouseButton.SECONDARY)) {
+			if(tile.getHeight() - heightNum > 0) {
+				tile.setHeight(tile.getHeight() - heightNum);
+			}
+			else {
+				tile.setHeight(0);
+			}
 		}
 	}
 	
 	private void handleCanvasClick(MouseEvent e) {
 		if(App.getView().equals("Top Down View")) {
 			if(App.getTool().equals("Height Tool")) {
-				changeHeight(e, 1);
+				changeHeight(e);
 			}
 			else if(App.getTool().equals("Select Tool")) {
 				selectTiles(e);
 			}
 		}
 	}
+	
+	private void handleTextFieldEvent(KeyEvent e) {
+		setHeightNum(e);
+	}
+	
+	private void setHeightNum(KeyEvent e) {
+    	String text = heightNumTextField.getText();
+    	try {
+    		heightNum = Integer.parseInt(text);
+    		if(heightNum > maxTileHeight) {
+    			heightNum = maxTileHeight;
+    			heightNumTextField.setText(Integer.toString(heightNum));
+    		}
+    		else if(heightNum < 1) {
+    			heightNum = 1;
+    			heightNumTextField.setText(Integer.toString(heightNum));
+    		}
+    	}
+    	catch(Exception exception) {
+    		
+    	}
+    }
 
 	private void selectTiles(MouseEvent e) {
 		if(App.getView() == "Side View") {
@@ -347,7 +382,6 @@ public class EditorController {
 		}
 		refresh();
 	}
-    
     
     @FXML
 	private void switchToAboutScreen() throws IOException {

@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
@@ -26,6 +27,7 @@
                   <Tooltip text="Does stuff" />
                </tooltip>
             </ToggleButton>
+            <TextField fx:id="heightNumTextField" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="40.0" text="1" />
             <Button mnemonicParsing="false" onAction="#randomizeTiles" text="Randomizer">
                <VBox.margin>
                   <Insets bottom="25.0" top="25.0" />
