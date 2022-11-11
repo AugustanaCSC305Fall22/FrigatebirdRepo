@@ -80,7 +80,7 @@ public class EditorController {
 		gc.setFill(color);
 		gc.fillRect(0, 0, 1000, 1000);
 		drawMapTiles(gc);
-		gc.setFill(Color.LIGHTBLUE);
+		gc.setFill(Color.hsb(300, 1, 1));
 		for(Tile tile: selectedTileSet) {
 			gc.fillRect(tile.getCol() * tileSize, tile.getRow() * tileSize, tileSize-1, tileSize-1);
 		}
@@ -105,7 +105,7 @@ public class EditorController {
 	}
 	
 	private void drawMapNumbers(GraphicsContext gc) {
-		Font font = Font.loadFont("file:src/main/resources/frigatebird/ui/Fonts/Majoris_Italic.ttf", 14);
+		Font font = Font.loadFont("file:src/main/resources/frigatebird/Fonts/Majoris_Italic.ttf", 14);
 		gc.setFont(font);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
@@ -115,7 +115,7 @@ public class EditorController {
 				int height = tile.getHeight();
 				double x = c * tileSize;
 				double y = r * tileSize;
-				if(height > numColors/2) {
+				if(height > numColors/2 || selectedTileSet.contains(tile)) {
 					gc.setFill(Color.BLACK);
 				}
 				else {
