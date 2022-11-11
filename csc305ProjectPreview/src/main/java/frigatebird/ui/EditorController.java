@@ -24,9 +24,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -35,8 +36,16 @@ import javafx.stage.StageStyle;
 
 public class EditorController {
 
-	@FXML private Canvas editingCanvas;	
-	@FXML private TextField heightNumTextField;
+	@FXML
+	private Canvas editingCanvas;	
+	@FXML
+	private TextField heightNumTextField;
+	@FXML
+	private ToggleGroup toolButtonGroup;
+	@FXML
+	private ToggleButton selectToolButton;
+	@FXML
+	private ToggleButton raiseLowerToolButton;
     
 	private TerrainMap map;
 	private int tileSize = 30;
@@ -207,7 +216,7 @@ public class EditorController {
 				tile.setHeight(tile.getHeight() + heightNum);
 			}
 			else {
-				tile.setHeight(maxTileHeight);
+				tile.setHeight(heightNum);
 			}
 		} else if (e.getButton().equals(MouseButton.SECONDARY)) {
 			if(tile.getHeight() - heightNum > 0) {
@@ -369,6 +378,11 @@ public class EditorController {
     public void heightTool() {
     	App.setTool("Height Tool");
     	refresh();
+    }
+    
+    @FXML
+    private void terrainMapToObj() {
+    	
     }
     
     @FXML
