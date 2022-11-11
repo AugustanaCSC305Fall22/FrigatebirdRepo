@@ -17,6 +17,7 @@ import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -30,6 +31,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -58,6 +61,7 @@ public class EditorController {
 	@FXML
 	private void initialize() {
 		this.map = App.getMap();
+		numColors = findMaxMapHeight() + 1;
 		heightNumTextField.setText(Integer.toString(heightNum));
 		editingCanvas.setOnMousePressed(e -> handleCanvasClick(e));
 		heightNumTextField.setOnKeyTyped(e -> handleTextFieldEvent(e));
@@ -89,11 +93,9 @@ public class EditorController {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
 				int height = tile.getHeight();
-				int colorHeight = height * (256 / numColors);
-				if (colorHeight > 255) {
-					colorHeight = 255;
-				}
-				Color color = Color.rgb(colorHeight, colorHeight, 255);
+				double saturation = 1 - (double) height/numColors;
+				double brightness = (double) height/numColors;
+				Color color = Color.hsb(230, saturation, brightness);
 				gc.setFill(color);
 				double x = c * tileSize;
 				double y = r * tileSize;
@@ -103,17 +105,26 @@ public class EditorController {
 	}
 	
 	private void drawMapNumbers(GraphicsContext gc) {
+		Font font = Font.loadFont("file:src/main/resources/frigatebird/ui/Fonts/Majoris_Italic.ttf", 14);
+		gc.setFont(font);
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.setTextBaseline(VPos.CENTER);
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
 				int height = tile.getHeight();
 				double x = c * tileSize;
 				double y = r * tileSize;
-				gc.setFill(Color.BLACK);
+				if(height > numColors/2) {
+					gc.setFill(Color.BLACK);
+				}
+				else {
+					gc.setFill(Color.WHITE);
+				}
 				if (tile.getHeight() < 10) {
-					gc.fillText(Integer.toString(height), x + 10, y + 20);
+					gc.fillText(Integer.toString(height), x + tileSize / 2, y + tileSize / 2);
 				} else {
-					gc.fillText(Integer.toString(height), x + 7, y + 20);
+					gc.fillText(Integer.toString(height), x + tileSize / 2, y + tileSize / 2);
 				}
 			}
 		}
