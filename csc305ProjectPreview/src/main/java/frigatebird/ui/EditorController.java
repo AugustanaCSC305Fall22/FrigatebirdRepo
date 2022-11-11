@@ -192,6 +192,19 @@ public class EditorController {
 		int row = (int) (y / tileSize);
 		return row;
 	}
+	
+	private int findMaxMapHeight() {
+		int max = 0;
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				if(max < tile.getHeight()) {
+					max = tile.getHeight();
+				}
+			}
+		}
+		return max;
+	}
 
 	private void changeHeight(MouseEvent e) {
 		if(selectedTileSet.isEmpty()) {
@@ -216,7 +229,7 @@ public class EditorController {
 				tile.setHeight(tile.getHeight() + heightNum);
 			}
 			else {
-				tile.setHeight(heightNum);
+				tile.setHeight(maxTileHeight);
 			}
 		} else if (e.getButton().equals(MouseButton.SECONDARY)) {
 			if(tile.getHeight() - heightNum > 0) {
@@ -281,6 +294,7 @@ public class EditorController {
 
 	private void refresh(){
 		this.map = App.getMap();
+		numColors = findMaxMapHeight() + 1;
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
