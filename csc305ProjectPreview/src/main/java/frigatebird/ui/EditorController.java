@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeSet;
 
 import frigatebird.terrainbuilder.TerrainMap;
@@ -48,6 +49,8 @@ public class EditorController {
 	@FXML
 	private ToggleButton selectToolButton;
 	@FXML
+	private ToggleButton twoPointSelectToolButton;
+	@FXML
 	private ToggleButton raiseLowerToolButton;
     
 	private TerrainMap map;
@@ -57,6 +60,7 @@ public class EditorController {
 	private int maxTileHeight = 15;
 	private boolean isSaved = false;
 	private Set<Tile> selectedTileSet = new HashSet<Tile>();
+	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 
 	@FXML
 	private void initialize() {
@@ -259,7 +263,9 @@ public class EditorController {
 			}
 			else if(App.getTool().equals("Select Tool")) {
 				selectTiles(e);
-			}
+			} else if(App.getTool().equals("Two Point Select Tool")) {
+				twoPointSelectTool(e);
+			} 
 		}
 	}
 	
@@ -286,19 +292,55 @@ public class EditorController {
     }
 
 	private void selectTiles(MouseEvent e) {
-		if(App.getView() == "Side View") {
-			new Alert(AlertType.ERROR, "Revert back to Top Down View to make more changes.").show();
-		}
-		else if(e.getButton().equals(MouseButton.PRIMARY)) {
+		if(e.getButton().equals(MouseButton.PRIMARY)) {
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
 				selectedTileSet.add(tile);
+				selectedTileStack.push(tile);
 			}
 		}
 		else if(e.getButton().equals(MouseButton.SECONDARY)) {
 			selectedTileSet.clear();
+			selectedTileStack.clear();
+		}
+		refresh();
+	}
+	
+	private void twoPointSelectTool(MouseEvent e) {
+		int largestRow;
+		int smallestRow;
+		int largestCol;
+		int smallestCol;
+		selectTiles(e);
+		if(selectedTileStack.size() > 1){
+			Tile tile2 = selectedTileStack.pop();
+			Tile tile1 = selectedTileStack.pop();
+			if(tile2.getRow() >= tile1.getRow()) {
+				largestRow = tile2.getRow();
+				smallestRow = tile1.getRow();
+			} else {
+				largestRow = tile1.getRow();
+				smallestRow = tile2.getRow();
+			}
+			if(tile2.getCol() >= tile1.getCol()) {
+				largestCol = tile2.getCol();
+				smallestCol = tile1.getCol();
+			} else {
+				largestCol = tile1.getCol();
+				smallestCol = tile2.getCol();
+			}
+			for (int r = 0; r < map.getNumRows(); r++) {
+				for (int c = 0; c < map.getNumColumns(); c++) {
+					Tile tile = map.getTileAt(r, c);
+					if(tile.getRow() >= smallestRow && tile.getRow() <= largestRow && tile.getCol() >= smallestCol && tile.getCol() <= largestCol) {
+						selectedTileSet.add(tile);
+					}
+					
+				}
+			}
+			selectedTileStack.clear();
 		}
 		refresh();
 	}
@@ -396,6 +438,12 @@ public class EditorController {
     @FXML
     public void selectTool() {
     	App.setTool("Select Tool");
+    	refresh();
+    }
+    
+    @FXML
+    public void twoPointSelectTool() {
+    	App.setTool("Two Point Select Tool");
     	refresh();
     }
     

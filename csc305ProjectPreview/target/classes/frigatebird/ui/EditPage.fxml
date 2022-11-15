@@ -22,6 +22,7 @@
                   <ToggleGroup fx:id="toolButtonGroup" />
                </toggleGroup>
             </ToggleButton>
+            <ToggleButton mnemonicParsing="false" onAction="#twoPointSelectTool" text="Two Point Select Tool" toggleGroup="$toolButtonGroup" />
             <ToggleButton layoutX="21.0" layoutY="51.0" mnemonicParsing="false" onAction="#heightTool" text="Height Tool" toggleGroup="$toolButtonGroup">
                <tooltip>
                   <Tooltip text="Does stuff" />
