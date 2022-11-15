@@ -462,48 +462,11 @@ public class EditorController {
 		File file = fileChooser.showSaveDialog(saveObjWindow);
 		if (file != null) {
 			App.setCurrentFile(file);
-			createObjFile(App.getMap(), file);
+			TerrainMapIO.createObjFile(App.getMap(), file);
 		}
 	}
 
-	public void createObjFile(TerrainMap map, File objFile) throws IOException {
-		FileWriter writer = new FileWriter(objFile);
-		for (int r = 0; r < map.getNumRows(); r++) {
-			for (int c = 0; c < map.getNumColumns(); c++) {
-				int height = map.getTileAt(r, c).getHeight();
 
-				writer.write("v" + " " + r + " " + c + " " + height + "\n");
-				writer.write("v" + " " + r + " " + c + " " + 0 + "\n");
-				writer.write("v" + " " + r + " " + (c + 1) + " " + 0 + "\n");
-				writer.write("v" + " " + r + " " + (c + 1) + " " + height + "\n");
-				writer.write("v" + " " + (r + 1) + " " + c + " " + height + "\n");
-				writer.write("v" + " " + (r + 1) + " " + c + " " + 0 + "\n");
-				writer.write("v" + " " + (r + 1) + " " + (c + 1) + " " + 0 + "\n");
-				writer.write("v" + " " + (r + 1) + " " + (c + 1) + " " + height + "\n");
-			}
-		}
-		int faceIncrement = 0;
-		for (int i = 0; i < map.getNumRows(); i++) {
-			for (int j = 0; j < map.getNumColumns(); j++) {
-				writer.write("f" + " " + (4 + faceIncrement) + " " + (3 + faceIncrement) + " " + (2 + faceIncrement)
-						+ " " + (1 + faceIncrement) + "\n");
-				writer.write("f" + " " + (2 + faceIncrement) + " " + (6 + faceIncrement) + " " + (5 + faceIncrement)
-						+ " " + (1 + faceIncrement) + "\n");
-				writer.write("f" + " " + (3 + faceIncrement) + " " + (7 + faceIncrement) + " " + (6 + faceIncrement)
-						+ " " + (2 + faceIncrement) + "\n");
-				writer.write("f" + " " + (8 + faceIncrement) + " " + (7 + faceIncrement) + " " + (3 + faceIncrement)
-						+ " " + (4 + faceIncrement) + "\n");
-				writer.write("f" + " " + (5 + faceIncrement) + " " + (8 + faceIncrement) + " " + (4 + faceIncrement)
-						+ " " + (1 + faceIncrement) + "\n");
-				writer.write("f" + " " + (6 + faceIncrement) + " " + (7 + faceIncrement) + " " + (8 + faceIncrement)
-						+ " " + (5 + faceIncrement) + "\n");
-				faceIncrement += 8;
-			}
-
-		}
-		writer.close();
-
-	}
     
     @FXML
     private void randomizeTiles() {
