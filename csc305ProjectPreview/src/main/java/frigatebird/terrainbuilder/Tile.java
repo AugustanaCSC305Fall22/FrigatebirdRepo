@@ -6,13 +6,15 @@ public class Tile {
 	private int height;
 	private int row;
 	private int col;
+	private boolean isPointy;
 
-	public Tile(int height, int row, int col) {
+	public Tile(int height, int row, int col, boolean isPointy) {
 		this.height = height;
 		this.row = row;
 		this.col = col;
+		this.isPointy = isPointy;
 	}
-	
+
 	public void setHeight(int height) {
 		this.height = height;
 	}
@@ -36,9 +38,17 @@ public class Tile {
 	public void setCol(int col) {
 		this.col = col;
 	}
+	
+	public boolean getIsPointy() {
+		return isPointy;
+	}
+
+	public void setIsPointy(boolean isPointy) {
+		this.isPointy = isPointy;
+	}
 
 	@Override
 	public String toString() {
-		return "Tile [height=" + height + ", row=" + row + ", col=" + col + "]";
+		return "Tile [height=" + height + ", row=" + row + ", col=" + col + ", isPointy=" + isPointy + "]";
 	}	
 }

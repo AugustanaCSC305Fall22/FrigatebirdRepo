@@ -54,7 +54,6 @@ public class EditorController {
 	private ToggleButton raiseLowerToolButton;
     
 	private TerrainMap map;
-	private int tileSize = 30;
 	private int numColors = 16;
 	private int heightNum = 1;
 	private int maxTileHeight = 15;
@@ -79,11 +78,11 @@ public class EditorController {
 
 
 	private void drawMap() {
-		map.drawMap(editingCanvas, selectedTileSet, tileSize, numColors);
+		map.drawMap(editingCanvas, selectedTileSet, numColors);
 	}
 	
     private void drawFrontPerspective() {
-    	map.drawFrontPerspective(editingCanvas, tileSize);
+    	map.drawFrontPerspective(editingCanvas, numColors);
     }
 
 	/**
@@ -96,10 +95,10 @@ public class EditorController {
 	public int xCoordToColumnNumber(double x) {
 		if (x < 0)
 			return -1;
-		if (x >= (map.getNumColumns() * tileSize)) {
+		if (x >= (map.getNumColumns() * map.getTileSize())) {
 			return -1;
 		}
-		int col = (int) (x / tileSize);
+		int col = (int) (x / map.getTileSize());
 		return col;
 	}
 
@@ -113,10 +112,10 @@ public class EditorController {
 	public int yCoordToRowNumber(double y) {
 		if (y < 0)
 			return -1;
-		if (y >= (map.getNumRows() * tileSize)) {
+		if (y >= (map.getNumRows() * map.getTileSize())) {
 			return -1;
 		}
-		int row = (int) (y / tileSize);
+		int row = (int) (y / map.getTileSize());
 		return row;
 	}
 	
