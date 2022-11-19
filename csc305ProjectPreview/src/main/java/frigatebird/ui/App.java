@@ -21,7 +21,7 @@ public class App extends Application {
 
     private static Scene scene;
     private static Scene fileWindow;
-    private static TerrainMap map = new TerrainMap();
+    private static TerrainMap map;
     private static File currentFile = null;
     private static String view = "Top Down View";
 	private static String tool = "Select Tool";

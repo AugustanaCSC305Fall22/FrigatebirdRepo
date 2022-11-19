@@ -56,7 +56,7 @@ public class EditorController {
 	private TerrainMap map;
 	private int numColors = 16;
 	private int heightNum = 1;
-	private int maxTileHeight = 15;
+	private int maxTileHeight = 99;
 	private boolean isSaved = false;
 	private Set<Tile> selectedTileSet = new HashSet<Tile>();
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();

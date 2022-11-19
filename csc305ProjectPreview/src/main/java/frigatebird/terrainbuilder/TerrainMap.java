@@ -37,9 +37,6 @@ public class TerrainMap {
 	
 	public void drawMap(Canvas editingCanvas, Set<Tile> selectedTileSet, int numColors) {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
-		//Color color = Color.rgb(245, 245, 245);
-		//gc.setFill(color);
-		//gc.fillRect(0, 0, 1000, 1000);
 		
 		double width = editingCanvas.getWidth();
 		double length = editingCanvas.getHeight();
