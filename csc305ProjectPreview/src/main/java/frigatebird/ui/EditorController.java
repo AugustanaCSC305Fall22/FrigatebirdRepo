@@ -335,7 +335,7 @@ public class EditorController {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
 				Random randGen = new Random();
-				tile.setHeight(randGen.nextInt(16));
+				tile.setHeight(randGen.nextInt(maxTileHeight + 1));
 			}
 		}
 		refresh();
