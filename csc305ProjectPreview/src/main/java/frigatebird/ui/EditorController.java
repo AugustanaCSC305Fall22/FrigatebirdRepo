@@ -60,7 +60,6 @@ public class EditorController {
 	private int heightNum = 1;
 	private int selectHeightNum = 0;
 	private int maxTileHeight = 99;
-	private boolean isSaved = false;
 	private Set<Tile> selectedTileSet = new HashSet<Tile>();
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 	
@@ -157,6 +156,7 @@ public class EditorController {
 				changeHeightHelper(e, tile);
 			}
 		}
+		TerrainMapIO.setOpenSave(true);
 		refresh();
 	}
 	

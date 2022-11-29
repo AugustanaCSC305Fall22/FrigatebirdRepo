@@ -19,6 +19,8 @@ import javafx.stage.StageStyle;
 
 public class TerrainMapIO {
 	
+	private static boolean openSave = false;
+	
 	public static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		FileWriter writer = new FileWriter(outputFile);
@@ -56,6 +58,7 @@ public class TerrainMapIO {
 		if (file != null) {
 			App.setCurrentFile(file);
 			terrainMapToJSON(App.getMap(), file);
+			openSave = false;
 		}
 	}
 	
@@ -70,12 +73,10 @@ public class TerrainMapIO {
 		}
 	}
 	
-	public static void loadFile() {
-		/*
-		if(!isSaved) {
+	public static void loadFile() throws IOException {
+		if(openSave) {
 			confirmSave();
 		}
-		*/
 		FileChooser loadChooser = new FileChooser();
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)", "*.terrainmap");
 		loadChooser.getExtensionFilters().add(filter);
@@ -142,5 +143,13 @@ public class TerrainMapIO {
 
 		}
 		writer.close();
+	}
+
+	public static boolean isOpenSave() {
+		return openSave;
+	}
+
+	public static void setOpenSave(boolean openSave) {
+		TerrainMapIO.openSave = openSave;
 	}
 }

@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import frigatebird.terrainbuilder.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 public class NewProjectMenuController {
 	
@@ -21,10 +23,20 @@ public class NewProjectMenuController {
     
     @FXML
     private void switchToEditPage() throws IOException {
-    	int numRows = Integer.parseInt(rowTextField.getText());
-    	int numColumns = Integer.parseInt(columnTextField.getText());
-    	App.setMap(new TerrainMap(numRows, numColumns));
-        App.setRoot("EditPage");
+    	
+		try {
+			int numRows = Integer.parseInt(rowTextField.getText());
+			int numColumns = Integer.parseInt(columnTextField.getText());
+			if (numRows > 99 || numColumns > 99) {
+				new Alert(AlertType.ERROR, "Input must be less than 100").showAndWait();
+			}
+			else {
+				App.setMap(new TerrainMap(numRows, numColumns));
+		        App.setRoot("EditPage");
+			}
+		} catch (NumberFormatException e) {
+			new Alert(AlertType.ERROR, "Input must be an integer").showAndWait();
+		}
     }
 
     
