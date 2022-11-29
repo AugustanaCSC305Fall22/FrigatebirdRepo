@@ -52,10 +52,13 @@ public class EditorController {
 	private ToggleButton twoPointSelectToolButton;
 	@FXML
 	private ToggleButton raiseLowerToolButton;
+	@FXML
+	private TextField heightTileSelectInput;
     
 	private TerrainMap map;
 	private int numColors = 16;
 	private int heightNum = 1;
+	private int selectHeightNum = 0;
 	private int maxTileHeight = 99;
 	private boolean isSaved = false;
 	private Set<Tile> selectedTileSet = new HashSet<Tile>();
@@ -66,8 +69,10 @@ public class EditorController {
 		this.map = App.getMap();
 		numColors = findMaxMapHeight() + 1;
 		heightNumTextField.setText(Integer.toString(heightNum));
+		heightTileSelectInput.setText(Integer.toString(selectHeightNum));
 		editingCanvas.setOnMousePressed(e -> handleCanvasClick(e));
-		heightNumTextField.setOnKeyTyped(e -> handleTextFieldEvent(e));
+		heightNumTextField.setOnKeyTyped(e -> setHeightNum(e));
+		heightTileSelectInput.setOnKeyTyped(e -> setSelectHeightNum(e));
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
@@ -179,11 +184,33 @@ public class EditorController {
 			} 
 		}
 	}
-	
-	private void handleTextFieldEvent(KeyEvent e) {
-		setHeightNum(e);
+	@FXML
+	private void selectTilesAtHeight() {
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(c, r);
+				if(tile.getHeight() == selectHeightNum) {
+					selectedTileSet.add(tile);
+				}
+			}
+		}
+		refresh();
 	}
 	
+	private void setSelectHeightNum(KeyEvent e) {
+    	String text = heightTileSelectInput.getText();
+    	try {
+    		selectHeightNum = Integer.parseInt(text);
+    		if(selectHeightNum < 0) {
+    			selectHeightNum = 1;
+    			heightTileSelectInput.setText(Integer.toString(heightNum));
+    		}
+    	}
+    	catch(Exception exception) {
+    		
+    	}
+    }
+    
 	private void setHeightNum(KeyEvent e) {
     	String text = heightNumTextField.getText();
     	try {
@@ -255,7 +282,7 @@ public class EditorController {
 		}
 		refresh();
 	}
-
+	
 	private void refresh(){
 		this.map = App.getMap();
 		numColors = findMaxMapHeight() + 1;

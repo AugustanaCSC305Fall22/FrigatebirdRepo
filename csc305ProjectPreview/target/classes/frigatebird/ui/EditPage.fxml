@@ -11,6 +11,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
@@ -29,6 +30,23 @@
                </tooltip>
             </ToggleButton>
             <TextField fx:id="heightNumTextField" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="40.0" text="1" />
+            <HBox prefHeight="0.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="heightTileSelect" mnemonicParsing="false" onAction="#selectTilesAtHeight" prefHeight="25.0" prefWidth="127.0" text="Select Tiles at Height">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+                  <TextField fx:id="heightTileSelectInput" prefHeight="25.0" prefWidth="43.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </HBox>
             <Button mnemonicParsing="false" onAction="#randomizeTiles" text="Randomizer">
                <VBox.margin>
                   <Insets bottom="25.0" top="25.0" />
