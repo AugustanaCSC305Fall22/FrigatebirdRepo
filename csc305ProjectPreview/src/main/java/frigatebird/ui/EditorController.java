@@ -63,10 +63,16 @@ public class EditorController {
 	private boolean isSaved = false;
 	private Set<Tile> selectedTileSet = new HashSet<Tile>();
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
+	
+	private ToolBox toolbox;
+	private TerrainMapVisualizer mapViz;
 
 	@FXML
 	private void initialize() {
-		this.map = App.getMap();
+		map = App.getMap();
+		mapViz = new TerrainMapVisualizer();
+		toolbox = new ToolBox(ToolBox.Tool.SELECT);
+
 		numColors = findMaxMapHeight() + 1;
 		heightNumTextField.setText(Integer.toString(heightNum));
 		heightTileSelectInput.setText(Integer.toString(selectHeightNum));
@@ -83,11 +89,11 @@ public class EditorController {
 
 
 	private void drawMap() {
-		map.drawMap(editingCanvas, selectedTileSet, numColors);
+		mapViz.drawMap(editingCanvas, selectedTileSet, numColors);
 	}
 	
     private void drawFrontPerspective() {
-    	map.drawFrontPerspective(editingCanvas, numColors);
+    	mapViz.drawFrontPerspective(editingCanvas, numColors);
     }
 
 	/**
@@ -100,10 +106,10 @@ public class EditorController {
 	public int xCoordToColumnNumber(double x) {
 		if (x < 0)
 			return -1;
-		if (x >= (map.getNumColumns() * map.getTileSize())) {
+		if (x >= (map.getNumColumns() * mapViz.getTileSizeInPixels())) {
 			return -1;
 		}
-		int col = (int) (x / map.getTileSize());
+		int col = (int) (x / mapViz.getTileSizeInPixels());
 		return col;
 	}
 
@@ -117,10 +123,10 @@ public class EditorController {
 	public int yCoordToRowNumber(double y) {
 		if (y < 0)
 			return -1;
-		if (y >= (map.getNumRows() * map.getTileSize())) {
+		if (y >= (map.getNumRows() * mapViz.getTileSizeInPixels())) {
 			return -1;
 		}
-		int row = (int) (y / map.getTileSize());
+		int row = (int) (y / mapViz.getTileSizeInPixels());
 		return row;
 	}
 	
@@ -174,12 +180,12 @@ public class EditorController {
 	
 	private void handleCanvasClick(MouseEvent e) {
 		if(App.getView().equals("Top Down View")) {
-			if(App.getTool().equals("Height Tool")) {
+			if(toolbox.getCurrentTool().equals(ToolBox.Tool.HEIGHT)) {
 				changeHeight(e);
 			}
-			else if(App.getTool().equals("Select Tool")) {
+			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.SELECT)) {
 				selectTiles(e);
-			} else if(App.getTool().equals("Two Point Select Tool")) {
+			} else if(toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
 				twoPointSelectTool(e);
 			} 
 		}
@@ -188,7 +194,7 @@ public class EditorController {
 	private void selectTilesAtHeight() {
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
-				Tile tile = map.getTileAt(c, r);
+				Tile tile = map.getTileAt(r, c);
 				if(tile.getHeight() == selectHeightNum) {
 					selectedTileSet.add(tile);
 				}
@@ -340,20 +346,17 @@ public class EditorController {
     
     @FXML
     public void selectTool() {
-    	App.setTool("Select Tool");
-    	refresh();
+    	toolbox.setCurrentTool(ToolBox.Tool.SELECT);
     }
     
     @FXML
     public void twoPointSelectTool() {
-    	App.setTool("Two Point Select Tool");
-    	refresh();
+    	toolbox.setCurrentTool(ToolBox.Tool.TWO_POINT_SELECT);
     }
     
     @FXML
     public void heightTool() {
-    	App.setTool("Height Tool");
-    	refresh();
+    	toolbox.setCurrentTool(ToolBox.Tool.HEIGHT);
     }
     
     @FXML

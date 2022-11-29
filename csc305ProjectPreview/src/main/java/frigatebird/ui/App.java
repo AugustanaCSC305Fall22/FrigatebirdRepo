@@ -24,7 +24,6 @@ public class App extends Application {
     private static TerrainMap map;
     private static File currentFile = null;
     private static String view = "Top Down View";
-	private static String tool = "Select Tool";
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -68,14 +67,6 @@ public class App extends Application {
 
 	public static void setView(String view) {
 		App.view = view;
-	}
-
-	public static String getTool() {
-		return tool;
-	}
-
-	public static void setTool(String tool) {
-		App.tool = tool;
 	}
 
 }
