@@ -58,6 +58,7 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </HBox>
+            <Button mnemonicParsing="false" onAction="#pointyTiles" text="Pointy Tiles" />
             <Button mnemonicParsing="false" onAction="#randomizeTiles" text="Randomizer">
                <VBox.margin>
                   <Insets bottom="25.0" top="25.0" />
