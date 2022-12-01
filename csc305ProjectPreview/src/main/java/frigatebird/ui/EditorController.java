@@ -311,18 +311,18 @@ public class EditorController {
 	
 	@FXML
 	private void cutSelectedTiles() {
+		cutAndCopySet.clear();
 		cutOrCopyString = "cut";
 		cutAndCopyHelper(cutOrCopyString);
-		System.out.println(cutAndCopySet.toString());
 		selectedTileSet.clear();
 		refresh();
 	}
 	
 	@FXML
 	private void copySelectedTiles() {
+		cutAndCopySet.clear();
 		cutOrCopyString = "copy";
 		cutAndCopyHelper(cutOrCopyString);
-		System.out.println(cutAndCopySet.toString());
 		selectedTileSet.clear();
 		refresh();
 	}
@@ -330,7 +330,6 @@ public class EditorController {
 	@FXML
 	private void pasteSelectedTiles(MouseEvent e) {
 		if(!(cutAndCopySet.isEmpty())) {
-			System.out.println("Are you doing a thing?");
 			if(e.getButton().equals(MouseButton.PRIMARY)) {
 				int rowDiff = 0;
 				int colDiff = 0;
@@ -345,8 +344,10 @@ public class EditorController {
 					}
 				}
 				for(Tile tile: cutAndCopySet) {
-					if((0 < (tile.getRow() + rowDiff) && (tile.getRow() + rowDiff) < map.getNumRows()) && (0 < (tile.getCol() + rowDiff) && (tile.getCol() + rowDiff) < map.getNumColumns())) {
-						Tile mapTile = map.getTileAt(tile.getRow() + rowDiff, tile.getCol() + rowDiff);
+					int newRowNum = tile.getRow() + rowDiff;
+					int newColNum = tile.getCol() + colDiff;
+					if(newRowNum >= 0 && newRowNum < map.getNumRows() && newColNum >= 0 && newColNum < map.getNumColumns()) {
+						Tile mapTile = map.getTileAt(newRowNum, newColNum);
 						mapTile.setHeight(tile.getHeight());
 					}
 				}
@@ -354,8 +355,8 @@ public class EditorController {
 			if(cutOrCopyString.equals("cut")) {
 				cutAndCopySet.clear();
 			}
-			refresh();
 		}
+		refresh();
 	}
 	
 	private void refresh(){
