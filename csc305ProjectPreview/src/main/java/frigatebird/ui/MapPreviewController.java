@@ -52,7 +52,7 @@ public class MapPreviewController extends Application{
 		
 		Camera camera = new PerspectiveCamera();
 		
-		Scene scene = new Scene(group, windowWidth, windowHeight);
+		Scene scene = new Scene(group, windowWidth, windowHeight, true);
 		scene.setFill(Color.SILVER);
 		scene.setCamera(camera);
 		
