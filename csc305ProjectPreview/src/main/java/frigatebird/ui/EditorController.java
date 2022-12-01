@@ -404,7 +404,6 @@ public class EditorController {
 	@FXML
 	private void newFile() {
 		//Will allow user to get a new terrain map to work on.
-		TerrainMapIO.newFile();
 	}
 
 	@FXML

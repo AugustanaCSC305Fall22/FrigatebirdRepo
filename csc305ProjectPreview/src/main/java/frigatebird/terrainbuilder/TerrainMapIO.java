@@ -18,16 +18,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class TerrainMapIO {
-	
+
 	private static boolean openSave = false;
-	
+
 	public static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		FileWriter writer = new FileWriter(outputFile);
 		gson.toJson(map, writer);
-		writer.close();		
+		writer.close();
 	}
-	
+
 	public static TerrainMap jsonToTerrainMap(File inputFile) throws JsonSyntaxException, JsonIOException, IOException {
 		Gson gson = new Gson();
 		FileReader reader = new FileReader(inputFile);
@@ -35,11 +35,7 @@ public class TerrainMapIO {
 		reader.close();
 		return map;
 	}
-	
-	public static void newFile() {
-		
-	}
-	
+
 	public static void save() throws IOException {
 		File file = App.getCurrentFile();
 		if (file != null) {
@@ -48,37 +44,39 @@ public class TerrainMapIO {
 			saveAs();
 		}
 	}
-	
+
 	public static void saveAs() throws IOException {
 		FileChooser fileChooser = new FileChooser();
-    	FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)", "*.terrainmap");
-        fileChooser.getExtensionFilters().add(filter);
+		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
+				"*.terrainmap");
+		fileChooser.getExtensionFilters().add(filter);
 		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
-    	File file = fileChooser.showSaveDialog(saveWindow);
+		File file = fileChooser.showSaveDialog(saveWindow);
 		if (file != null) {
 			App.setCurrentFile(file);
 			terrainMapToJSON(App.getMap(), file);
 			openSave = false;
 		}
 	}
-	
+
 	public static void confirmSave() throws IOException {
 		Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
 		confirm.setTitle("You forgot to save!");
 		confirm.setContentText("Would you like to save the changes made?");
 		Optional<ButtonType> answer = confirm.showAndWait();
-		
-		if(answer.get() == ButtonType.OK) {
+
+		if (answer.get() == ButtonType.OK) {
 			saveAs();
 		}
 	}
-	
+
 	public static void loadFile() throws IOException {
-		if(openSave) {
+		if (openSave) {
 			confirmSave();
 		}
 		FileChooser loadChooser = new FileChooser();
-		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)", "*.terrainmap");
+		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
+				"*.terrainmap");
 		loadChooser.getExtensionFilters().add(filter);
 		Stage loadWindow = new Stage(StageStyle.TRANSPARENT);
 		File inputFile = loadChooser.showOpenDialog(loadWindow);
@@ -90,11 +88,12 @@ public class TerrainMapIO {
 			} catch (FileNotFoundException ex) {
 				new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
 			} catch (IOException ex) {
-				new Alert(AlertType.ERROR, "Error opening file. Please make sure the file type is of '.terrainmap' ").show();
+				new Alert(AlertType.ERROR, "Error opening file. Please make sure the file type is of '.terrainmap' ")
+						.show();
 			}
 		}
 	}
-	
+
 	public static void terrainMapToObj() throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Wavefront (*.obj)", "*.obj");
@@ -106,12 +105,13 @@ public class TerrainMapIO {
 			createObjFile(App.getMap(), file);
 		}
 	}
-	
+
 	private static void createObjFile(TerrainMap map, File objFile) throws IOException {
 		FileWriter writer = new FileWriter(objFile);
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
-				int height = map.getTileAt(r, c).getHeight();
+				Tile tile = map.getTileAt(r, c);
+				int height = tile.getHeight();
 
 				writer.write("v" + " " + r + " " + c + " " + height + "\n");
 				writer.write("v" + " " + r + " " + c + " " + 0 + "\n");
@@ -121,24 +121,40 @@ public class TerrainMapIO {
 				writer.write("v" + " " + (r + 1) + " " + c + " " + 0 + "\n");
 				writer.write("v" + " " + (r + 1) + " " + (c + 1) + " " + 0 + "\n");
 				writer.write("v" + " " + (r + 1) + " " + (c + 1) + " " + height + "\n");
+				if (tile.getIsPointy()) {
+					writer.write("v" + " " + (r + 0.5) + " " + (c + 0.5) + " " + (height + 1) + "\n");
+				}
 			}
 		}
-		int faceIncrement = 0;
+		int vertexCount = 0;
 		for (int i = 0; i < map.getNumRows(); i++) {
 			for (int j = 0; j < map.getNumColumns(); j++) {
-				writer.write("f" + " " + (4 + faceIncrement) + " " + (3 + faceIncrement) + " " + (2 + faceIncrement)
-						+ " " + (1 + faceIncrement) + "\n");
-				writer.write("f" + " " + (2 + faceIncrement) + " " + (6 + faceIncrement) + " " + (5 + faceIncrement)
-						+ " " + (1 + faceIncrement) + "\n");
-				writer.write("f" + " " + (3 + faceIncrement) + " " + (7 + faceIncrement) + " " + (6 + faceIncrement)
-						+ " " + (2 + faceIncrement) + "\n");
-				writer.write("f" + " " + (8 + faceIncrement) + " " + (7 + faceIncrement) + " " + (3 + faceIncrement)
-						+ " " + (4 + faceIncrement) + "\n");
-				writer.write("f" + " " + (5 + faceIncrement) + " " + (8 + faceIncrement) + " " + (4 + faceIncrement)
-						+ " " + (1 + faceIncrement) + "\n");
-				writer.write("f" + " " + (6 + faceIncrement) + " " + (7 + faceIncrement) + " " + (8 + faceIncrement)
-						+ " " + (5 + faceIncrement) + "\n");
-				faceIncrement += 8;
+				Tile tile = map.getTileAt(i, j);
+				writer.write("f" + " " + (4 + vertexCount) + " " + (3 + vertexCount) + " " + (2 + vertexCount)
+						+ " " + (1 + vertexCount) + "\n");
+				writer.write("f" + " " + (2 + vertexCount) + " " + (6 + vertexCount) + " " + (5 + vertexCount)
+						+ " " + (1 + vertexCount) + "\n");
+				writer.write("f" + " " + (3 + vertexCount) + " " + (7 + vertexCount) + " " + (6 + vertexCount)
+						+ " " + (2 + vertexCount) + "\n");
+				writer.write("f" + " " + (8 + vertexCount) + " " + (7 + vertexCount) + " " + (3 + vertexCount)
+						+ " " + (4 + vertexCount) + "\n");
+				writer.write("f" + " " + (5 + vertexCount) + " " + (8 + vertexCount) + " " + (4 + vertexCount)
+						+ " " + (1 + vertexCount) + "\n");
+				writer.write("f" + " " + (6 + vertexCount) + " " + (7 + vertexCount) + " " + (8 + vertexCount)
+						+ " " + (5 + vertexCount) + "\n");
+				if (tile.getIsPointy()) {
+					writer.write("f" + " " + (4 + vertexCount) + " " + (9 + vertexCount) + " " + (8 + vertexCount)
+							+ "\n");
+					writer.write("f" + " " + (8 + vertexCount) + " " + (9 + vertexCount) + " " + (5 + vertexCount)
+							+ "\n");
+					writer.write("f" + " " + (5 + vertexCount) + " " + (9 + vertexCount) + " " + (1 + vertexCount)
+							+ "\n");
+					writer.write("f" + " " + (1 + vertexCount) + " " + (9 + vertexCount) + " " + (4 + vertexCount)
+							+ "\n");
+					vertexCount += 9;
+				} else {
+					vertexCount += 8;
+				}
 			}
 
 		}
