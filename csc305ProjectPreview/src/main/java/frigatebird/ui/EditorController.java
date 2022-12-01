@@ -189,10 +189,15 @@ public class EditorController {
 			}
 			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.SELECT)) {
 				selectTiles(e);
-			} else if(toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
+			}
+			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
 				twoPointSelectTool(e);
-			} else if(toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
+			}
+			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
 				pasteSelectedTiles(e);
+			}
+			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
+				pointyTilesTool(e);
 			}
 		}
 	}
@@ -359,6 +364,28 @@ public class EditorController {
 		refresh();
 	}
 	
+	private void pointyTilesTool(MouseEvent e) {
+		if(e.getButton().equals(MouseButton.PRIMARY)) {
+			int row = yCoordToRowNumber((int) e.getY());
+			int col = xCoordToColumnNumber((int) e.getX());
+			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
+				Tile tile = map.getTileAt(row, col);
+				//selectedTileSet.add(tile);
+				tile.setIsPointy(true);
+			}
+		}
+		else if(e.getButton().equals(MouseButton.SECONDARY)) {
+			int row = yCoordToRowNumber((int) e.getY());
+			int col = xCoordToColumnNumber((int) e.getX());
+			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
+				Tile tile = map.getTileAt(row, col);
+				//selectedTileSet.remove(tile);
+				tile.setIsPointy(false);
+			}
+		}
+		refresh();
+	}
+	
 	private void refresh(){
 		this.map = App.getMap();
 		numColors = findMaxMapHeight() + 1;
@@ -432,6 +459,11 @@ public class EditorController {
     @FXML
     public void pasteTool() {
     	toolbox.setCurrentTool(ToolBox.Tool.PASTE);
+    }
+    
+    @FXML
+    public void pointyTiles() {
+    	toolbox.setCurrentTool(ToolBox.Tool.POINTY);
     }
     
     @FXML
