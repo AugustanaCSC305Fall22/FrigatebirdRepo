@@ -22,9 +22,11 @@ public class MapPreviewController extends Application{
     @FXML
     private BorderPane previewPane;
     private TerrainMap map;
-    private static final int windowWidth = 1400;
-    private static final int windowHeight = 800;
     private CompoundGroup group = new CompoundGroup();
+    private static final int windowWidth = 800;
+    private static final int windowHeight = 500;
+    private final int rowAndColSpanInpixels = 5;
+
     
 	
 		
@@ -37,26 +39,27 @@ public class MapPreviewController extends Application{
 				if(height == 0) {
 					height = 1;
 				}
-				Box box = new Box(50, height, 50);
+				Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
 				box.translateXProperty().set(rowSpan);
 				box.translateYProperty().set(height/-2);
 				box.translateZProperty().set(colSpan);
 				group.getChildren().add(box);
-				rowSpan += 50;
+				rowSpan += rowAndColSpanInpixels;
 			}
-			colSpan += 50;
+			colSpan += rowAndColSpanInpixels;
 			rowSpan = 0;
 		}
 		
 		Camera camera = new PerspectiveCamera();
 		
 		Scene scene = new Scene(group, windowWidth, windowHeight);
-		//scene.setFill(Color.SILVER);
+		scene.setFill(Color.SILVER);
 		scene.setCamera(camera);
 		
-		group.translateXProperty().set(windowWidth/2);
+		int mapSizeInPixels = rowAndColSpanInpixels * map.getNumRows();
+		group.translateXProperty().set(windowWidth/2 - (mapSizeInPixels / 2));
 		group.translateYProperty().set(windowHeight/2);
-		group.translateZProperty().set(300);
+		group.translateZProperty().set(500);
 		
 		//stage = (Stage) previewPane.getScene().getWindow();
 		stage.addEventHandler (KeyEvent.KEY_PRESSED, e -> {
@@ -118,4 +121,5 @@ class CompoundGroup extends Group{
 		this.getTransforms().clear();
 		this.getTransforms().add(transform);
 	}
+	
 }
