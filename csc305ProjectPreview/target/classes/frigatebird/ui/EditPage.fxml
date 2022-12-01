@@ -80,7 +80,7 @@
                   <Insets left="25.0" />
                </VBox.margin>
             </HBox>
-            <Button mnemonicParsing="false" text="3D Preview" />
+            <Button mnemonicParsing="false" onAction="#openPreviewPage" text="3D Preview" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
          </children>
          <BorderPane.margin>
@@ -110,6 +110,7 @@
                      <!--  <MenuItem mnemonicParsing="false" onAction="#switchToFrontView" text="Front View" /> -->
                         <MenuItem mnemonicParsing="false" onAction="#topDownView" text="Top Down View" />
                         <MenuItem mnemonicParsing="false" onAction="#sideView" text="Side View" />
+                        <MenuItem mnemonicParsing="false" onAction="#openPreviewPage" text="3D View" />
                     </items>
                   </Menu>
                </items>

@@ -446,6 +446,13 @@ public class EditorController {
 	}
     
     @FXML
+    void openPreviewPage(ActionEvent event) throws IOException {
+  	  MapPreviewController threeDMap =new MapPreviewController(); 
+  	  threeDMap.setMap(this.map);
+  	  threeDMap.start(new Stage());
+    }
+    
+    @FXML
 	private void switchToAboutScreen() throws IOException {
 		App.setRoot("AboutScreen");
 	}
