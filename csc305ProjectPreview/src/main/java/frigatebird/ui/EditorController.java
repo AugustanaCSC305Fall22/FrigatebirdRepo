@@ -54,14 +54,18 @@ public class EditorController {
 	private ToggleButton raiseLowerToolButton;
 	@FXML
 	private TextField heightTileSelectInput;
+	@FXML
+	private ToggleButton pasteToolButton;
     
 	private TerrainMap map;
+	private String cutOrCopyString = "";
 	private int numColors = 16;
 	private int heightNum = 1;
 	private int selectHeightNum = 0;
 	private int maxTileHeight = 99;
 	private Set<Tile> selectedTileSet = new HashSet<Tile>();
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
+	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
 	
 	private ToolBox toolbox;
 	private TerrainMapVisualizer mapViz;
@@ -187,7 +191,9 @@ public class EditorController {
 				selectTiles(e);
 			} else if(toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
 				twoPointSelectTool(e);
-			} 
+			} else if(toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
+				pasteSelectedTiles(e);
+			}
 		}
 	}
 	@FXML
@@ -288,6 +294,69 @@ public class EditorController {
 		}
 		refresh();
 	}
+	private void cutAndCopyHelper(String cutOrCopy){
+		if(cutOrCopy.equals("cut")) {
+			for(Tile tile: selectedTileSet) {
+				Tile tileCopy = new Tile(tile.getHeight(), tile.getRow(), tile.getCol(), tile.getIsPointy());
+				cutAndCopySet.add(tileCopy);
+				tile.setHeight(0);
+			}
+		} else {
+			for(Tile tile: selectedTileSet) {
+				Tile tileCopy = new Tile(tile.getHeight(), tile.getRow(), tile.getCol(), tile.getIsPointy());
+				cutAndCopySet.add(tileCopy);
+			}
+		}
+	}
+	
+	@FXML
+	private void cutSelectedTiles() {
+		cutOrCopyString = "cut";
+		cutAndCopyHelper(cutOrCopyString);
+		System.out.println(cutAndCopySet.toString());
+		selectedTileSet.clear();
+		refresh();
+	}
+	
+	@FXML
+	private void copySelectedTiles() {
+		cutOrCopyString = "copy";
+		cutAndCopyHelper(cutOrCopyString);
+		System.out.println(cutAndCopySet.toString());
+		selectedTileSet.clear();
+		refresh();
+	}
+	
+	@FXML
+	private void pasteSelectedTiles(MouseEvent e) {
+		if(!(cutAndCopySet.isEmpty())) {
+			System.out.println("Are you doing a thing?");
+			if(e.getButton().equals(MouseButton.PRIMARY)) {
+				int rowDiff = 0;
+				int colDiff = 0;
+				int row = yCoordToRowNumber((int) e.getY());
+				int col = xCoordToColumnNumber((int) e.getX());
+				int rowColComboNum = 1000;
+				for(Tile tile: cutAndCopySet) {
+					if(tile.getRow() + tile.getCol() < rowColComboNum) {
+						rowColComboNum = tile.getRow() + tile.getCol();
+						rowDiff = row - tile.getRow();
+						colDiff = col - tile.getCol();
+					}
+				}
+				for(Tile tile: cutAndCopySet) {
+					if((0 < (tile.getRow() + rowDiff) && (tile.getRow() + rowDiff) < map.getNumRows()) && (0 < (tile.getCol() + rowDiff) && (tile.getCol() + rowDiff) < map.getNumColumns())) {
+						Tile mapTile = map.getTileAt(tile.getRow() + rowDiff, tile.getCol() + rowDiff);
+						mapTile.setHeight(tile.getHeight());
+					}
+				}
+			}
+			if(cutOrCopyString.equals("cut")) {
+				cutAndCopySet.clear();
+			}
+			refresh();
+		}
+	}
 	
 	private void refresh(){
 		this.map = App.getMap();
@@ -357,6 +426,11 @@ public class EditorController {
     @FXML
     public void heightTool() {
     	toolbox.setCurrentTool(ToolBox.Tool.HEIGHT);
+    }
+    
+    @FXML
+    public void pasteTool() {
+    	toolbox.setCurrentTool(ToolBox.Tool.PASTE);
     }
     
     @FXML
