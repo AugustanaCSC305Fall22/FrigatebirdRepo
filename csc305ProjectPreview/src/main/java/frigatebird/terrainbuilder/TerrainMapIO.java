@@ -122,7 +122,7 @@ public class TerrainMapIO {
 				writer.write("v" + " " + (r + 1) + " " + (c + 1) + " " + 0 + "\n");
 				writer.write("v" + " " + (r + 1) + " " + (c + 1) + " " + height + "\n");
 				if (tile.getIsPointy()) {
-					writer.write("v" + " " + (r + 0.5) + " " + (c + 0.5) + " " + (height + 1) + "\n");
+					writer.write("v" + " " + (r + 0.5) + " " + (c + 0.5) + " " + (height + 3) + "\n");
 				}
 			}
 		}
