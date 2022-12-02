@@ -3,6 +3,7 @@ package frigatebird.ui;
 import java.io.IOException;
 
 import frigatebird.terrainbuilder.TerrainMap;
+import frigatebird.terrainbuilder.Tile;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
@@ -42,15 +44,32 @@ public class MapPreviewController extends Application{
 		int colSpan = 0;
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
-				int height = map.getTileAt(r, c).getHeight();
+				Tile tile = map.getTileAt(r, c);
+				int height = tile.getHeight();
 				if(height == 0) {
 					height = 1;
 				}
+				PhongMaterial material = new PhongMaterial(Color.PURPLE);
 				Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
+				box.setMaterial(material);
 				box.translateXProperty().set(rowSpan);
 				box.translateYProperty().set(height/-2);
 				box.translateZProperty().set(colSpan);
 				group.getChildren().add(box);
+				if(tile.getIsPointy()) {
+					double smallBoxWidthAndDepth = 5;
+					double heightIncrement = 0.5;
+					for(int i = 0; i < 50; i++) {
+						Box smallBox = new Box(smallBoxWidthAndDepth, heightIncrement, smallBoxWidthAndDepth);
+						smallBox.setMaterial(material);
+						smallBox.translateXProperty().set(rowSpan);
+						smallBox.translateYProperty().set((height/-2) - (height/2) - (heightIncrement/2));
+						smallBox.translateZProperty().set(colSpan);
+						group.getChildren().add(smallBox);
+						smallBoxWidthAndDepth -= 0.1;
+						heightIncrement += 0.5;
+					}
+				}
 				rowSpan += rowAndColSpanInpixels;
 			}
 			colSpan += rowAndColSpanInpixels;
@@ -65,11 +84,16 @@ public class MapPreviewController extends Application{
 		
 		int mapSizeInPixels = rowAndColSpanInpixels * map.getNumRows();
 		group.translateXProperty().set(windowWidth/2 - (mapSizeInPixels / 2));
-		group.translateYProperty().set(windowHeight/1.6);
+		group.translateYProperty().set(windowHeight/1.7);
 		group.translateZProperty().set(-400);
 		
 		initMouseContol(group, scene);
-		//stage = (Stage) previewPane.getScene().getWindow();
+		initKeyboardControls(group, stage);
+		stage.setScene(scene);
+		stage.show();
+}
+	
+	private void initKeyboardControls(CompoundGroup group, Stage stage) {
 		stage.addEventHandler (KeyEvent.KEY_PRESSED, e -> {
 			switch(e.getCode()) {
 				case W:
@@ -92,10 +116,7 @@ public class MapPreviewController extends Application{
 					break;
 			}
 		});
-		
-		stage.setScene(scene);
-		stage.show();
-}
+	}
 	
 	private void initMouseContol(CompoundGroup group, Scene scene){
 		Rotate xRotate;
