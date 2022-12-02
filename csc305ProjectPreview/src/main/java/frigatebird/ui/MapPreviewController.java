@@ -58,8 +58,8 @@ public class MapPreviewController extends Application{
 		
 		int mapSizeInPixels = rowAndColSpanInpixels * map.getNumRows();
 		group.translateXProperty().set(windowWidth/2 - (mapSizeInPixels / 2));
-		group.translateYProperty().set(windowHeight/2);
-		group.translateZProperty().set(500);
+		group.translateYProperty().set(windowHeight/1.6);
+		group.translateZProperty().set(-400);
 		
 		//stage = (Stage) previewPane.getScene().getWindow();
 		stage.addEventHandler (KeyEvent.KEY_PRESSED, e -> {
