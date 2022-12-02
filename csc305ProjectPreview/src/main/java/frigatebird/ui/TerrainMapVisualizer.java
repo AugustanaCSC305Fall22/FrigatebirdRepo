@@ -34,6 +34,9 @@ public class TerrainMapVisualizer {
 		int tempLengthSize = (int) length/map.getNumRows();
 		tileSizeInPixels = Math.min(tempWidthSize, tempLengthSize);
 		
+		gc.setFill(Color.rgb(245, 245, 245));
+		gc.fillRect(0, 0, 1000, 1000);
+		
 		drawMapTiles(gc, numColors);
 		gc.setFill(Color.hsb(300, 1, 1));
 		for(Tile tile: selectedTileSet) {

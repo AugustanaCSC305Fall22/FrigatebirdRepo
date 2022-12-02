@@ -50,10 +50,14 @@ public class TerrainMapIO {
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
 				"*.terrainmap");
 		fileChooser.getExtensionFilters().add(filter);
+		fileChooser.setInitialDirectory(App.getDirectory());
 		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
 		File file = fileChooser.showSaveDialog(saveWindow);
 		if (file != null) {
 			App.setCurrentFile(file);
+			if(file.getParent() != null) {
+				App.setDirectory(new File(file.getParent()));
+			}
 			terrainMapToJSON(App.getMap(), file);
 			openSave = false;
 		}
@@ -78,12 +82,16 @@ public class TerrainMapIO {
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
 				"*.terrainmap");
 		loadChooser.getExtensionFilters().add(filter);
+		loadChooser.setInitialDirectory(App.getDirectory());
 		Stage loadWindow = new Stage(StageStyle.TRANSPARENT);
 		File inputFile = loadChooser.showOpenDialog(loadWindow);
 
 		if (inputFile != null) {
 			try {
 				App.setCurrentFile(inputFile);
+				if(inputFile.getParent() != null) {
+					App.setDirectory(new File(inputFile.getParent()));
+				}
 				App.setMap(TerrainMapIO.jsonToTerrainMap(inputFile));
 			} catch (FileNotFoundException ex) {
 				new Alert(AlertType.ERROR, "The file you tried to open does not exist.").showAndWait();
@@ -98,10 +106,14 @@ public class TerrainMapIO {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Wavefront (*.obj)", "*.obj");
 		fileChooser.getExtensionFilters().add(filter);
+		fileChooser.setInitialDirectory(App.getDirectory());
 		Stage saveObjWindow = new Stage(StageStyle.TRANSPARENT);
 		File file = fileChooser.showSaveDialog(saveObjWindow);
 		if (file != null) {
 			App.setCurrentFile(file);
+			if(file.getParent() != null) {
+				App.setDirectory(new File(file.getParent()));
+			}
 			createObjFile(App.getMap(), file);
 		}
 	}
