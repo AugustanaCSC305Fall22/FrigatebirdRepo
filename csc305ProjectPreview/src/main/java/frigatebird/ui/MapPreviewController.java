@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import frigatebird.terrainbuilder.TerrainMap;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Camera;
 import javafx.scene.Group;
@@ -23,9 +25,14 @@ public class MapPreviewController extends Application{
     private BorderPane previewPane;
     private TerrainMap map;
     private CompoundGroup group = new CompoundGroup();
+    private double anchorX, anchorY;
+    private double anchorAngleX = 0;
+    private double anchorAngleY = 0;
+    private final DoubleProperty angleX = new SimpleDoubleProperty(0);
+    private final DoubleProperty angleY = new SimpleDoubleProperty(0);
     private static final int windowWidth = 800;
     private static final int windowHeight = 500;
-    private final int rowAndColSpanInpixels = 5;
+    private static final int rowAndColSpanInpixels = 5;
 
     
 	
@@ -61,6 +68,7 @@ public class MapPreviewController extends Application{
 		group.translateYProperty().set(windowHeight/1.6);
 		group.translateZProperty().set(-400);
 		
+		initMouseContol(group, scene);
 		//stage = (Stage) previewPane.getScene().getWindow();
 		stage.addEventHandler (KeyEvent.KEY_PRESSED, e -> {
 			switch(e.getCode()) {
@@ -88,6 +96,30 @@ public class MapPreviewController extends Application{
 		stage.setScene(scene);
 		stage.show();
 }
+	
+	private void initMouseContol(CompoundGroup group, Scene scene){
+		Rotate xRotate;
+		Rotate yRotate;
+		group.getTransforms().addAll(
+				xRotate = new Rotate(0, Rotate.X_AXIS),
+				yRotate = new Rotate(0, Rotate.Y_AXIS)
+		);
+		xRotate.angleProperty().bind(angleX);
+		yRotate.angleProperty().bind(angleY);	
+		
+		scene.setOnMousePressed(event -> {
+			anchorX = event.getSceneX();
+			anchorY = event.getSceneY();
+			anchorAngleX = angleX.get();
+			anchorAngleY = angleY.get();
+		});
+		
+		scene.setOnMouseDragged(event ->{
+			angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
+			angleY.set(anchorAngleY + anchorX - event.getSceneX());
+		});
+	}
+	
 	
 	public void setMap(TerrainMap map) {
 		this.map = map;
