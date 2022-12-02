@@ -57,18 +57,7 @@ public class MapPreviewController extends Application{
 				box.translateZProperty().set(colSpan);
 				group.getChildren().add(box);
 				if(tile.getIsPointy()) {
-					double smallBoxWidthAndDepth = 5;
-					double heightIncrement = 0.5;
-					for(int i = 0; i < 50; i++) {
-						Box smallBox = new Box(smallBoxWidthAndDepth, heightIncrement, smallBoxWidthAndDepth);
-						smallBox.setMaterial(material);
-						smallBox.translateXProperty().set(rowSpan);
-						smallBox.translateYProperty().set((height/-2) - (height/2) - (heightIncrement/2));
-						smallBox.translateZProperty().set(colSpan);
-						group.getChildren().add(smallBox);
-						smallBoxWidthAndDepth -= 0.1;
-						heightIncrement += 0.5;
-					}
+					makePointy(material, rowSpan, colSpan, height);
 				}
 				rowSpan += rowAndColSpanInpixels;
 			}
@@ -92,6 +81,21 @@ public class MapPreviewController extends Application{
 		stage.setScene(scene);
 		stage.show();
 }
+	
+	private void makePointy(PhongMaterial material, int rowSpan, int colSpan, int height) {
+		double smallBoxWidthAndDepth = 5;
+		double heightIncrement = 0.5;
+		for(int i = 0; i < 50; i++) {
+			Box smallBox = new Box(smallBoxWidthAndDepth, heightIncrement, smallBoxWidthAndDepth);
+			smallBox.setMaterial(material);
+			smallBox.translateXProperty().set(rowSpan);
+			smallBox.translateYProperty().set((height/-2) - (height/2) - (heightIncrement/2));
+			smallBox.translateZProperty().set(colSpan);
+			group.getChildren().add(smallBox);
+			smallBoxWidthAndDepth -= 0.1;
+			heightIncrement += 0.5;
+		}
+	}
 	
 	private void initKeyboardControls(CompoundGroup group, Stage stage) {
 		stage.addEventHandler (KeyEvent.KEY_PRESSED, e -> {
