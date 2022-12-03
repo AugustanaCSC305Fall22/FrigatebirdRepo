@@ -1,30 +1,15 @@
 package frigatebird.ui;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
-import java.util.TreeSet;
-
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.VPos;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -62,7 +47,11 @@ public class EditorController {
 	@FXML
 	private ToggleButton raiseLowerToolButton;
 	@FXML
+	private ToggleButton fillToolButton;
+	@FXML
 	private TextField heightTileSelectInput;
+	@FXML
+	private TextField fillToolInput;
 	@FXML
 	private ToggleButton pasteToolButton;
     
@@ -72,9 +61,11 @@ public class EditorController {
 	private int heightNum = 1;
 	private int selectHeightNum = 0;
 	private int maxTileHeight = 99;
+	private int fillToolNum = 0;
 	private Set<Tile> selectedTileSet = new HashSet<Tile>();
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
+	private Set<Tile> fillSet = new HashSet<Tile>();
 	
 	private ToolBox toolbox;
 	
@@ -95,9 +86,11 @@ public class EditorController {
 		numColors = map.findMaxMapHeight() + 1;
 		heightNumTextField.setText(Integer.toString(heightNum));
 		heightTileSelectInput.setText(Integer.toString(selectHeightNum));
+		fillToolInput.setText(Integer.toString(fillToolNum));
 		editingCanvas.setOnMousePressed(e -> handleCanvasClick(e));
 		heightNumTextField.setOnKeyTyped(e -> setHeightNum(e));
 		heightTileSelectInput.setOnKeyTyped(e -> setSelectHeightNum(e));
+		fillToolInput.setOnKeyTyped(e -> setFillToolNum(e));
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
@@ -204,6 +197,9 @@ public class EditorController {
 			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
 				pointyTilesTool(e);
 			}
+			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
+				fillToolHelper(e);
+			}
 		}
 	}
 	@FXML
@@ -250,7 +246,25 @@ public class EditorController {
     		
     	}
     }
-
+	
+	private void setFillToolNum(KeyEvent e) {
+    	String text = fillToolInput.getText();
+    	try {
+    		fillToolNum = Integer.parseInt(text);
+    		if(fillToolNum > maxTileHeight) {
+    			fillToolNum = maxTileHeight;
+    			fillToolInput.setText(Integer.toString(fillToolNum));
+    		}
+    		else if(fillToolNum < 1) {
+    			fillToolNum = 1;
+    			fillToolInput.setText(Integer.toString(fillToolNum));
+    		}
+    	}
+    	catch(Exception exception) {
+    		
+    	}
+    }
+	
 	private void selectTiles(MouseEvent e) {
 		if(e.getButton().equals(MouseButton.PRIMARY)) {
 			int row = yCoordToRowNumber((int) e.getY());
@@ -369,6 +383,69 @@ public class EditorController {
 		refresh();
 	}
 	
+	@FXML
+	private void fillToolHelper(MouseEvent e) {
+		if(e.getButton().equals(MouseButton.PRIMARY)) {
+			int row = yCoordToRowNumber((int) e.getY());
+			int col = xCoordToColumnNumber((int) e.getX());
+			Tile initialTile = map.getTileAt(row, col);
+			fillSet.add(initialTile);
+			fillFromTile(initialTile);
+			for(int i = 0; i < 100; i++) {
+				Set<Tile> fillSetCopy = new HashSet<Tile>();
+				for(Tile tile: fillSet) {
+					fillSetCopy.add(tile);
+				}
+				for(Tile tile: fillSetCopy) {
+					fillFromTile(tile);
+				}
+			}
+			for(Tile tile: fillSet) {
+				tile.setHeight(fillToolNum);
+			}
+			fillSet.clear();
+		}
+		refresh();
+	}
+	
+	private void fillFromTile(Tile initialTile) {
+		Set<Tile> fillSetSecondary = new HashSet<Tile>();
+		int loopCount = 1;
+		int initialTileRow = initialTile.getRow();
+		int initialTileCol = initialTile.getCol();
+		int initialTileHeight = initialTile.getHeight();
+		while((initialTileCol + loopCount < map.getNumColumns()) && map.getTileAt(initialTileRow , initialTileCol + loopCount).getHeight() == initialTileHeight) {
+			Tile tile = map.getTileAt(initialTileRow , initialTileCol + loopCount);
+			fillSet.add(tile);
+			loopCount++;
+		}
+		loopCount = 0;
+		while((initialTileCol - loopCount >= 0) && map.getTileAt(initialTileRow , initialTileCol - loopCount).getHeight() == initialTileHeight) {
+			Tile tile = map.getTileAt(initialTileRow , initialTileCol - loopCount);
+			fillSet.add(tile);
+			loopCount++;
+		}
+		loopCount = 0;
+		for(Tile horizontalFillTile: fillSet) {
+			while((horizontalFillTile.getRow() + loopCount < map.getNumRows()) && map.getTileAt(horizontalFillTile.getRow() + loopCount, horizontalFillTile.getCol()).getHeight() == initialTileHeight) {
+				Tile tile = map.getTileAt(horizontalFillTile.getRow() + loopCount , horizontalFillTile.getCol());
+				fillSetSecondary.add(tile);
+				loopCount++;
+			}
+			loopCount = 0;
+			while((horizontalFillTile.getRow() - loopCount >= 0) && map.getTileAt(horizontalFillTile.getRow() - loopCount, horizontalFillTile.getCol()).getHeight() == initialTileHeight) {
+				Tile tile = map.getTileAt(horizontalFillTile.getRow() - loopCount, horizontalFillTile.getCol());
+				fillSetSecondary.add(tile);
+				loopCount++;
+			}
+			loopCount = 0;
+		}
+		for(Tile tile: fillSetSecondary) {
+			fillSet.add(tile);
+		}
+		fillSetSecondary.clear();
+	}
+	
 	private void pointyTilesTool(MouseEvent e) {
 		if(e.getButton().equals(MouseButton.PRIMARY)) {
 			int row = yCoordToRowNumber((int) e.getY());
@@ -463,6 +540,11 @@ public class EditorController {
     @FXML
     public void pasteTool() {
     	toolbox.setCurrentTool(ToolBox.Tool.PASTE);
+    }
+    
+    @FXML
+    public void fillTool() {
+    	toolbox.setCurrentTool(ToolBox.Tool.FILL);
     }
     
     @FXML

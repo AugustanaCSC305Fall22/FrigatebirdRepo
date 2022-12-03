@@ -22,7 +22,9 @@ public class App extends Application {
     private static Scene scene;
     private static TerrainMap map;
     private static File currentFile = null;
-    private static String view = "Top Down View";
+    private static File directory;
+
+	private static String view = "Top Down View";
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -67,6 +69,14 @@ public class App extends Application {
 
 	public static void setView(String view) {
 		App.view = view;
+	}
+	
+	public static File getDirectory() {
+		return directory;
+	}
+
+	public static void setDirectory(File directory) {
+		App.directory = directory;
 	}
 
 }
