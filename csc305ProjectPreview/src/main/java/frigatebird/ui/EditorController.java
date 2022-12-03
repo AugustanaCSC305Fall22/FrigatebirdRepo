@@ -25,11 +25,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -39,9 +42,15 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class EditorController {
+	
 
-	@FXML
-	private Canvas editingCanvas;	
+    @FXML
+    private BorderPane rootPane;
+    
+    @FXML
+    private TabPane canvasTabPane;
+	
+	private GridEditingCanvas editingCanvas;	
 	@FXML
 	private TextField heightNumTextField;
 	@FXML
@@ -68,15 +77,22 @@ public class EditorController {
 	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
 	
 	private ToolBox toolbox;
-	private TerrainMapVisualizer mapViz;
-
+	
 	@FXML
 	private void initialize() {
+		editingCanvas = new GridEditingCanvas(500,500);
+		
+		//rootPane.setCenter(editingCanvas);
+        Tab canvasTabOne = new Tab("Untitled" ,editingCanvas);
+        canvasTabPane.getTabs().clear();
+        canvasTabPane.getTabs().add(canvasTabOne);
+        
+        Tab currentTab = canvasTabPane.getSelectionModel().getSelectedItem();
+        
 		map = App.getMap();
-		mapViz = new TerrainMapVisualizer();
 		toolbox = new ToolBox(ToolBox.Tool.SELECT);
 
-		numColors = findMaxMapHeight() + 1;
+		numColors = map.findMaxMapHeight() + 1;
 		heightNumTextField.setText(Integer.toString(heightNum));
 		heightTileSelectInput.setText(Integer.toString(selectHeightNum));
 		editingCanvas.setOnMousePressed(e -> handleCanvasClick(e));
@@ -91,12 +107,13 @@ public class EditorController {
 	}
 
 
+	
 	private void drawMap() {
-		mapViz.drawMap(editingCanvas, selectedTileSet, numColors);
+		editingCanvas.drawMap(editingCanvas, selectedTileSet, numColors);
 	}
 	
     private void drawFrontPerspective() {
-    	mapViz.drawFrontPerspective(editingCanvas, numColors);
+    	editingCanvas.drawFrontPerspective(editingCanvas, numColors);
     }
 
 	/**
@@ -109,10 +126,10 @@ public class EditorController {
 	public int xCoordToColumnNumber(double x) {
 		if (x < 0)
 			return -1;
-		if (x >= (map.getNumColumns() * mapViz.getTileSizeInPixels())) {
+		if (x >= (map.getNumColumns() * editingCanvas.getTileSizeInPixels())) {
 			return -1;
 		}
-		int col = (int) (x / mapViz.getTileSizeInPixels());
+		int col = (int) (x / editingCanvas.getTileSizeInPixels());
 		return col;
 	}
 
@@ -126,25 +143,13 @@ public class EditorController {
 	public int yCoordToRowNumber(double y) {
 		if (y < 0)
 			return -1;
-		if (y >= (map.getNumRows() * mapViz.getTileSizeInPixels())) {
+		if (y >= (map.getNumRows() * editingCanvas.getTileSizeInPixels())) {
 			return -1;
 		}
-		int row = (int) (y / mapViz.getTileSizeInPixels());
+		int row = (int) (y / editingCanvas.getTileSizeInPixels());
 		return row;
 	}
 	
-	private int findMaxMapHeight() {
-		int max = 0;
-		for (int r = 0; r < map.getNumRows(); r++) {
-			for (int c = 0; c < map.getNumColumns(); c++) {
-				Tile tile = map.getTileAt(r, c);
-				if(max < tile.getHeight()) {
-					max = tile.getHeight();
-				}
-			}
-		}
-		return max;
-	}
 
 	private void changeHeight(MouseEvent e) {
 		if(selectedTileSet.isEmpty()) {
@@ -388,7 +393,7 @@ public class EditorController {
 	
 	private void refresh(){
 		this.map = App.getMap();
-		numColors = findMaxMapHeight() + 1;
+		numColors = map.findMaxMapHeight() + 1;
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
@@ -479,7 +484,7 @@ public class EditorController {
     
     @FXML
     void openPreviewPage(ActionEvent event) throws IOException {
-  	  MapPreviewController threeDMap =new MapPreviewController(); 
+  	  MapPreviewController threeDMap = new MapPreviewController(); 
   	  threeDMap.setMap(this.map);
   	  threeDMap.start(new Stage());
     }

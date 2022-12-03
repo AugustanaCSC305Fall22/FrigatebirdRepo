@@ -12,17 +12,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-public class TerrainMapVisualizer {
-	
+public class GridEditingCanvas extends Canvas {
+
 	private int tileSizeInPixels;
+
+	public GridEditingCanvas(double width, double height) {
+		super(width, height);
+		tileSizeInPixels = 30;
+	}
 	
 	public int getTileSizeInPixels() {
 		return tileSizeInPixels;
 	}
 
-	public TerrainMapVisualizer() {
-		tileSizeInPixels = 30;
-	}
 	
 	public void drawMap(Canvas editingCanvas, Set<Tile> selectedTileSet, int numColors) {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
@@ -128,5 +130,5 @@ public class TerrainMapVisualizer {
 		}
     }
 
-	
+
 }

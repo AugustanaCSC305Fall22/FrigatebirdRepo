@@ -8,11 +8,15 @@ import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
+import javafx.scene.SubScene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -23,8 +27,6 @@ import javafx.stage.Stage;
 
 public class MapPreviewController extends Application{
 	
-    @FXML
-    private BorderPane previewPane;
     private TerrainMap map;
     private CompoundGroup group = new CompoundGroup();
     private double anchorX, anchorY;
@@ -32,14 +34,18 @@ public class MapPreviewController extends Application{
     private double anchorAngleY = 0;
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
-    private static final int windowWidth = 800;
-    private static final int windowHeight = 500;
+    private static final int subSceneWidth = 700;
+    private static final int subSceneHeight = 500;
     private static final int rowAndColSpanInpixels = 5;
 
     
 	
 		
-	public void start(Stage stage) {
+	public void start(Stage stage) throws IOException {
+		
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MapPreview.fxml"));
+        AnchorPane fxmlPane = (AnchorPane) fxmlLoader.load();
+
 		int rowSpan = 0;
 		int colSpan = 0;
 		for (int r = 0; r < map.getNumRows(); r++) {
@@ -65,18 +71,21 @@ public class MapPreviewController extends Application{
 			rowSpan = 0;
 		}
 		
-		Camera camera = new PerspectiveCamera();
 		
-		Scene scene = new Scene(group, windowWidth, windowHeight, true);
-		scene.setFill(Color.SILVER);
-		scene.setCamera(camera);
+
+		Camera camera = new PerspectiveCamera();
+		SubScene subscene = new SubScene(group, subSceneWidth, subSceneHeight, true, SceneAntialiasing.BALANCED);
+		fxmlPane.getChildren().add(subscene);
+		Scene scene = new Scene(fxmlPane, 900, 500, true);
+		subscene.setFill(Color.SILVER);
+		subscene.setCamera(camera);
 		
 		int mapSizeInPixels = rowAndColSpanInpixels * map.getNumRows();
-		group.translateXProperty().set(windowWidth/2 - (mapSizeInPixels / 2));
-		group.translateYProperty().set(windowHeight/1.7);
+		group.translateXProperty().set(subSceneWidth/2 - (mapSizeInPixels / 2));
+		group.translateYProperty().set(subSceneHeight/1.7);
 		group.translateZProperty().set(-400);
 		
-		initMouseContol(group, scene);
+		initMouseControl(group, subscene);
 		initKeyboardControls(group, stage);
 		stage.setScene(scene);
 		stage.show();
@@ -85,6 +94,7 @@ public class MapPreviewController extends Application{
 	private void makePointy(PhongMaterial material, int rowSpan, int colSpan, int height) {
 		double smallBoxWidthAndDepth = 5;
 		double heightIncrement = 0.5;
+		// approximate a pyramid using a stack of many shrinking boxes
 		for(int i = 0; i < 50; i++) {
 			Box smallBox = new Box(smallBoxWidthAndDepth, heightIncrement, smallBoxWidthAndDepth);
 			smallBox.setMaterial(material);
@@ -122,7 +132,7 @@ public class MapPreviewController extends Application{
 		});
 	}
 	
-	private void initMouseContol(CompoundGroup group, Scene scene){
+	private void initMouseControl(CompoundGroup group, SubScene subscene){
 		Rotate xRotate;
 		Rotate yRotate;
 		group.getTransforms().addAll(
@@ -132,14 +142,14 @@ public class MapPreviewController extends Application{
 		xRotate.angleProperty().bind(angleX);
 		yRotate.angleProperty().bind(angleY);	
 		
-		scene.setOnMousePressed(event -> {
+		subscene.setOnMousePressed(event -> {
 			anchorX = event.getSceneX();
 			anchorY = event.getSceneY();
 			anchorAngleX = angleX.get();
 			anchorAngleY = angleY.get();
 		});
 		
-		scene.setOnMouseDragged(event ->{
+		subscene.setOnMouseDragged(event ->{
 			angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
 			angleY.set(anchorAngleY + anchorX - event.getSceneX());
 		});
@@ -155,9 +165,6 @@ public class MapPreviewController extends Application{
         App.setRoot("MainMenu");
     }
 	
-	public static void main(String[] args) {
-		launch(args);
-	}
 }
 
 

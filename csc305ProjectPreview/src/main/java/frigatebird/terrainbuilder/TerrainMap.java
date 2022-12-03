@@ -46,6 +46,20 @@ public class TerrainMap {
 		return numColumns;
 	}
 	
+	public int findMaxMapHeight() {
+		int max = 0;
+		for (int r = 0; r < numRows; r++) {
+			for (int c = 0; c < numColumns; c++) {
+				Tile tile = getTileAt(r, c);
+				if(max < tile.getHeight()) {
+					max = tile.getHeight();
+				}
+			}
+		}
+		return max;
+	}
+
+	
 	@Override
 	public String toString() {
 		String text = "TerrainMap [tileGrid=[";
