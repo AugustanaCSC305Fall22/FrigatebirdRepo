@@ -3,7 +3,7 @@ package frigatebird.ui;
 public class ToolBox {
 
 	public static enum Tool {
-		SELECT, TWO_POINT_SELECT, HEIGHT, PASTE, POINTY
+		SELECT, TWO_POINT_SELECT, HEIGHT, PASTE, POINTY, FILL
 	}
 
 	private Tool currentTool;
