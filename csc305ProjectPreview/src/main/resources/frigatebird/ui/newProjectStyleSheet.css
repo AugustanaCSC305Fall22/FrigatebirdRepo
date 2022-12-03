@@ -1,0 +1,8 @@
+#anchorPane{
+	-fx-background-color:linear-gradient(to bottom right, #4c4ca6, bd8edb);
+}
+
+#createButton{
+	-fx-background-color: slateblue;
+	-fx-background-radius:22;
+}

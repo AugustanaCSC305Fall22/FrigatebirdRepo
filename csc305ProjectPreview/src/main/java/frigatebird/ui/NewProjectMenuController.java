@@ -2,6 +2,8 @@ package frigatebird.ui;
 
 import java.io.IOException;
 
+import com.jfoenix.controls.JFXButton;
+
 import frigatebird.terrainbuilder.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,6 +17,9 @@ public class NewProjectMenuController {
 	
 	@FXML
 	private TextField columnTextField;
+	
+	@FXML
+	private JFXButton createButton;
 	
     @FXML
     private void switchToMainMenu() throws IOException {

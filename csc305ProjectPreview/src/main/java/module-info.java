@@ -8,6 +8,7 @@ module edu.augustana.csc305ProjectPreview {
 	requires de.jensd.fx.glyphs.materialdesignicons;
 	requires de.jensd.fx.glyphs.fontawesome;
 	requires javafx.base;
+	requires com.jfoenix;
 	
 	
 	
