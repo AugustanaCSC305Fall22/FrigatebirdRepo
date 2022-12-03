@@ -18,6 +18,11 @@ public class MainMenuController {
     }
     
     @FXML
+    private void switchToTemplateMenu() throws IOException {
+      App.setRoot("premadeTemplates");
+    }
+    
+    @FXML
     private void exitAction() throws IOException {
         Platform.exit();
     }

@@ -52,7 +52,7 @@
             <Font name="Verdana Bold" size="22.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="376.0" layoutY="281.0" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="376.0"  onAction="#switchToTemplateMenu" layoutY="281.0" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
          <padding>
             <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
          </padding>
