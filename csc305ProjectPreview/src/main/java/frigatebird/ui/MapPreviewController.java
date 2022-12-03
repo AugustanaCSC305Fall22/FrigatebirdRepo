@@ -15,6 +15,7 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -27,8 +28,12 @@ import javafx.stage.Stage;
 
 public class MapPreviewController extends Application{
 	
+    @FXML
+    private ColorPicker colorPicker = new ColorPicker();
+	
     private TerrainMap map;
     private CompoundGroup group = new CompoundGroup();
+    private PhongMaterial material = new PhongMaterial(Color.PURPLE);
     private double anchorX, anchorY;
     private double anchorAngleX = 0;
     private double anchorAngleY = 0;
@@ -39,13 +44,27 @@ public class MapPreviewController extends Application{
     private static final int rowAndColSpanInpixels = 5;
 
     
-	
 		
 	public void start(Stage stage) throws IOException {
 		
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MapPreview.fxml"));
         AnchorPane fxmlPane = (AnchorPane) fxmlLoader.load();
 
+		draw3DObject(material);
+		Camera camera = new PerspectiveCamera();
+		SubScene subscene = new SubScene(group, subSceneWidth, subSceneHeight, true, SceneAntialiasing.BALANCED);
+		fxmlPane.getChildren().add(subscene);
+		Scene scene = new Scene(fxmlPane, 900, 500, true);
+		subscene.setFill(Color.SILVER);
+		subscene.setCamera(camera);
+		
+		initMouseControl(group, subscene);
+		initKeyboardControls(group, stage);
+		stage.setScene(scene);
+		stage.show();
+}
+	
+	private void draw3DObject(PhongMaterial material) {
 		int rowSpan = 0;
 		int colSpan = 0;
 		for (int r = 0; r < map.getNumRows(); r++) {
@@ -55,7 +74,6 @@ public class MapPreviewController extends Application{
 				if(height == 0) {
 					height = 1;
 				}
-				PhongMaterial material = new PhongMaterial(Color.PURPLE);
 				Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
 				box.setMaterial(material);
 				box.translateXProperty().set(rowSpan);
@@ -70,26 +88,15 @@ public class MapPreviewController extends Application{
 			colSpan += rowAndColSpanInpixels;
 			rowSpan = 0;
 		}
-		
-		
-
-		Camera camera = new PerspectiveCamera();
-		SubScene subscene = new SubScene(group, subSceneWidth, subSceneHeight, true, SceneAntialiasing.BALANCED);
-		fxmlPane.getChildren().add(subscene);
-		Scene scene = new Scene(fxmlPane, 900, 500, true);
-		subscene.setFill(Color.SILVER);
-		subscene.setCamera(camera);
-		
+		position3DObject();
+	}
+	
+	private void position3DObject() {
 		int mapSizeInPixels = rowAndColSpanInpixels * map.getNumRows();
 		group.translateXProperty().set(subSceneWidth/2 - (mapSizeInPixels / 2));
 		group.translateYProperty().set(subSceneHeight/1.7);
 		group.translateZProperty().set(-400);
-		
-		initMouseControl(group, subscene);
-		initKeyboardControls(group, stage);
-		stage.setScene(scene);
-		stage.show();
-}
+	}
 	
 	private void makePointy(PhongMaterial material, int rowSpan, int colSpan, int height) {
 		double smallBoxWidthAndDepth = 5;
