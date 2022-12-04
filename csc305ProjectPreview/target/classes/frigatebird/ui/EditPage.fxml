@@ -139,7 +139,7 @@
       <JFXToggleButton accessibleRole="BUTTON" graphicTextGap="0.0" layoutX="648.0" layoutY="375.0" onAction="#twoPointSelectTool" prefHeight="58.0" prefWidth="224.0" text="Two Point Select" toggleColor="#a059d0" toggleGroup="$toolButtonGroup" toggleLineColor="#bd8edb" />
       <TextField fx:id="heightTileSelectInput" layoutX="823.0" layoutY="102.0" prefHeight="24.0" prefWidth="63.0" text="0" />
       <TextField fx:id="heightNumTextField" layoutX="824.0" layoutY="47.0" prefHeight="23.0" prefWidth="62.0" text="1" />
-      <JFXToggleButton layoutX="671.0" layoutY="32.0" onAction="#heightTool" prefHeight="55.0" prefWidth="146.0" text="Height Tool" toggleGroup="$toolButtonGroup" />
+      <JFXToggleButton layoutX="671.0" layoutY="32.0" onAction="#heightTool" prefHeight="55.0" prefWidth="146.0" text="Height Tool" />
       <JFXButton fx:id="heightTileSelect" layoutX="690.0" layoutY="96.0" onAction="#selectTilesAtHeight" prefHeight="36.0" prefWidth="109.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
          <tooltip>
             <Tooltip text="Select tiles at height n" />
@@ -179,7 +179,7 @@
             <FontAwesomeIconView fill="WHITE" glyphName="UNDO" size="22" wrappingWidth="10.0" />
          </graphic>
       </JFXButton>
-      <JFXToggleButton fx:id="fillToolButton" layoutX="680.0" layoutY="273.0" onAction="#fillTool" text="Fill Tool" />
-      <TextField fx:id="fillToolInput" layoutX="816.0" layoutY="289.0" prefHeight="23.0" prefWidth="62.0" />
+      <JFXToggleButton fx:id="fillToolButton" layoutX="680.0" layoutY="273.0" onAction="#fillTool" text="Fill Tool" toggleGroup="$toolButtonGroup" />
+      <TextField fx:id="fillToolInput" layoutX="813.0" layoutY="289.0" prefHeight="23.0" prefWidth="62.0" />
    </children>
 </AnchorPane>
