@@ -600,6 +600,7 @@ public class EditorController {
     
     
     private void insertFeature(MouseEvent e) throws IOException {
+
         if (e.getButton().equals(MouseButton.PRIMARY)) {
          
 
