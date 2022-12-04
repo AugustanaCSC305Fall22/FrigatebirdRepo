@@ -1,5 +1,6 @@
 package frigatebird.ui;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
@@ -11,6 +12,7 @@ import frigatebird.terrainbuilder.Tile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -55,6 +57,8 @@ public class EditorController {
 	private TextField fillToolInput;
 	@FXML
 	private ToggleButton pasteToolButton;
+	@FXML  
+    private ComboBox<String> featureType;
     
 	private TerrainMap map;
 	private String cutOrCopyString = "";
@@ -79,6 +83,11 @@ public class EditorController {
         canvasTabPane.getTabs().clear();
         canvasTabPane.getTabs().add(canvasTabOne);
         
+        ComboBox featureType = new ComboBox<>(); 
+        featureType.getItems().addAll("Pyramid", "Depression");
+        featureType.setValue("Pyramid");
+        
+        
         Tab currentTab = canvasTabPane.getSelectionModel().getSelectedItem();
         
 		map = App.getMap();
@@ -88,7 +97,14 @@ public class EditorController {
 		heightNumTextField.setText(Integer.toString(heightNum));
 		heightTileSelectInput.setText(Integer.toString(selectHeightNum));
 		fillToolInput.setText(Integer.toString(fillToolNum));
-		editingCanvas.setOnMousePressed(e -> handleCanvasClick(e));
+		editingCanvas.setOnMousePressed(e -> {
+			try {
+				handleCanvasClick(e);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		heightNumTextField.setOnKeyTyped(e -> setHeightNum(e));
 		heightTileSelectInput.setOnKeyTyped(e -> setSelectHeightNum(e));
 		fillToolInput.setOnKeyTyped(e -> setFillToolNum(e));
@@ -181,7 +197,7 @@ public class EditorController {
 		}
 	}
 	
-	private void handleCanvasClick(MouseEvent e) {
+	private void handleCanvasClick(MouseEvent e) throws IOException {
 		if(App.getView().equals("Top Down View")) {
 			if(toolbox.getCurrentTool().equals(ToolBox.Tool.HEIGHT)) {
 				changeHeight(e);
@@ -200,7 +216,9 @@ public class EditorController {
 			}
 			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
 				fillToolHelper(e);
-			}
+			}else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
+		        insertFeature(e);
+		      }
 		}
 	}
 	@FXML
@@ -565,6 +583,50 @@ public class EditorController {
 		refresh();
 	}
     
+    
+    private String insertFeatureHelper() {
+    	String filePath = "";
+    	if(featureType.getValue().equals("Pyramid")){
+    		filePath = "src\\main\\resources\\frigatebird\\Templates\\pyramid.terrainmap"; 
+    	}
+    	if(featureType.getValue().equals("Depression")){
+    		filePath =  "src\\main\\resources\\frigatebird\\Templates\\depression.terrainmap"; 
+    	}
+    	return filePath;
+    } 
+    
+    
+    private void insertFeature(MouseEvent e) throws IOException {
+        if (e.getButton().equals(MouseButton.PRIMARY)) {
+         
+
+          int row = yCoordToRowNumber((int) e.getY());
+          int col = xCoordToColumnNumber((int) e.getX());
+          Tile initialTile = map.getTileAt(row, col);
+          File file = new File(insertFeatureHelper());
+
+          TerrainMap pyramid = TerrainMapIO.jsonToTerrainMap(file);
+
+          int colIncrement = 7;
+          int rowIncrement = -7;
+          for (int r = 0; r < pyramid.getNumRows(); r++) {
+            colIncrement = 0;
+            rowIncrement++;
+            for (int c = 0; c < pyramid.getNumColumns(); c++) {
+              Tile tile = pyramid.getTileAt(r, c);
+              int height = tile.getHeight();
+
+              Tile tile1 = map.getTileAt(initialTile.getRow() + rowIncrement,
+                  initialTile.getCol() + colIncrement);
+              tile1.setHeight(height);
+              colIncrement++;
+            }
+          }
+
+        }
+        refresh();
+      }
+    
     @FXML
     void openPreviewPage(ActionEvent event) throws IOException {
   	  MapPreviewController threeDMap = new MapPreviewController(); 
@@ -576,6 +638,11 @@ public class EditorController {
 	private void switchToAboutScreen() throws IOException {
 		App.setRoot("AboutScreen");
 	}
+    
+    @FXML
+    private void AdditionOfFeature() {
+      toolbox.setCurrentTool(ToolBox.Tool.FEATURE);
+    }
     
     @FXML
     private void exitAction() throws IOException {
