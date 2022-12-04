@@ -18,6 +18,7 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -63,7 +64,7 @@ public class MapPreviewController extends Application{
 		subscene.setFill(Color.SILVER);
 		subscene.setCamera(camera);
 		
-		initMouseControl(group, subscene);
+		initMouseControl(group, subscene, stage);
 		initKeyboardControls(group, stage);
 		stage.setScene(scene);
 		stage.show();
@@ -158,7 +159,7 @@ public class MapPreviewController extends Application{
 		});
 	}
 	
-	private void initMouseControl(CompoundGroup group, SubScene subscene){
+	private void initMouseControl(CompoundGroup group, SubScene subscene, Stage stage){
 		Rotate xRotate;
 		Rotate yRotate;
 		group.getTransforms().addAll(
@@ -178,6 +179,11 @@ public class MapPreviewController extends Application{
 		subscene.setOnMouseDragged(event ->{
 			angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
 			angleY.set(anchorAngleY + anchorX - event.getSceneX());
+		});
+		
+		stage.addEventHandler (ScrollEvent.SCROLL, e -> {
+			double deltaY = e.getDeltaY();
+			group.translateZProperty().set(group.getTranslateZ() + deltaY);
 		});
 	}
 	
