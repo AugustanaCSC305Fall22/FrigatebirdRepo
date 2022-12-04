@@ -1,130 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" prefHeight="572.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
-   <right>
-      <VBox alignment="TOP_CENTER" prefHeight="378.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.EditorController">
+   <children>
+      <AnchorPane layoutY="-5.0" prefHeight="610.0" prefWidth="62.0" styleClass="sidebar" stylesheets="@style.css">
          <children>
-            <ToggleButton mnemonicParsing="false" onAction="#selectTool" text="Select Tool">
-               <toggleGroup>
-                  <ToggleGroup fx:id="toolButtonGroup" />
-               </toggleGroup>
-            </ToggleButton>
-            <ToggleButton mnemonicParsing="false" onAction="#twoPointSelectTool" text="Two Point Select Tool" toggleGroup="$toolButtonGroup" />
-            <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="200.0">
-               <children>
-                  <ToggleButton mnemonicParsing="false" onAction="#heightTool" text="Height Tool" toggleGroup="$toolButtonGroup">
-                     <tooltip>
-                        <Tooltip text="Does stuff" />
-                     </tooltip>
-                  </ToggleButton>
-                  <TextField fx:id="heightNumTextField" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="40.0" text="1">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="heightTileSelect" mnemonicParsing="false" onAction="#selectTilesAtHeight" prefHeight="25.0" prefWidth="127.0" text="Select Tiles at Height">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <TextField fx:id="heightTileSelectInput" prefHeight="25.0" prefWidth="43.0">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="200.0">
-               <children>
-                  <ToggleButton fx:id="fillToolButton" mnemonicParsing="false" onAction="#fillTool" text="Fill Tool" />
-                  <TextField fx:id="fillToolInput" prefHeight="25.0" prefWidth="75.0">
-                     <HBox.margin>
-                        <Insets left="12.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-            </HBox>
-            <Button mnemonicParsing="false" onAction="#pointyTiles" text="Pointy Tiles" />
-            <Button mnemonicParsing="false" onAction="#randomizeTiles" text="Randomizer">
-               <VBox.margin>
-                  <Insets bottom="25.0" top="25.0" />
-               </VBox.margin></Button>
-            <HBox prefHeight="41.0" prefWidth="40.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#cutSelectedTiles" text="Cut" />
-                  <Button mnemonicParsing="false" onAction="#copySelectedTiles" text="Copy">
-                     <HBox.margin>
-                        <Insets left="15.0" />
-                     </HBox.margin>
-                  </Button>
-                  <ToggleButton mnemonicParsing="false" onAction="#pasteTool" text="Paste" toggleGroup="$toolButtonGroup">
-                     <HBox.margin>
-                        <Insets left="15.0" />
-                     </HBox.margin>
-                  </ToggleButton>
-               </children>
-               <VBox.margin>
-                  <Insets left="25.0" />
-               </VBox.margin>
-            </HBox>
-            <Button mnemonicParsing="false" onAction="#openPreviewPage" text="3D Preview" />
-            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMainMenu" text="Quit to Menu" />
+            <JFXButton fx:id="menuButton" layoutX="-3.0" layoutY="172.0" onAction="#switchToMainMenu" prefHeight="58.0" prefWidth="63.0" styleClass="menu_button" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="HOME" size="1.5em" styleClass="icon" text="" wrappingWidth="27.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </FontAwesomeIconView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Home" />
+               </tooltip>
+            </JFXButton>
+            <JFXButton layoutX="-1.0" layoutY="244.0" prefHeight="58.0" prefWidth="63.0" styleClass="menu_button" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="IMAGE" size="1.5em" styleClass="icon" text="" />
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Templates" />
+               </tooltip>
+            </JFXButton>
+            <JFXButton layoutX="-1.0" layoutY="306.0" onAction="#exitAction" prefHeight="58.0" prefWidth="63.0" styleClass="menu_button" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="#ff8c8c" glyphName="POWER_OFF" size="1.5em" styleClass="icon_power" />
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Exit" />
+               </tooltip>
+            </JFXButton>
          </children>
-         <BorderPane.margin>
-            <Insets right="5.0" top="10.0" />
-         </BorderPane.margin>
-      </VBox>
-   </right>
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      </AnchorPane>
+      <MenuBar prefHeight="25.0" prefWidth="900.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#newFile" text="New " />
+              <MenuItem mnemonicParsing="false" onAction="#newFile" text="New" />
                   <MenuItem mnemonicParsing="false" onAction="#loadFile" text="Load" />
                   <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
                   <MenuItem mnemonicParsing="false" onAction="#saveAs" text="Save As" />
                   <MenuItem mnemonicParsing="false" onAction="#terrainMapToObj" text="Export" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="View">
+            <Menu mnemonicParsing="false" text="View">
                <items>
                   <Menu mnemonicParsing="false" text="Preview">
                     <items>
-                     <!--  <MenuItem mnemonicParsing="false" onAction="#switchToFrontView" text="Front View" /> -->
-                        <MenuItem mnemonicParsing="false" onAction="#topDownView" text="Top Down View" />
+                      <MenuItem mnemonicParsing="false" onAction="#topDownView" text="Top Down View" />
                         <MenuItem mnemonicParsing="false" onAction="#sideView" text="Side View" />
                         <MenuItem mnemonicParsing="false" onAction="#openPreviewPage" text="3D View" />
                     </items>
                   </Menu>
                </items>
-          </Menu>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
@@ -132,16 +78,108 @@
           </Menu>
         </menus>
       </MenuBar>
-   </top>
-   <center>
-      <TabPane fx:id="canvasTabPane" prefHeight="547.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="canvasTabPane" layoutX="61.0" layoutY="26.0" prefHeight="575.0" prefWidth="573.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Untitled">
+          <Tab text="Untitled Tab 1">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="592.0" />
             </content>
           </Tab>
         </tabs>
       </TabPane>
-   </center>
-</BorderPane>
+      <JFXButton fx:id="copyBtn" layoutX="760.0" layoutY="454.0" onAction="#copySelectedTiles" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" ">
+         <tooltip>
+            <Tooltip text="Copy" />
+         </tooltip>
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="COPY" size="22" wrappingWidth="14.0" />
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="pasteBtn" layoutX="832.0" layoutY="454.0" onAction="#pasteTool" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" ">
+         <tooltip>
+            <Tooltip text="Paste" />
+         </tooltip>
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="PASTE" size="22" wrappingWidth="14.0" />
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="cutBtn" layoutX="680.0" layoutY="454.0" onAction="#cutSelectedTiles" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" ">
+         <tooltip>
+            <Tooltip text="Cut" />
+         </tooltip>
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="CUT" size="22" wrappingWidth="14.0" />
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="randomBtn" layoutX="720.0" layoutY="513.0" onAction="#randomizeTiles" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" " AnchorPane.leftAnchor="720.0">
+         <tooltip>
+            <Tooltip text="Randomize Tiles" />
+         </tooltip>
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="RANDOM" size="22" text="" wrappingWidth="14.0">
+               <font>
+                  <Font size="47.0" />
+               </font>
+            </FontAwesomeIconView>
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="previewPageBtn" layoutX="799.0" layoutY="513.0" onAction="#openPreviewPage" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" ">
+         <tooltip>
+            <Tooltip text="3D Preview" />
+         </tooltip>
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="CUBE" size="22" wrappingWidth="12.0" />
+         </graphic>
+      </JFXButton>
+      <JFXToggleButton layoutX="645.0" layoutY="327.0" onAction="#selectTool" prefHeight="55.0" prefWidth="199.0" text="Select Tool">
+         <toggleGroup>
+            <ToggleGroup fx:id="toolButtonGroup" />
+         </toggleGroup>
+      </JFXToggleButton>
+      <JFXToggleButton accessibleRole="BUTTON" graphicTextGap="0.0" layoutX="648.0" layoutY="375.0" onAction="#twoPointSelectTool" prefHeight="58.0" prefWidth="224.0" text="Two Point Select" toggleColor="#a059d0" toggleGroup="$toolButtonGroup" toggleLineColor="#bd8edb" />
+      <TextField fx:id="heightTileSelectInput" layoutX="823.0" layoutY="102.0" prefHeight="24.0" prefWidth="63.0" text="0" />
+      <TextField fx:id="heightNumTextField" layoutX="824.0" layoutY="47.0" prefHeight="23.0" prefWidth="62.0" text="1" />
+      <JFXToggleButton layoutX="671.0" layoutY="32.0" onAction="#heightTool" prefHeight="55.0" prefWidth="146.0" text="Height Tool" toggleGroup="$toolButtonGroup" />
+      <JFXButton fx:id="heightTileSelect" layoutX="690.0" layoutY="96.0" onAction="#selectTilesAtHeight" prefHeight="36.0" prefWidth="109.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
+         <tooltip>
+            <Tooltip text="Select tiles at height n" />
+         </tooltip>
+      </JFXButton>
+      <FontAwesomeIconView fill="WHITE" glyphName="TREE" layoutX="720.0" layoutY="121.0" selectionFill="BLACK" size="22" wrappingWidth="5.0" />
+      <FontAwesomeIconView fill="WHITE" glyphName="" layoutX="754.0" layoutY="123.0" size="22" text="n" />
+      <JFXButton fx:id="pointyBtn" layoutX="666.0" layoutY="153.0" onAction="#pointyTiles" prefHeight="46.0" prefWidth="48.0" rotate="180.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
+         <tooltip>
+            <Tooltip text="Make Tile pointy" />
+         </tooltip>
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="" size="22" text="V" wrappingWidth="5.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </FontAwesomeIconView>
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="redoBtn" layoutX="832.0" layoutY="153.0" prefHeight="46.0" prefWidth="48.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
+         <tooltip>
+            <Tooltip text="Redo" />
+         </tooltip>
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="UNDO" rotate="177.8" size="22" wrappingWidth="20.0">
+               <rotationAxis>
+                  <Point3D y="1.0" />
+               </rotationAxis>
+            </FontAwesomeIconView>
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="undoBtn" layoutX="749.0" layoutY="153.0" prefHeight="46.0" prefWidth="48.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
+         <tooltip>
+            <Tooltip text="Undo" />
+         </tooltip>
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="UNDO" size="22" wrappingWidth="10.0" />
+         </graphic>
+      </JFXButton>
+      <JFXToggleButton fx:id="fillToolButton" layoutX="680.0" layoutY="273.0" onAction="#fillTool" text="Fill Tool" />
+      <TextField fx:id="fillToolInput" layoutX="816.0" layoutY="289.0" prefHeight="23.0" prefWidth="62.0" />
+   </children>
+</AnchorPane>

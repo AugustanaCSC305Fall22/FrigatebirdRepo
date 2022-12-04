@@ -8,6 +8,7 @@ import java.util.Stack;
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
@@ -71,7 +72,7 @@ public class EditorController {
 	
 	@FXML
 	private void initialize() {
-		editingCanvas = new GridEditingCanvas(500,500);
+		editingCanvas = new GridEditingCanvas(592,547);
 		
 		//rootPane.setCenter(editingCanvas);
         Tab canvasTabOne = new Tab("Untitled" ,editingCanvas);
@@ -575,6 +576,11 @@ public class EditorController {
 	private void switchToAboutScreen() throws IOException {
 		App.setRoot("AboutScreen");
 	}
+    
+    @FXML
+    private void exitAction() throws IOException {
+        Platform.exit();
+    }
     
 	@FXML
 	private void switchToMainMenu() throws IOException {

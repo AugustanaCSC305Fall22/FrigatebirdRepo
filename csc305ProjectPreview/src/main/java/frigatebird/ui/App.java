@@ -28,7 +28,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("mainMenu"), 900, 600);
+        scene = new Scene(loadFXML("mainMenu"), 900, 594);
         stage.setTitle("Frigatebird 3D Editor");
         stage.setScene(scene);
         stage.show();

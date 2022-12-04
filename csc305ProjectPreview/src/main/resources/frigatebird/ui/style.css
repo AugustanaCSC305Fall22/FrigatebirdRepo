@@ -45,3 +45,33 @@
 .add_button:hover{
 	-fx-border-width:40px 40px 40px 40px;
 }
+
+#randomBtn{
+	-fx-background-color:'slateblue';
+	-fx-background-radius:100;
+}
+
+#previewPageBtn{
+	-fx-background-color:#8ac656;
+	-fx-background-radius:100;
+}
+
+#cutBtn{
+	-fx-background-color:#e65b4f;
+	-fx-background-radius:100;
+}
+
+#copyBtn{
+	-fx-background-color:#0096FF;
+	-fx-background-radius:100;
+}
+
+#pasteBtn{
+	-fx-background-color:#0096FF;
+	-fx-background-radius:100;
+}
+
+.greyBtns{
+	-fx-background-color:'#aaa';
+	-fx-background-radius:100;
+}
