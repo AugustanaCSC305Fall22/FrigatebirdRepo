@@ -40,14 +40,14 @@ public class PremadeTemplatesController {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\maze1.terrainmap";
 		}
 		if (event.getSource().equals(castleTemp)) {
-			filePath = "src\\main\\resources\\frigatebird\\Templates\\castell.terrainmap";
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\castle.terrainmap";
 		}
 		if (event.getSource().equals(citytemp)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\city.terrainmap";
 		}
 		if (event.getSource().equals(surfaceTemp)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\surface.terrainmap";
-		}
+		}*
 		if (event.getSource().equals(villageTemp)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\village2.terrainmap";
 		}
