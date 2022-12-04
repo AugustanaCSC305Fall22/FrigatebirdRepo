@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+
+import com.jfoenix.controls.JFXToggleButton;
+
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
@@ -30,31 +33,31 @@ import javafx.stage.StageStyle;
 public class EditorController {
 	
 
+	private GridEditingCanvas editingCanvas;
     @FXML
-    private BorderPane rootPane;
-    
+    private BorderPane rootPane;    
     @FXML
     private TabPane canvasTabPane;
-	
-	private GridEditingCanvas editingCanvas;	
+    @FXML
+	private JFXToggleButton heightToggleButton;	
 	@FXML
 	private TextField heightNumTextField;
 	@FXML
 	private ToggleGroup toolButtonGroup;
 	@FXML
-	private ToggleButton selectToolButton;
+	private JFXToggleButton selectToolButton;
 	@FXML
-	private ToggleButton twoPointSelectToolButton;
+	private JFXToggleButton twoPointSelectToolButton;
 	@FXML
-	private ToggleButton raiseLowerToolButton;
+	private JFXToggleButton raiseLowerToolButton;
 	@FXML
-	private ToggleButton fillToolButton;
+	private JFXToggleButton fillToolButton;
 	@FXML
 	private TextField heightTileSelectInput;
 	@FXML
 	private TextField fillToolInput;
 	@FXML
-	private ToggleButton pasteToolButton;
+	private JFXToggleButton pasteToolButton;
     
 	private TerrainMap map;
 	private String cutOrCopyString = "";
@@ -146,7 +149,7 @@ public class EditorController {
 	
 
 	private void changeHeight(MouseEvent e) {
-		if(selectedTileSet.isEmpty()) {
+		if(selectedTileSet.isEmpty() && heightToggleButton.isSelected()) {
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
 			Tile tile = map.getTileAt(row, col);
@@ -386,7 +389,7 @@ public class EditorController {
 	
 	@FXML
 	private void fillToolHelper(MouseEvent e) {
-		if(e.getButton().equals(MouseButton.PRIMARY)) {
+		if(e.getButton().equals(MouseButton.PRIMARY) && fillToolButton.isSelected()) {
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
 			Tile initialTile = map.getTileAt(row, col);
