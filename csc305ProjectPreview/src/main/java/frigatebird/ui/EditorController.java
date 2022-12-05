@@ -76,7 +76,7 @@ public class EditorController {
 	private int selectHeightNum = 0;
 	private int maxTileHeight = 99;
 	private int fillToolNum = 0;
-	private Set<Tile> selectedTileSet;
+	private Set<Tile> selectedTileSet = new HashSet<Tile>();
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
 	private Set<Tile> fillSet = new HashSet<Tile>();
@@ -101,7 +101,6 @@ public class EditorController {
         Tab currentTab = canvasTabPane.getSelectionModel().getSelectedItem();
         
 		map = App.getMap();
-		selectedTileSet = map.getSelectedTileSet();
 		toolbox = new ToolBox(ToolBox.Tool.SELECT);
 
 		numColors = map.findMaxMapHeight() + 1;

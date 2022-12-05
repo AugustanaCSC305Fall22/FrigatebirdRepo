@@ -16,13 +16,11 @@ public class TerrainMap implements Cloneable{
 	private Tile[][] tileGrid;
 	private int numRows;
 	private int numColumns;
-	private Set<Tile> selectedTileSet;
 
 	public TerrainMap(int rows, int columns) {
 		this.tileGrid = new Tile[rows][columns];
 		this.numRows = rows;
 		this.numColumns = columns;
-		this.selectedTileSet  = new HashSet<Tile>();
 		
 		for(int r = 0; r < numRows; r++) {
 			for(int c = 0; c < numColumns; c++) {
@@ -55,10 +53,6 @@ public class TerrainMap implements Cloneable{
 			}
 		}
 		return max;
-	}
-	
-	public Set<Tile> getSelectedTileSet() {
-		return selectedTileSet;
 	}
 	
 	public TerrainMap clone() {
