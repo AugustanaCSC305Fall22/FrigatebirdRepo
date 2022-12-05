@@ -147,13 +147,13 @@
          </tooltip>
       </JFXButton>
       <FontAwesomeIconView fill="WHITE" glyphName="TREE" layoutX="720.0" layoutY="121.0" selectionFill="BLACK" size="22" wrappingWidth="5.0" />
-      <FontAwesomeIconView fill="WHITE" glyphName="" layoutX="754.0" layoutY="123.0" size="22" text="n" />
+      <FontAwesomeIconView fill="WHITE" layoutX="754.0" layoutY="123.0" size="22" text="n" />
       <JFXButton fx:id="pointyBtn" layoutX="666.0" layoutY="153.0" onAction="#pointyTiles" prefHeight="46.0" prefWidth="48.0" rotate="180.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
          <tooltip>
             <Tooltip text="Make Tile pointy" />
          </tooltip>
          <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="" size="22" text="V" wrappingWidth="5.0">
+            <FontAwesomeIconView fill="WHITE" size="22" text="V" wrappingWidth="5.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

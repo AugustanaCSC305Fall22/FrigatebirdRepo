@@ -620,7 +620,7 @@ public class EditorController {
           Tile initialTile = map.getTileAt(row, col);
           File file = new File(insertFeatureHelper(type));
           
-          
+           
           TerrainMap feature = TerrainMapIO.jsonToTerrainMap(file);
           
           int midRow = feature.getNumRows()/2;
