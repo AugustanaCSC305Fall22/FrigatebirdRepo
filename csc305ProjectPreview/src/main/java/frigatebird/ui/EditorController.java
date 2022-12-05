@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+
+import com.jfoenix.controls.JFXToggleButton;
+
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
@@ -32,33 +35,38 @@ import javafx.stage.StageStyle;
 public class EditorController {
 	
 
+	private GridEditingCanvas editingCanvas;
     @FXML
-    private BorderPane rootPane;
-    
+    private BorderPane rootPane;    
     @FXML
     private TabPane canvasTabPane;
-	
-	private GridEditingCanvas editingCanvas;	
+    @FXML
+	private JFXToggleButton heightToggleButton;	
 	@FXML
 	private TextField heightNumTextField;
 	@FXML
 	private ToggleGroup toolButtonGroup;
 	@FXML
-	private ToggleButton selectToolButton;
+	private JFXToggleButton selectToolButton;
 	@FXML
-	private ToggleButton twoPointSelectToolButton;
+	private JFXToggleButton twoPointSelectToolButton;
 	@FXML
-	private ToggleButton raiseLowerToolButton;
+	private JFXToggleButton raiseLowerToolButton;
 	@FXML
-	private ToggleButton fillToolButton;
+	private JFXToggleButton fillToolButton;
+    @FXML
+    private JFXToggleButton selectToggleButton;
+    @FXML
+    private JFXToggleButton multiSelectToggleButton;
 	@FXML
 	private TextField heightTileSelectInput;
 	@FXML
 	private TextField fillToolInput;
 	@FXML
-	private ToggleButton pasteToolButton;
-	@FXML  
+	private JFXToggleButton pasteToolButton;
+	@FXML
     private ComboBox<String> featureType;
+
     
 	private TerrainMap map;
 	private String cutOrCopyString = "";
@@ -82,9 +90,12 @@ public class EditorController {
         Tab canvasTabOne = new Tab("Untitled" ,editingCanvas);
         canvasTabPane.getTabs().clear();
         canvasTabPane.getTabs().add(canvasTabOne);
+
+         
+        featureType.getItems().addAll("Pyramid", "Depression");
+        featureType.setValue("Land Form");
         
-       
-       
+
         
         Tab currentTab = canvasTabPane.getSelectionModel().getSelectedItem();
         
@@ -104,8 +115,7 @@ public class EditorController {
 			}
 		});
 		
-		 featureType.getItems().addAll("Pyramid", "Depression");
-	     featureType.setValue("Land form");
+		
 	        
 		heightNumTextField.setOnKeyTyped(e -> setHeightNum(e));
 		heightTileSelectInput.setOnKeyTyped(e -> setSelectHeightNum(e));
@@ -164,7 +174,7 @@ public class EditorController {
 	
 
 	private void changeHeight(MouseEvent e) {
-		if(selectedTileSet.isEmpty()) {
+		if(selectedTileSet.isEmpty() && heightToggleButton.isSelected()) {
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
 			Tile tile = map.getTileAt(row, col);
@@ -287,7 +297,7 @@ public class EditorController {
     }
 	
 	private void selectTiles(MouseEvent e) {
-		if(e.getButton().equals(MouseButton.PRIMARY)) {
+		if(e.getButton().equals(MouseButton.PRIMARY) && selectToggleButton.isSelected() || multiSelectToggleButton.isSelected()) {
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
@@ -304,40 +314,42 @@ public class EditorController {
 	}
 	
 	private void twoPointSelectTool(MouseEvent e) {
-		int largestRow;
-		int smallestRow;
-		int largestCol;
-		int smallestCol;
-		selectTiles(e);
-		if(selectedTileStack.size() > 1){
-			Tile tile2 = selectedTileStack.pop();
-			Tile tile1 = selectedTileStack.pop();
-			if(tile2.getRow() >= tile1.getRow()) {
-				largestRow = tile2.getRow();
-				smallestRow = tile1.getRow();
-			} else {
-				largestRow = tile1.getRow();
-				smallestRow = tile2.getRow();
-			}
-			if(tile2.getCol() >= tile1.getCol()) {
-				largestCol = tile2.getCol();
-				smallestCol = tile1.getCol();
-			} else {
-				largestCol = tile1.getCol();
-				smallestCol = tile2.getCol();
-			}
-			for (int r = 0; r < map.getNumRows(); r++) {
-				for (int c = 0; c < map.getNumColumns(); c++) {
-					Tile tile = map.getTileAt(r, c);
-					if(tile.getRow() >= smallestRow && tile.getRow() <= largestRow && tile.getCol() >= smallestCol && tile.getCol() <= largestCol) {
-						selectedTileSet.add(tile);
-					}
-					
+		if(multiSelectToggleButton.isSelected()) {
+			int largestRow;
+			int smallestRow;
+			int largestCol;
+			int smallestCol;
+			selectTiles(e);
+			if(selectedTileStack.size() > 1){
+				Tile tile2 = selectedTileStack.pop();
+				Tile tile1 = selectedTileStack.pop();
+				if(tile2.getRow() >= tile1.getRow()) {
+					largestRow = tile2.getRow();
+					smallestRow = tile1.getRow();
+				} else {
+					largestRow = tile1.getRow();
+					smallestRow = tile2.getRow();
 				}
+				if(tile2.getCol() >= tile1.getCol()) {
+					largestCol = tile2.getCol();
+					smallestCol = tile1.getCol();
+				} else {
+					largestCol = tile1.getCol();
+					smallestCol = tile2.getCol();
+				}
+				for (int r = 0; r < map.getNumRows(); r++) {
+					for (int c = 0; c < map.getNumColumns(); c++) {
+						Tile tile = map.getTileAt(r, c);
+						if(tile.getRow() >= smallestRow && tile.getRow() <= largestRow && tile.getCol() >= smallestCol && tile.getCol() <= largestCol) {
+							selectedTileSet.add(tile);
+						}
+						
+					}
+				}
+				selectedTileStack.clear();
 			}
-			selectedTileStack.clear();
+			refresh();
 		}
-		refresh();
 	}
 	private void cutAndCopyHelper(String cutOrCopy){
 		if(cutOrCopy.equals("cut")) {
@@ -406,7 +418,7 @@ public class EditorController {
 	
 	@FXML
 	private void fillToolHelper(MouseEvent e) {
-		if(e.getButton().equals(MouseButton.PRIMARY)) {
+		if(e.getButton().equals(MouseButton.PRIMARY) && fillToolButton.isSelected()) {
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
 			Tile initialTile = map.getTileAt(row, col);
@@ -599,6 +611,7 @@ public class EditorController {
     
     
     private void insertFeature(MouseEvent e) throws IOException {
+
         if (e.getButton().equals(MouseButton.PRIMARY)) {
          
           String type = featureType.getValue();
@@ -650,6 +663,7 @@ public class EditorController {
     @FXML
     private void AdditionOfFeature() {
       toolbox.setCurrentTool(ToolBox.Tool.FEATURE);
+      heightToggleButton.setSelected(false);
     }
     
     @FXML
