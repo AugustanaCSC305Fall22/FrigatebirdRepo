@@ -71,7 +71,7 @@ public class EditorController {
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
 	private Set<Tile> fillSet = new HashSet<Tile>();
-	
+
 	private ToolBox toolbox;
 	
 	@FXML
@@ -83,10 +83,8 @@ public class EditorController {
         canvasTabPane.getTabs().clear();
         canvasTabPane.getTabs().add(canvasTabOne);
         
-        ComboBox featureType = new ComboBox<>(); 
-        featureType.getItems().addAll("Pyramid", "Depression");
-        featureType.setValue("Pyramid");
-        
+       
+       
         
         Tab currentTab = canvasTabPane.getSelectionModel().getSelectedItem();
         
@@ -105,6 +103,10 @@ public class EditorController {
 				e1.printStackTrace();
 			}
 		});
+		
+		 featureType.getItems().addAll("Pyramid", "Depression");
+	     featureType.setValue("Land form");
+	        
 		heightNumTextField.setOnKeyTyped(e -> setHeightNum(e));
 		heightTileSelectInput.setOnKeyTyped(e -> setSelectHeightNum(e));
 		fillToolInput.setOnKeyTyped(e -> setFillToolNum(e));
@@ -584,12 +586,12 @@ public class EditorController {
 	}
     
     
-    private String insertFeatureHelper() {
+    private String insertFeatureHelper(String Type) {
     	String filePath = "";
-    	if(featureType.getValue().equals("Pyramid")){
+    	if(Type == "Pyramid"){
     		filePath = "src\\main\\resources\\frigatebird\\Templates\\pyramid.terrainmap"; 
     	}
-    	if(featureType.getValue().equals("Depression")){
+    	if(Type == "Depression"){
     		filePath =  "src\\main\\resources\\frigatebird\\Templates\\depression.terrainmap"; 
     	}
     	return filePath;
@@ -599,25 +601,31 @@ public class EditorController {
     private void insertFeature(MouseEvent e) throws IOException {
         if (e.getButton().equals(MouseButton.PRIMARY)) {
          
-
+          String type = featureType.getValue();
           int row = yCoordToRowNumber((int) e.getY());
           int col = xCoordToColumnNumber((int) e.getX());
           Tile initialTile = map.getTileAt(row, col);
-          File file = new File(insertFeatureHelper());
-
-          TerrainMap pyramid = TerrainMapIO.jsonToTerrainMap(file);
-
-          int colIncrement = 7;
-          int rowIncrement = -7;
-          for (int r = 0; r < pyramid.getNumRows(); r++) {
+          File file = new File(insertFeatureHelper(type));
+          
+          
+          TerrainMap feature = TerrainMapIO.jsonToTerrainMap(file);
+          
+          int midRow = feature.getNumRows()/2;
+          int midCol = feature.getNumColumns()/2 + 1;
+          
+          
+          int colIncrement = 1;
+          int rowIncrement = -midCol;
+          
+          for (int r = 0; r < feature.getNumRows(); r++) {
             colIncrement = 0;
             rowIncrement++;
-            for (int c = 0; c < pyramid.getNumColumns(); c++) {
-              Tile tile = pyramid.getTileAt(r, c);
+            for (int c = 0; c < feature.getNumColumns(); c++) {
+              Tile tile = feature.getTileAt(r, c);
               int height = tile.getHeight();
 
               Tile tile1 = map.getTileAt(initialTile.getRow() + rowIncrement,
-                  initialTile.getCol() + colIncrement);
+                  initialTile.getCol() + colIncrement - midRow);
               tile1.setHeight(height);
               colIncrement++;
             }
