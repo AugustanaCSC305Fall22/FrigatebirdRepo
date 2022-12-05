@@ -93,8 +93,7 @@ public class EditorController {
 
          
         featureType.getItems().addAll("Pyramid", "Depression");
-        featureType.setValue("Land Form");
-        
+                
 
         
         Tab currentTab = canvasTabPane.getSelectionModel().getSelectedItem();
@@ -227,7 +226,7 @@ public class EditorController {
 				pointyTilesTool(e);
 			}
 			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
-				fillToolHelper(e);
+				floodFill(e);
 			}else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
 		        insertFeature(e);
 		      }
@@ -416,68 +415,33 @@ public class EditorController {
 		refresh();
 	}
 	
-	@FXML
-	private void fillToolHelper(MouseEvent e) {
-		if(e.getButton().equals(MouseButton.PRIMARY) && fillToolButton.isSelected()) {
-			int row = yCoordToRowNumber((int) e.getY());
-			int col = xCoordToColumnNumber((int) e.getX());
-			Tile initialTile = map.getTileAt(row, col);
-			fillSet.add(initialTile);
-			fillFromTile(initialTile);
-			for(int i = 0; i < 100; i++) {
-				Set<Tile> fillSetCopy = new HashSet<Tile>();
-				for(Tile tile: fillSet) {
-					fillSetCopy.add(tile);
+	private void tileToFillSearcher(int row, int col, int fillHeight, int targetTileHeight) {
+		if (row < 0 || row >= map.getNumRows() || col < 0 || col >= map.getNumColumns()
+				|| map.getTileAt(row, col).getHeight() != targetTileHeight || map.getTileAt(row, col).getHeight() == fillHeight) {
+			return;
+		} else {
+				map.getTileAt(row, col).setHeight(fillHeight);
+				tileToFillSearcher(row + 1, col, fillHeight, targetTileHeight);
+				tileToFillSearcher(row - 1, col, fillHeight, targetTileHeight);
+				tileToFillSearcher(row, col + 1, fillHeight, targetTileHeight);
+				tileToFillSearcher(row, col - 1, fillHeight, targetTileHeight);
+				tileToFillSearcher(row + 1, col + 1, fillHeight, targetTileHeight);
+				tileToFillSearcher(row - 1, col - 1, fillHeight, targetTileHeight);
+			}
+			refresh();
+		}
+		
+			private void floodFill(MouseEvent e) {
+				int row = yCoordToRowNumber((int) e.getY());
+				int col = xCoordToColumnNumber((int) e.getX());
+				int targetTileHeight = map.getTileAt(row, col).getHeight();
+				
+				int fillHeight = Integer.parseInt(fillToolInput.getText());
+				
+				if (e.getButton().equals(MouseButton.PRIMARY) && fillToolButton.isSelected()) {
+					tileToFillSearcher(row, col, fillHeight, targetTileHeight);
 				}
-				for(Tile tile: fillSetCopy) {
-					fillFromTile(tile);
-				}
 			}
-			for(Tile tile: fillSet) {
-				tile.setHeight(fillToolNum);
-			}
-			fillSet.clear();
-		}
-		refresh();
-	}
-	
-	private void fillFromTile(Tile initialTile) {
-		Set<Tile> fillSetSecondary = new HashSet<Tile>();
-		int loopCount = 1;
-		int initialTileRow = initialTile.getRow();
-		int initialTileCol = initialTile.getCol();
-		int initialTileHeight = initialTile.getHeight();
-		while((initialTileCol + loopCount < map.getNumColumns()) && map.getTileAt(initialTileRow , initialTileCol + loopCount).getHeight() == initialTileHeight) {
-			Tile tile = map.getTileAt(initialTileRow , initialTileCol + loopCount);
-			fillSet.add(tile);
-			loopCount++;
-		}
-		loopCount = 0;
-		while((initialTileCol - loopCount >= 0) && map.getTileAt(initialTileRow , initialTileCol - loopCount).getHeight() == initialTileHeight) {
-			Tile tile = map.getTileAt(initialTileRow , initialTileCol - loopCount);
-			fillSet.add(tile);
-			loopCount++;
-		}
-		loopCount = 0;
-		for(Tile horizontalFillTile: fillSet) {
-			while((horizontalFillTile.getRow() + loopCount < map.getNumRows()) && map.getTileAt(horizontalFillTile.getRow() + loopCount, horizontalFillTile.getCol()).getHeight() == initialTileHeight) {
-				Tile tile = map.getTileAt(horizontalFillTile.getRow() + loopCount , horizontalFillTile.getCol());
-				fillSetSecondary.add(tile);
-				loopCount++;
-			}
-			loopCount = 0;
-			while((horizontalFillTile.getRow() - loopCount >= 0) && map.getTileAt(horizontalFillTile.getRow() - loopCount, horizontalFillTile.getCol()).getHeight() == initialTileHeight) {
-				Tile tile = map.getTileAt(horizontalFillTile.getRow() - loopCount, horizontalFillTile.getCol());
-				fillSetSecondary.add(tile);
-				loopCount++;
-			}
-			loopCount = 0;
-		}
-		for(Tile tile: fillSetSecondary) {
-			fillSet.add(tile);
-		}
-		fillSetSecondary.clear();
-	}
 	
 	private void pointyTilesTool(MouseEvent e) {
 		if(e.getButton().equals(MouseButton.PRIMARY)) {

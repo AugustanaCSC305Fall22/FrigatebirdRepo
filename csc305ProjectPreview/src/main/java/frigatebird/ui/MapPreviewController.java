@@ -72,11 +72,11 @@ public class MapPreviewController extends Application{
 	
     @FXML
     void changeColor(ActionEvent event) throws IOException {
-    	System.out.println("hey");
+    	System.out.println("hello");
     	color = colorPicker.getValue();
     	this.setMap(App.getMap());
     	group.getChildren().clear();
-    	start(stage);
+    	draw3DObject(color);
     }
     
     public Stage getStage() {
