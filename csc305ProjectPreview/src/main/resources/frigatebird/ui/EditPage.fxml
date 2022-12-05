@@ -160,19 +160,19 @@
             </FontAwesomeIconView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="redoBtn" layoutX="832.0" layoutY="153.0" prefHeight="46.0" prefWidth="48.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
+      <JFXButton fx:id="redoBtn" layoutX="832.0" layoutY="153.0" onAction="#menuEditRedo" prefHeight="46.0" prefWidth="48.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
          <tooltip>
             <Tooltip text="Redo" />
          </tooltip>
          <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="UNDO" rotate="177.8" size="22" wrappingWidth="20.0">
+            <FontAwesomeIconView fill="WHITE" glyphName="UNDO" rotate="177.8" size="22" wrappingWidth="22.997788632288575">
                <rotationAxis>
                   <Point3D y="1.0" />
                </rotationAxis>
             </FontAwesomeIconView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="undoBtn" layoutX="749.0" layoutY="153.0" prefHeight="46.0" prefWidth="48.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
+      <JFXButton fx:id="undoBtn" layoutX="749.0" layoutY="153.0" onAction="#menuEditUndo" prefHeight="46.0" prefWidth="48.0" styleClass="greyBtns" stylesheets="@style.css" text=" ">
          <tooltip>
             <Tooltip text="Undo" />
          </tooltip>

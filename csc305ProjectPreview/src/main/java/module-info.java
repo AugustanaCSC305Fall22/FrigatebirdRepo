@@ -15,5 +15,5 @@ module edu.augustana.csc305ProjectPreview {
     opens frigatebird.ui to javafx.fxml;
     opens frigatebird.terrainbuilder to com.google.gson;
     exports frigatebird.ui;
-    
+    exports frigatebird.terrainbuilder;
 }

@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import com.jfoenix.controls.JFXToggleButton;
 
+import frigatebird.ui.UndoRedoHandler;
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
@@ -34,7 +35,7 @@ import javafx.stage.StageStyle;
 
 public class EditorController {
 	
-
+	private UndoRedoHandler undoRedoHandler;
 	private GridEditingCanvas editingCanvas;
     @FXML
     private BorderPane rootPane;    
@@ -75,7 +76,7 @@ public class EditorController {
 	private int selectHeightNum = 0;
 	private int maxTileHeight = 99;
 	private int fillToolNum = 0;
-	private Set<Tile> selectedTileSet = new HashSet<Tile>();
+	private Set<Tile> selectedTileSet;
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
 	private Set<Tile> fillSet = new HashSet<Tile>();
@@ -85,6 +86,7 @@ public class EditorController {
 	@FXML
 	private void initialize() {
 		editingCanvas = new GridEditingCanvas(592,547);
+		undoRedoHandler = new UndoRedoHandler(editingCanvas);
 		
 		//rootPane.setCenter(editingCanvas);
         Tab canvasTabOne = new Tab("Untitled" ,editingCanvas);
@@ -100,6 +102,7 @@ public class EditorController {
         Tab currentTab = canvasTabPane.getSelectionModel().getSelectedItem();
         
 		map = App.getMap();
+		selectedTileSet = map.getSelectedTileSet();
 		toolbox = new ToolBox(ToolBox.Tool.SELECT);
 
 		numColors = map.findMaxMapHeight() + 1;
@@ -189,6 +192,7 @@ public class EditorController {
 		}
 		TerrainMapIO.setOpenSave(true);
 		refresh();
+		undoRedoHandler.saveState();
 	}
 	
 	private void changeHeightHelper(MouseEvent e, Tile tile) {
@@ -373,6 +377,7 @@ public class EditorController {
 		cutAndCopyHelper(cutOrCopyString);
 		selectedTileSet.clear();
 		refresh();
+		undoRedoHandler.saveState();
 	}
 	
 	@FXML
@@ -382,6 +387,7 @@ public class EditorController {
 		cutAndCopyHelper(cutOrCopyString);
 		selectedTileSet.clear();
 		refresh();
+		undoRedoHandler.saveState();
 	}
 	
 	@FXML
@@ -414,6 +420,7 @@ public class EditorController {
 			}
 		}
 		refresh();
+		undoRedoHandler.saveState();
 	}
 	
 	@FXML
@@ -439,6 +446,7 @@ public class EditorController {
 			fillSet.clear();
 		}
 		refresh();
+		undoRedoHandler.saveState();
 	}
 	
 	private void fillFromTile(Tile initialTile) {
@@ -499,11 +507,13 @@ public class EditorController {
 			}
 		}
 		refresh();
+		undoRedoHandler.saveState();
 	}
 	
 	private void refresh(){
 		this.map = App.getMap();
 		numColors = map.findMaxMapHeight() + 1;
+		selectedTileSet = map.getSelectedTileSet();
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
@@ -595,6 +605,7 @@ public class EditorController {
 			}
 		}
 		refresh();
+		undoRedoHandler.saveState();
 	}
     
     
@@ -646,7 +657,22 @@ public class EditorController {
 
         }
         refresh();
+        undoRedoHandler.saveState();
       }
+    
+    @FXML
+	private void menuEditUndo() {
+    	selectedTileSet.clear();
+		undoRedoHandler.undo();
+		refresh();
+	}
+
+	@FXML
+	private void menuEditRedo() {
+		selectedTileSet.clear();
+		undoRedoHandler.redo();
+		refresh();
+	}
     
     @FXML
     void openPreviewPage(ActionEvent event) throws IOException {

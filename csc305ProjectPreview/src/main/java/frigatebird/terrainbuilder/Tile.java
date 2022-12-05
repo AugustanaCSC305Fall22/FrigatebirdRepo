@@ -46,6 +46,11 @@ public class Tile {
 	public void setIsPointy(boolean isPointy) {
 		this.isPointy = isPointy;
 	}
+	
+	public Tile clone() {
+		Tile tile = new Tile(this.height, this.row, this.col, this.isPointy);
+		return tile;
+	}
 
 	@Override
 	public String toString() {
