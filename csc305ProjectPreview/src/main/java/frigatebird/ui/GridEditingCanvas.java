@@ -40,7 +40,7 @@ public class GridEditingCanvas extends Canvas {
 		gc.fillRect(0, 0, 1000, 1000);
 		
 		drawMapTiles(gc, numColors);
-		gc.setFill(Color.hsb(300, 1, 1));
+		gc.setFill(Color.LIGHTBLUE);
 		for(Tile tile: selectedTileSet) {
 			gc.fillRect(tile.getCol() * tileSizeInPixels, tile.getRow() * tileSizeInPixels, tileSizeInPixels-1, tileSizeInPixels-1);
 		}

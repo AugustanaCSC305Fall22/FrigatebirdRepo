@@ -29,10 +29,6 @@ public class TerrainMap {
 		}
 	}
 	
-	public TerrainMap() {
-		this(15, 15);
-	}
-	
 	
 	public Tile getTileAt(int row, int col) {
 		return tileGrid[row][col];
