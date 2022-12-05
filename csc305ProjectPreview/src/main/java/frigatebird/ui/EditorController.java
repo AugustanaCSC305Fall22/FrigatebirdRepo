@@ -54,6 +54,10 @@ public class EditorController {
 	private JFXToggleButton raiseLowerToolButton;
 	@FXML
 	private JFXToggleButton fillToolButton;
+    @FXML
+    private JFXToggleButton selectToggleButton;
+    @FXML
+    private JFXToggleButton multiSelectToggleButton;
 	@FXML
 	private TextField heightTileSelectInput;
 	@FXML
@@ -288,7 +292,7 @@ public class EditorController {
     }
 	
 	private void selectTiles(MouseEvent e) {
-		if(e.getButton().equals(MouseButton.PRIMARY)) {
+		if(e.getButton().equals(MouseButton.PRIMARY) && selectToggleButton.isSelected() || multiSelectToggleButton.isSelected()) {
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
@@ -305,40 +309,42 @@ public class EditorController {
 	}
 	
 	private void twoPointSelectTool(MouseEvent e) {
-		int largestRow;
-		int smallestRow;
-		int largestCol;
-		int smallestCol;
-		selectTiles(e);
-		if(selectedTileStack.size() > 1){
-			Tile tile2 = selectedTileStack.pop();
-			Tile tile1 = selectedTileStack.pop();
-			if(tile2.getRow() >= tile1.getRow()) {
-				largestRow = tile2.getRow();
-				smallestRow = tile1.getRow();
-			} else {
-				largestRow = tile1.getRow();
-				smallestRow = tile2.getRow();
-			}
-			if(tile2.getCol() >= tile1.getCol()) {
-				largestCol = tile2.getCol();
-				smallestCol = tile1.getCol();
-			} else {
-				largestCol = tile1.getCol();
-				smallestCol = tile2.getCol();
-			}
-			for (int r = 0; r < map.getNumRows(); r++) {
-				for (int c = 0; c < map.getNumColumns(); c++) {
-					Tile tile = map.getTileAt(r, c);
-					if(tile.getRow() >= smallestRow && tile.getRow() <= largestRow && tile.getCol() >= smallestCol && tile.getCol() <= largestCol) {
-						selectedTileSet.add(tile);
-					}
-					
+		if(multiSelectToggleButton.isSelected()) {
+			int largestRow;
+			int smallestRow;
+			int largestCol;
+			int smallestCol;
+			selectTiles(e);
+			if(selectedTileStack.size() > 1){
+				Tile tile2 = selectedTileStack.pop();
+				Tile tile1 = selectedTileStack.pop();
+				if(tile2.getRow() >= tile1.getRow()) {
+					largestRow = tile2.getRow();
+					smallestRow = tile1.getRow();
+				} else {
+					largestRow = tile1.getRow();
+					smallestRow = tile2.getRow();
 				}
+				if(tile2.getCol() >= tile1.getCol()) {
+					largestCol = tile2.getCol();
+					smallestCol = tile1.getCol();
+				} else {
+					largestCol = tile1.getCol();
+					smallestCol = tile2.getCol();
+				}
+				for (int r = 0; r < map.getNumRows(); r++) {
+					for (int c = 0; c < map.getNumColumns(); c++) {
+						Tile tile = map.getTileAt(r, c);
+						if(tile.getRow() >= smallestRow && tile.getRow() <= largestRow && tile.getCol() >= smallestCol && tile.getCol() <= largestCol) {
+							selectedTileSet.add(tile);
+						}
+						
+					}
+				}
+				selectedTileStack.clear();
 			}
-			selectedTileStack.clear();
+			refresh();
 		}
-		refresh();
 	}
 	private void cutAndCopyHelper(String cutOrCopy){
 		if(cutOrCopy.equals("cut")) {
@@ -646,6 +652,7 @@ public class EditorController {
     @FXML
     private void AdditionOfFeature() {
       toolbox.setCurrentTool(ToolBox.Tool.FEATURE);
+      heightToggleButton.setSelected(false);
     }
     
     @FXML
