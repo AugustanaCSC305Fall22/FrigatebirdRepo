@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import com.jfoenix.controls.JFXToggleButton;
 
+import frigatebird.ui.UndoRedoHandler;
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
@@ -36,6 +37,7 @@ import javafx.stage.StageStyle;
 
 public class EditorController {
 
+	private UndoRedoHandler undoRedoHandler;
 	private GridEditingCanvas editingCanvas;
 	@FXML
 	private BorderPane rootPane;
@@ -84,17 +86,17 @@ public class EditorController {
 
 	@FXML
 	private void initialize() {
-		editingCanvas = new GridEditingCanvas(592, 547);
+		editingCanvas = new GridEditingCanvas(592,547);
+		undoRedoHandler = new UndoRedoHandler(editingCanvas);
+		
+		//rootPane.setCenter(editingCanvas);
+        Tab canvasTabOne = new Tab("Untitled" ,editingCanvas);
+        canvasTabPane.getTabs().clear();
+        canvasTabPane.getTabs().add(canvasTabOne);
 
-		// rootPane.setCenter(editingCanvas);
-		Tab canvasTabOne = new Tab("Untitled", editingCanvas);
-		canvasTabPane.getTabs().clear();
-		canvasTabPane.getTabs().add(canvasTabOne);
-
-		featureType.getItems().addAll("Pyramid", "Depression");
-		featureType.setValue("Land Form");
-
-		Tab currentTab = canvasTabPane.getSelectionModel().getSelectedItem();
+         
+        featureType.getItems().addAll("Pyramid", "Depression");
+                
 
 		map = App.getMap();
 		toolbox = new ToolBox(ToolBox.Tool.SELECT);
@@ -179,6 +181,7 @@ public class EditorController {
 		}
 		TerrainMapIO.setOpenSave(true);
 		refresh();
+		undoRedoHandler.saveState();
 	}
 
 	private void changeHeightHelper(MouseEvent e, Tile tile) {
@@ -209,11 +212,12 @@ public class EditorController {
 				pasteSelectedTiles(e);
 			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
 				pointyTilesTool(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
-				fillToolHelper(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
-				insertFeature(e);
 			}
+			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
+				floodFill(e);
+			}else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
+		        insertFeature(e);
+		      }
 		}
 	}
 
@@ -354,6 +358,7 @@ public class EditorController {
 		cutAndCopyHelper(cutOrCopyString);
 		selectedTileSet.clear();
 		refresh();
+		undoRedoHandler.saveState();
 	}
 
 	@FXML
@@ -363,6 +368,7 @@ public class EditorController {
 		cutAndCopyHelper(cutOrCopyString);
 		selectedTileSet.clear();
 		refresh();
+		undoRedoHandler.saveState();
 	}
 
 	@FXML
@@ -396,31 +402,39 @@ public class EditorController {
 			}
 		}
 		refresh();
+		undoRedoHandler.saveState();
 	}
 
-	@FXML
-	private void fillToolHelper(MouseEvent e) {
-		if (e.getButton().equals(MouseButton.PRIMARY) && fillToolButton.isSelected()) {
-			int row = yCoordToRowNumber((int) e.getY());
-			int col = xCoordToColumnNumber((int) e.getX());
-			Tile initialTile = map.getTileAt(row, col);
-			fillSet.add(initialTile);
-			fillFromTile(initialTile);
-			for (int i = 0; i < 100; i++) {
-				Set<Tile> fillSetCopy = new HashSet<Tile>();
-				for (Tile tile : fillSet) {
-					fillSetCopy.add(tile);
-				}
-				for (Tile tile : fillSetCopy) {
-					fillFromTile(tile);
-				}
+	private void tileToFillSearcher(int row, int col, int fillHeight, int targetTileHeight) {
+		if (row < 0 || row >= map.getNumRows() || col < 0 || col >= map.getNumColumns()
+				|| map.getTileAt(row, col).getHeight() != targetTileHeight || map.getTileAt(row, col).getHeight() == fillHeight) {
+			return;
+		} else {
+				map.getTileAt(row, col).setHeight(fillHeight);
+				tileToFillSearcher(row + 1, col, fillHeight, targetTileHeight);
+				tileToFillSearcher(row - 1, col, fillHeight, targetTileHeight);
+				tileToFillSearcher(row, col + 1, fillHeight, targetTileHeight);
+				tileToFillSearcher(row, col - 1, fillHeight, targetTileHeight);
 			}
-			for (Tile tile : fillSet) {
+			refresh();
+		}
+		
+			private void floodFill(MouseEvent e) {
+				int row = yCoordToRowNumber((int) e.getY());
+				int col = xCoordToColumnNumber((int) e.getX());
+				int targetTileHeight = map.getTileAt(row, col).getHeight();
+				
+				int fillHeight = Integer.parseInt(fillToolInput.getText());
+				
+				if (e.getButton().equals(MouseButton.PRIMARY) && fillToolButton.isSelected()) {
+					tileToFillSearcher(row, col, fillHeight, targetTileHeight);
+				}
+			for(Tile tile: fillSet) {
 				tile.setHeight(fillToolNum);
 			}
 			fillSet.clear();
-		}
 		refresh();
+		undoRedoHandler.saveState();
 	}
 
 	private void fillFromTile(Tile initialTile) {
@@ -486,12 +500,14 @@ public class EditorController {
 			}
 		}
 		refresh();
+		undoRedoHandler.saveState();
 	}
 
 	private void refresh() {
 		this.map = App.getMap();
 		numColors = map.findMaxMapHeight() + 1;
-		if (App.getView().equals("Top Down View")) {
+		//selectedTileSet = map.getSelectedTileSet();
+		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		} else if (App.getView().equals("Side View")) {
 			drawFrontPerspective();
@@ -581,6 +597,7 @@ public class EditorController {
 			}
 		}
 		refresh();
+		undoRedoHandler.saveState();
 	}
 
 	private String insertFeatureHelper(String Type) {
@@ -637,10 +654,10 @@ public class EditorController {
 		
 	}
 
+
 	private void insertFeature(MouseEvent e) throws IOException {
 
-		
-
+	
 			String type = featureType.getValue();
 			int row = yCoordToRowNumber((int) e.getY());
 			int col = xCoordToColumnNumber((int) e.getX());
@@ -666,11 +683,11 @@ public class EditorController {
 						Tile tile = feature.getTileAt(r, c);
 						int height = tile.getHeight();
 
-						Tile tile1 = map.getTileAt(initialTile.getRow() + rowIncrement,
+						Tile tileOnMap = map.getTileAt(initialTile.getRow() + rowIncrement,
 								initialTile.getCol() + colIncrement - midRow + trimSize);
 						 {
 							
-								tile1.setHeight(height);
+								tileOnMap.setHeight(height);
 								colIncrement++;
 							}
 						}
@@ -681,17 +698,32 @@ public class EditorController {
            }catch(IndexOutOfBoundsException e1) {
         	   new Alert(AlertType.ERROR, "Not enough real estate here to build this feature.").showAndWait();
            }
+        refresh();
+        undoRedoHandler.saveState();
+      }
+    
+    @FXML
+	private void menuEditUndo() {
+    	selectedTileSet.clear();
+		undoRedoHandler.undo();
 		refresh();
 	}
 
 	@FXML
-	void openPreviewPage(ActionEvent event) throws IOException {
-		MapPreviewController threeDMap = new MapPreviewController();
-		threeDMap.setMap(this.map);
-		threeDMap.start(threeDMap.getStage());
+	private void menuEditRedo() {
+		selectedTileSet.clear();
+		undoRedoHandler.redo();
+		refresh();
 	}
-
-	@FXML
+    
+    @FXML
+    void openPreviewPage(ActionEvent event) throws IOException {
+  	  MapPreviewController threeDMap = new MapPreviewController(); 
+  	  threeDMap.setMap(this.map);
+  	  threeDMap.start(threeDMap.getStage());
+    }
+    
+    @FXML
 	private void switchToAboutScreen() throws IOException {
 		App.setRoot("AboutScreen");
 	}

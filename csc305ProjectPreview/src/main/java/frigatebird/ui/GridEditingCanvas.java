@@ -15,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 public class GridEditingCanvas extends Canvas {
 
 	private int tileSizeInPixels;
+	private TerrainMap map = App.getMap();
 
 	public GridEditingCanvas(double width, double height) {
 		super(width, height);
@@ -28,7 +29,6 @@ public class GridEditingCanvas extends Canvas {
 	
 	public void drawMap(Canvas editingCanvas, Set<Tile> selectedTileSet, int numColors) {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
-		TerrainMap map = App.getMap();
 		
 		double width = editingCanvas.getWidth();
 		double length = editingCanvas.getHeight();
@@ -40,7 +40,7 @@ public class GridEditingCanvas extends Canvas {
 		gc.fillRect(0, 0, 1000, 1000);
 		
 		drawMapTiles(gc, numColors);
-		gc.setFill(Color.hsb(300, 1, 1));
+		gc.setFill(Color.LIGHTBLUE);
 		for(Tile tile: selectedTileSet) {
 			gc.fillRect(tile.getCol() * tileSizeInPixels, tile.getRow() * tileSizeInPixels, tileSizeInPixels-1, tileSizeInPixels-1);
 		}
@@ -48,7 +48,6 @@ public class GridEditingCanvas extends Canvas {
 	}
 	
 	private void drawMapTiles(GraphicsContext gc, int numColors) {
-		TerrainMap map = App.getMap();
 
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
@@ -70,7 +69,6 @@ public class GridEditingCanvas extends Canvas {
 	}
 	
 	private void drawMapNumbers(GraphicsContext gc, Set<Tile> selectedTileSet, int tileSize, int numColors) {
-		TerrainMap map = App.getMap();
 		Font font = Font.loadFont("file:src/main/resources/frigatebird/Fonts/Majoris_Italic.ttf", ((double) tileSize-1)/2);
 		gc.setFont(font);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -99,7 +97,6 @@ public class GridEditingCanvas extends Canvas {
 	public void drawFrontPerspective(Canvas editingCanvas, int numColors) {
     	GraphicsContext gc = editingCanvas.getGraphicsContext2D();
     	ArrayList<Integer> heightList = new ArrayList<>();
-		TerrainMap map = App.getMap();
 		
 		int height = 0;
 		int max = Integer.MIN_VALUE;
@@ -132,6 +129,25 @@ public class GridEditingCanvas extends Canvas {
 			}
 		}
     }
+	
+	public State createMemento() {
+		return new State();
+	}
 
+	public void restoreState(State canvasState) {
+		canvasState.restore();
+		App.setMap(this.map);
+	}
 
+	public class State {
+		private TerrainMap tempMap;
+
+		public State() {
+			tempMap = (TerrainMap) GridEditingCanvas.this.map.clone();
+		}
+
+		public void restore() {
+			GridEditingCanvas.this.map = (TerrainMap) tempMap.clone();
+		}
+	}
 }
