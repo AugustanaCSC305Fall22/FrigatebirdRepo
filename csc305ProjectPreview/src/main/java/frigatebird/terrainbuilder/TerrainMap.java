@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-public class TerrainMap implements Cloneable{
+public class TerrainMap implements Cloneable {
 	
 	private Tile[][] tileGrid;
 	private String mapName;
@@ -30,7 +30,6 @@ public class TerrainMap implements Cloneable{
 			}
 		}
 	}
-	
 	
 	public Tile getTileAt(int row, int col) {
 		return tileGrid[row][col];
@@ -76,16 +75,6 @@ public class TerrainMap implements Cloneable{
 			e.printStackTrace();
 			return null;
 		}
-		/*
-		TerrainMap clone = new TerrainMap(this.numRows, this.numColumns);
-		clone.tileGrid = new Tile[this.numRows][this.numColumns];
-		for(int r = 0; r < numRows; r++) {
-			for(int c = 0; c < numColumns; c++) {
-				clone.tileGrid[r][c] = getTileAt(r, c).clone();
-			}
-		}
-		return clone;
-		*/
 	}
 	
 	@Override

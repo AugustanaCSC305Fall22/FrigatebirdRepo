@@ -743,5 +743,16 @@ public class EditorController {
 	private void switchToMainMenu() throws IOException {
 		App.setRoot("MainMenu");
 	}
-
+	
+	@FXML
+	private void zoomIn() {
+		editingCanvas.setScaleX(editingCanvas.getScaleX() * 1.2);
+		editingCanvas.setScaleY(editingCanvas.getScaleY() * 1.2);
+	}
+	
+	@FXML
+	private void zoomOut() {
+		editingCanvas.setScaleX(editingCanvas.getScaleX() * 0.8);
+		editingCanvas.setScaleY(editingCanvas.getScaleY() * 0.8);
+	}
 }
