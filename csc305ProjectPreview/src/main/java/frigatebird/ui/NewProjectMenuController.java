@@ -13,6 +13,9 @@ import javafx.scene.control.Alert.AlertType;
 public class NewProjectMenuController {
 	
 	@FXML
+	private TextField nameTextArea;
+	
+	@FXML
 	private TextField rowTextField;
 	
 	@FXML
@@ -30,13 +33,17 @@ public class NewProjectMenuController {
     private void switchToEditPage() throws IOException {
     	
 		try {
+			String mapName = nameTextArea.getText();
 			int numRows = Integer.parseInt(rowTextField.getText());
 			int numColumns = Integer.parseInt(columnTextField.getText());
 			if (numRows > 99 || numColumns > 99) {
 				new Alert(AlertType.ERROR, "Input must be less than 100").showAndWait();
 			}
+			else if(mapName.equals(" ") || mapName == null) {
+				new Alert(AlertType.ERROR, "Please enter a name for your project.").showAndWait();
+			}
 			else {
-				App.setMap(new TerrainMap(numRows, numColumns));
+				App.setMap(new TerrainMap(mapName ,numRows, numColumns));
 		        App.setRoot("EditPage");
 			}
 		} catch (NumberFormatException e) {

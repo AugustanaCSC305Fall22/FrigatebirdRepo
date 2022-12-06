@@ -75,3 +75,7 @@
 	-fx-background-color:'#aaa';
 	-fx-background-radius:100;
 }
+
+#listView{
+	-fx-background-color:#000;
+}
