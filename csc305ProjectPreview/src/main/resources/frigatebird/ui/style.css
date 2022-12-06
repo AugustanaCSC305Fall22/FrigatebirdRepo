@@ -76,6 +76,12 @@
 	-fx-background-radius:100;
 }
 
-#listView{
-	-fx-background-color:#000;
+#editBtn{
+	-fx-background-color:#0096FF;
+	-fx-background-radius:100;
+}
+
+#deleteBtn{
+	-fx-background-color:#e65b4f;
+	-fx-background-radius:100;
 }
