@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -42,17 +43,17 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <Label layoutX="252.0" layoutY="220.0" prefHeight="43.0" prefWidth="470.0" styleClass="default_text" text="You have no projects yet." textFill="#d0d0d0">
+      <Label layoutX="409.0" layoutY="174.0" prefHeight="43.0" prefWidth="470.0" styleClass="default_text" text="You have no projects yet." textFill="#d0d0d0">
          <font>
             <Font size="34.0" />
          </font>
       </Label>
-      <Label layoutX="76.0" layoutY="22.0" text="3D TableTop" textFill="#695accd7">
+      <Label layoutX="76.0" layoutY="22.0" text="Frigatebird 3D TableTop" textFill="#695accd7">
          <font>
             <Font name="Verdana Bold" size="22.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="376.0"  onAction="#switchToTemplateMenu" layoutY="281.0" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="519.0" layoutY="241.0" onAction="#switchToTemplateMenu" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
          <padding>
             <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
          </padding>
@@ -63,6 +64,17 @@
       <JFXButton buttonType="RAISED" layoutX="807.0" layoutY="518.0" onAction="#switchToNewProjectMenu" prefHeight="58.0" prefWidth="58.0" rotate="-90.0" styleClass="add_button" stylesheets="@style.css" text=" ">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="2em" styleClass="icon-plus" translateX="4.0" />
+         </graphic>
+      </JFXButton>
+      <JFXListView fx:id="listView" layoutX="62.0" layoutY="85.0" prefHeight="456.0" prefWidth="311.0" />
+      <JFXButton fx:id="editBtn" layoutX="98.0" layoutY="556.0" onAction="#editMapAction" prefHeight="18.0" prefWidth="61.0" stylesheets="@style.css" text=" ">
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="22" text="" textAlignment="CENTER" wrappingWidth="37.0" />
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="deleteBtn" layoutX="243.0" layoutY="556.0" onAction="#deleteMapAction" prefHeight="22.0" prefWidth="61.0" stylesheets="@style.css" text=" ">
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="TRASH" size="22" textAlignment="CENTER" wrappingWidth="37.0" />
          </graphic>
       </JFXButton>
    </children>

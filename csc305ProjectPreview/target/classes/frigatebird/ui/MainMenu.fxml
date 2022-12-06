@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -42,17 +43,17 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <Label layoutX="252.0" layoutY="220.0" prefHeight="43.0" prefWidth="470.0" styleClass="default_text" text="You have no projects yet." textFill="#d0d0d0">
+      <Label layoutX="409.0" layoutY="174.0" prefHeight="43.0" prefWidth="470.0" styleClass="default_text" text="You have no projects yet." textFill="#d0d0d0">
          <font>
             <Font size="34.0" />
          </font>
       </Label>
-      <Label layoutX="76.0" layoutY="22.0" text="3D TableTop" textFill="#695accd7">
+      <Label layoutX="76.0" layoutY="22.0" text="Frigatebird 3D TableTop" textFill="#695accd7">
          <font>
             <Font name="Verdana Bold" size="22.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="376.0"  onAction="#switchToTemplateMenu" layoutY="281.0" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="519.0" layoutY="241.0" onAction="#switchToTemplateMenu" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
          <padding>
             <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
          </padding>
@@ -65,5 +66,10 @@
             <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="2em" styleClass="icon-plus" translateX="4.0" />
          </graphic>
       </JFXButton>
+      <JFXListView fx:id="listView" layoutX="62.0" layoutY="76.0" prefHeight="465.0" prefWidth="293.0" />
+      <JFXButton fx:id="editBtn" layoutX="105.0" layoutY="547.0" onAction="#editMapAction" prefHeight="40.0" prefWidth="71.0" stylesheets="@style.css" text=" " />
+      <JFXButton fx:id="deleteBtn" layoutX="226.0" layoutY="547.0" onAction="#deleteMapAction" prefHeight="40.0" prefWidth="71.0" stylesheets="@style.css" text=" " />
+      <FontAwesomeIconView fill="WHITE" glyphName="EDIT" layoutX="129.0" layoutY="574.0" size="22" text="" textAlignment="CENTER" wrappingWidth="24.0" />
+      <FontAwesomeIconView fill="WHITE" glyphName="TRASH" layoutX="253.0" layoutY="574.0" size="22" />
    </children>
 </AnchorPane>

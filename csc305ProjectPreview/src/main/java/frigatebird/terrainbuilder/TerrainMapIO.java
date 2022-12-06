@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.google.gson.*;
@@ -20,6 +22,7 @@ import javafx.stage.StageStyle;
 public class TerrainMapIO {
 
 	private static boolean openSave = false;
+	private static List<String> savedMapNames = new ArrayList<String>();
 
 	public static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -38,8 +41,11 @@ public class TerrainMapIO {
 
 	public static void save() throws IOException {
 		File file = App.getCurrentFile();
+		File saveFile = new File("src\\main\\resources\\frigatebird\\SavedMaps\\" + App.getMap().getName() + ".terrainmap");
 		if (file != null) {
+			savedMapNames.add(App.getMap().getName());
 			terrainMapToJSON(App.getMap(), file);
+			terrainMapToJSON(App.getMap(), saveFile);
 		} else {
 			saveAs();
 		}
@@ -53,12 +59,15 @@ public class TerrainMapIO {
 		fileChooser.setInitialDirectory(App.getDirectory());
 		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
 		File file = fileChooser.showSaveDialog(saveWindow);
+		savedMapNames.add(App.getMap().getName());
+		File saveFile = new File("src\\main\\resources\\frigatebird\\SavedMaps\\" + App.getMap().getName() + ".terrainmap");
 		if (file != null) {
 			App.setCurrentFile(file);
 			if(file.getParent() != null) {
 				App.setDirectory(new File(file.getParent()));
 			}
 			terrainMapToJSON(App.getMap(), file);
+			terrainMapToJSON(App.getMap(), saveFile);
 			openSave = false;
 		}
 	}
@@ -175,6 +184,10 @@ public class TerrainMapIO {
 
 	public static boolean isOpenSave() {
 		return openSave;
+	}
+	
+	public static List getSavedMapNames() {
+		return TerrainMapIO.savedMapNames;
 	}
 
 	public static void setOpenSave(boolean openSave) {

@@ -14,11 +14,13 @@ import javafx.scene.text.TextAlignment;
 public class TerrainMap implements Cloneable{
 	
 	private Tile[][] tileGrid;
+	private String mapName;
 	private int numRows;
 	private int numColumns;
 
-	public TerrainMap(int rows, int columns) {
+	public TerrainMap(String mapName, int rows, int columns) {
 		this.tileGrid = new Tile[rows][columns];
+		this.mapName = mapName;
 		this.numRows = rows;
 		this.numColumns = columns;
 		
@@ -32,6 +34,10 @@ public class TerrainMap implements Cloneable{
 	
 	public Tile getTileAt(int row, int col) {
 		return tileGrid[row][col];
+	}
+	
+	public String getName() {
+		return mapName;
 	}
 
 	public int getNumRows() {
