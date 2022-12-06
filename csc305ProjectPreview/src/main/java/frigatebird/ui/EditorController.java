@@ -517,7 +517,7 @@ public class EditorController {
 	private void refresh(){
 		this.map = App.getMap();
 		numColors = map.findMaxMapHeight() + 1;
-		selectedTileSet = map.getSelectedTileSet();
+		//selectedTileSet = map.getSelectedTileSet();
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		}
