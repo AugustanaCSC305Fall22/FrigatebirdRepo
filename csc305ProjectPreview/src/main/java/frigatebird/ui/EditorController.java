@@ -95,7 +95,7 @@ public class EditorController {
         canvasTabPane.getTabs().add(canvasTabOne);
 
          
-        featureType.getItems().addAll("Pyramid", "Depression");
+        featureType.getItems().addAll("Pyramid", "Depression", "'Actual' Gate of hell", "Wave", "Pointy Building");
                 
 
 		map = App.getMap();
@@ -608,6 +608,16 @@ public class EditorController {
 		if (Type == "Depression") {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\depression.terrainmap";
 		}
+		if (Type == "Wave") {
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\wave.terrainmap";
+		}
+		if (Type == "'Actual' Gate of hell") {
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\gate.terrainmap";
+		}
+		if (Type == "Pointy Building") {
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\buildingPointy.terrainmap";
+		}
+		
 		return filePath;
 	}
 	
@@ -682,14 +692,20 @@ public class EditorController {
 					for (int c = trimSize; c < feature.getNumColumns()-trimSize; c++) {
 						Tile tile = feature.getTileAt(r, c);
 						int height = tile.getHeight();
-
+						
+                        
 						Tile tileOnMap = map.getTileAt(initialTile.getRow() + rowIncrement,
 								initialTile.getCol() + colIncrement - midRow + trimSize);
 						 {
-							
+							 
+							    if(tile.getIsPointy() == true) {
+							    	tileOnMap.setIsPointy(true);
+							    }if(tile.getHeight() > 0) {
 								tileOnMap.setHeight(height);
+							    }
 								colIncrement++;
 							}
+						 
 						}
 					
 				
