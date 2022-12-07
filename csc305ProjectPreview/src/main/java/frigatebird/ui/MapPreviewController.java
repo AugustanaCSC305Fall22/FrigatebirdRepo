@@ -28,35 +28,40 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 
-public class MapPreviewController extends Application{
+public class MapPreviewController {
 	
-	Color color;
     
 	@FXML
-    private ColorPicker colorPicker = new ColorPicker();
-    
+    private ColorPicker colorPicker = new ColorPicker(Color.PURPLE);
+	
+	private Color color;
     private TerrainMap map;
     private CompoundGroup group = new CompoundGroup();
-    private PhongMaterial material = new PhongMaterial(Color.PURPLE);
     private double anchorX, anchorY;
     private double anchorAngleX = 0;
     private double anchorAngleY = 0;
     private Stage stage = new Stage();
+    
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
     private static final int subSceneWidth = 700;
     private static final int subSceneHeight = 500;
     private static final int rowAndColSpanInpixels = 5;
 
-    
 		
+	public MapPreviewController(TerrainMap map) {
+		this.map = map;
+	}
+
 	public void start(Stage stage) throws IOException {
 		
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MapPreview.fxml"));
+        fxmlLoader.setController(this);
         AnchorPane fxmlPane = (AnchorPane) fxmlLoader.load();
         
         color = colorPicker.getValue();
-		draw3DObject(color);
+		create3DObjects(color);
+		
 		Camera camera = new PerspectiveCamera();
 		SubScene subscene = new SubScene(group, subSceneWidth, subSceneHeight, true, SceneAntialiasing.BALANCED);
 		fxmlPane.getChildren().add(subscene);
@@ -74,16 +79,15 @@ public class MapPreviewController extends Application{
     void changeColor(ActionEvent event) throws IOException {
     	System.out.println("hello");
     	color = colorPicker.getValue();
-    	this.setMap(App.getMap());
     	group.getChildren().clear();
-    	draw3DObject(color);
+    	create3DObjects(color);
     }
     
     public Stage getStage() {
     	return this.stage;
     }
 	
-	private void draw3DObject(Color color) {
+	private void create3DObjects(Color color) {
 		int rowSpan = 0;
 		int colSpan = 0;
 		for (int r = 0; r < map.getNumRows(); r++) {
@@ -94,7 +98,8 @@ public class MapPreviewController extends Application{
 					height = 1;
 				}
 				Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
-				material.setDiffuseColor(color);
+				PhongMaterial material = new PhongMaterial(color);
+				//material.setDiffuseColor(color);
 				box.setMaterial(material);
 				box.translateXProperty().set(rowSpan);
 				box.translateYProperty().set(height/-2);
@@ -187,11 +192,7 @@ public class MapPreviewController extends Application{
 		});
 	}
 	
-	
-	public void setMap(TerrainMap map) {
-		this.map = map;
-	}
-	
+		
 	@FXML
     private void switchToMainMenu() throws IOException{
         App.setRoot("MainMenu");
