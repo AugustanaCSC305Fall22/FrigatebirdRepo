@@ -28,7 +28,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 
-public class MapPreviewController extends Application{
+public class MapPreviewController {
 	
     
 	@FXML
@@ -48,13 +48,16 @@ public class MapPreviewController extends Application{
     private static final int subSceneHeight = 500;
     private static final int rowAndColSpanInpixels = 5;
 
-    
 		
+	public MapPreviewController(TerrainMap map) {
+		this.map = map;
+	}
+
 	public void start(Stage stage) throws IOException {
 		
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MapPreview.fxml"));
+        fxmlLoader.setController(this);
         AnchorPane fxmlPane = (AnchorPane) fxmlLoader.load();
-        
         
         color = colorPicker.getValue();
 		create3DObjects(color);
@@ -189,11 +192,7 @@ public class MapPreviewController extends Application{
 		});
 	}
 	
-	
-	public void setMap(TerrainMap map) {
-		this.map = map;
-	}
-	
+		
 	@FXML
     private void switchToMainMenu() throws IOException{
         App.setRoot("MainMenu");

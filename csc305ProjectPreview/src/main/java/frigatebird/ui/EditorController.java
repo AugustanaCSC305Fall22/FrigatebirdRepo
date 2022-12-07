@@ -16,6 +16,7 @@ import frigatebird.terrainbuilder.Tile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
@@ -26,6 +27,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -734,9 +736,8 @@ public class EditorController {
     
     @FXML
     void openPreviewPage(ActionEvent event) throws IOException {
-  	  MapPreviewController threeDMap = new MapPreviewController(); 
-  	  threeDMap.setMap(App.getMap());
-  	  threeDMap.start(threeDMap.getStage());
+  	  MapPreviewController threeDMap = new MapPreviewController(App.getMap()); 
+   	  threeDMap.start(threeDMap.getStage());
     }
     
     @FXML
