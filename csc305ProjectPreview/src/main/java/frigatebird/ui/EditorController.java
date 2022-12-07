@@ -750,11 +750,13 @@ public class EditorController {
 	
 	@FXML
 	private void zoomIn() {
-		
+		editingCanvas.setScaleX(editingCanvas.getScaleX() * 1.1);
+		editingCanvas.setScaleY(editingCanvas.getScaleY() * 1.1);
 	}
 	
 	@FXML
 	private void zoomOut() {
-		
+		editingCanvas.setScaleX(editingCanvas.getScaleX() / 1.1);
+		editingCanvas.setScaleY(editingCanvas.getScaleY() / 1.1);
 	}
 }
