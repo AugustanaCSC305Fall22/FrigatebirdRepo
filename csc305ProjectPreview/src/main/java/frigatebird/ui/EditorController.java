@@ -110,7 +110,7 @@ public class EditorController {
 			try {
 				handleCanvasClick(e);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 		});
