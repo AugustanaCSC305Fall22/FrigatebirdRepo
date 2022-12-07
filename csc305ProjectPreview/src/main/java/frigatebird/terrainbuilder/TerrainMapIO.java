@@ -24,7 +24,7 @@ public class TerrainMapIO {
 	private static boolean openSave = false;
 	private static List<String> savedMapNames = new ArrayList<String>();
 
-	public static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
+	private static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		FileWriter writer = new FileWriter(outputFile);
 		gson.toJson(map, writer);

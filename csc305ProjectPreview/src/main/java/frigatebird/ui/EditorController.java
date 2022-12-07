@@ -141,7 +141,7 @@ public class EditorController {
 	 * is -1 or is equal to the number of columns, depending on whether x is to the
 	 * left or to the right of the mosaic.
 	 */
-	public int xCoordToColumnNumber(double x) {
+	private int xCoordToColumnNumber(double x) {
 		if (x < 0)
 			return -1;
 		if (x >= (map.getNumColumns() * editingCanvas.getTileSizeInPixels())) {
@@ -158,7 +158,7 @@ public class EditorController {
 	 * is -1 or is equal to the number of rows, depending on whether y is above or
 	 * below the mosaic.
 	 */
-	public int yCoordToRowNumber(double y) {
+	private int yCoordToRowNumber(double y) {
 		if (y < 0)
 			return -1;
 		if (y >= (map.getNumRows() * editingCanvas.getTileSizeInPixels())) {
