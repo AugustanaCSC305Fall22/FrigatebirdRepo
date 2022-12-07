@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Point3D?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -192,7 +191,5 @@
       
 
       <ComboBox fx:id="featureType" layoutX="688.0" layoutY="235.0" onAction="#AdditionOfFeature" prefHeight="21.0" prefWidth="171.0" promptText="Land Forms" />
-      <Button layoutX="710.0" layoutY="20.0" mnemonicParsing="false" onAction="#zoomIn" text="Zoom In" />
-      <Button layoutX="777.0" layoutY="20.0" mnemonicParsing="false" onAction="#zoomOut" text="Zoom Out" />
    </children>
 </AnchorPane>

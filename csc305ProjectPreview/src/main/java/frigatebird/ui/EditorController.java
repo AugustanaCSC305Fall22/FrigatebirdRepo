@@ -26,6 +26,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -86,7 +87,7 @@ public class EditorController {
 
 	@FXML
 	private void initialize() {
-		editingCanvas = new GridEditingCanvas(592,547);
+		editingCanvas = new GridEditingCanvas(3000, 3000, 100, 3);
 		undoRedoHandler = new UndoRedoHandler(editingCanvas);
 		
 		//rootPane.setCenter(editingCanvas);
@@ -107,12 +108,13 @@ public class EditorController {
 		fillToolInput.setText(Integer.toString(fillToolNum));
 		editingCanvas.setOnMousePressed(e -> {
 			try {
-				handleCanvasClick(e);
+				handleCanvasMouse(e);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
+		editingCanvas.setOnScroll(e -> {zoom(e);});
 
 		heightNumTextField.setOnKeyTyped(e -> setHeightNum(e));
 		heightTileSelectInput.setOnKeyTyped(e -> setSelectHeightNum(e));
@@ -200,24 +202,29 @@ public class EditorController {
 		}
 	}
 
-	private void handleCanvasClick(MouseEvent e) throws IOException {
+	private void handleCanvasMouse(MouseEvent e) throws IOException {
 		if (App.getView().equals("Top Down View")) {
 			if (toolbox.getCurrentTool().equals(ToolBox.Tool.HEIGHT)) {
 				changeHeight(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.SELECT)) {
+			}
+			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.SELECT)) {
 				selectTiles(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
+			}
+			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
 				twoPointSelectTool(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
+			}
+			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
 				pasteSelectedTiles(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
+			}
+			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
 				pointyTilesTool(e);
 			}
 			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
 				floodFill(e);
-			}else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
+			}
+			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
 		        insertFeature(e);
-		      }
+		    }
 		}
 	}
 
@@ -487,7 +494,6 @@ public class EditorController {
 			int col = xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
-				// selectedTileSet.add(tile);
 				tile.setIsPointy(true);
 			}
 		} else if (e.getButton().equals(MouseButton.SECONDARY)) {
@@ -495,7 +501,6 @@ public class EditorController {
 			int col = xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
-				// selectedTileSet.remove(tile);
 				tile.setIsPointy(false);
 			}
 		}
@@ -506,7 +511,6 @@ public class EditorController {
 	private void refresh() {
 		this.map = App.getMap();
 		numColors = map.findMaxMapHeight() + 1;
-		//selectedTileSet = map.getSelectedTileSet();
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		} else if (App.getView().equals("Side View")) {
@@ -760,15 +764,14 @@ public class EditorController {
 		App.setRoot("MainMenu");
 	}
 	
-	@FXML
-	private void zoomIn() {
-		editingCanvas.setScaleX(editingCanvas.getScaleX() * 1.2);
-		editingCanvas.setScaleY(editingCanvas.getScaleY() * 1.2);
-	}
-	
-	@FXML
-	private void zoomOut() {
-		editingCanvas.setScaleX(editingCanvas.getScaleX() * 0.8);
-		editingCanvas.setScaleY(editingCanvas.getScaleY() * 0.8);
+	private void zoom(ScrollEvent e) {
+		if(e.getDeltaY() > 0) {
+			editingCanvas.setScaleX(editingCanvas.getScaleX() * 1.1);
+			editingCanvas.setScaleY(editingCanvas.getScaleY() * 1.1);
+		}
+		else if(e.getDeltaY() < 0) {
+			editingCanvas.setScaleX(editingCanvas.getScaleX() / 1.1);
+			editingCanvas.setScaleY(editingCanvas.getScaleY() / 1.1);
+		}
 	}
 }

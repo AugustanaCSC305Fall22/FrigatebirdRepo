@@ -16,11 +16,13 @@ import javafx.scene.text.TextAlignment;
 public class GridEditingCanvas extends Canvas {
 
 	private int tileSizeInPixels;
+	private int border;
 	private TerrainMap map = App.getMap();
 
-	public GridEditingCanvas(double width, double height) {
+	public GridEditingCanvas(double width, double height, int tileSizeInPixels, int border) {
 		super(width, height);
-		tileSizeInPixels = 30;
+		this.tileSizeInPixels = tileSizeInPixels;
+		this.border = border;
 	}
 	
 	public int getTileSizeInPixels() {
@@ -42,7 +44,7 @@ public class GridEditingCanvas extends Canvas {
 		*/
 		
 		gc.setFill(Color.rgb(245, 245, 245));
-		gc.fillRect(0, 0, 1000, 1000);
+		gc.fillRect(0, 0, getWidth(), getHeight());
 		
 		drawMapTiles(gc, numColors);
 		gc.setFill(Color.LIGHTBLUE);
@@ -68,7 +70,7 @@ public class GridEditingCanvas extends Canvas {
 				gc.setFill(color);
 				double x = c * tileSizeInPixels;
 				double y = r * tileSizeInPixels;
-				gc.fillRect(x, y, tileSizeInPixels - 1, tileSizeInPixels - 1);
+				gc.fillRect(x, y, tileSizeInPixels - border, tileSizeInPixels - border);
 			}
 		}
 	}
