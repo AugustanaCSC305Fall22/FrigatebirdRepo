@@ -39,7 +39,7 @@ public class NewProjectMenuController {
 			if (numRows > 99 || numColumns > 99) {
 				new Alert(AlertType.ERROR, "Input must be less than 100").showAndWait();
 			}
-			else if(mapName.equals(" ") || mapName == null) {
+			else if(mapName.equals(" ") || mapName == null || mapName.equals("")) {
 				new Alert(AlertType.ERROR, "Please enter a name for your project.").showAndWait();
 			}
 			else {

@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.MapPreviewController">
    <children>
-      <ColorPicker fx:id="colorPicker" layoutX="475.0" layoutY="25.0" AnchorPane.rightAnchor="50.0">
+      <ColorPicker fx:id="colorPicker" layoutX="475.0" layoutY="25.0" onAction="#changeColor" AnchorPane.rightAnchor="50.0">
          <value>
             <Color red="0.5662280917167664" green="0.09210526198148727" blue="0.7105262875556946" opacity="0.7599999904632568" />
          </value></ColorPicker>

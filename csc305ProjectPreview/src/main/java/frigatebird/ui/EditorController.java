@@ -735,7 +735,7 @@ public class EditorController {
     @FXML
     void openPreviewPage(ActionEvent event) throws IOException {
   	  MapPreviewController threeDMap = new MapPreviewController(); 
-  	  threeDMap.setMap(this.map);
+  	  threeDMap.setMap(App.getMap());
   	  threeDMap.start(threeDMap.getStage());
     }
     
