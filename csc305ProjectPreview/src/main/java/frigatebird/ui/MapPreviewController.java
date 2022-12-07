@@ -17,10 +17,10 @@ import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -28,35 +28,41 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 
-public class MapPreviewController extends Application{
+public class MapPreviewController {
 	
-	Color color;
     
 	@FXML
-    private ColorPicker colorPicker = new ColorPicker();
-    
+    private ColorPicker colorPicker = new ColorPicker(Color.PURPLE);
+	
+	private Color color;
     private TerrainMap map;
     private CompoundGroup group = new CompoundGroup();
-    private PhongMaterial material = new PhongMaterial(Color.PURPLE);
     private double anchorX, anchorY;
     private double anchorAngleX = 0;
     private double anchorAngleY = 0;
     private Stage stage = new Stage();
+    PhongMaterial material;
+    
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
     private static final int subSceneWidth = 700;
     private static final int subSceneHeight = 500;
     private static final int rowAndColSpanInpixels = 5;
 
-    
 		
+	public MapPreviewController(TerrainMap map) {
+		this.map = map;
+	}
+
 	public void start(Stage stage) throws IOException {
 		
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MapPreview.fxml"));
+        fxmlLoader.setController(this);
         AnchorPane fxmlPane = (AnchorPane) fxmlLoader.load();
         
         color = colorPicker.getValue();
-		draw3DObject(color);
+		create3DObjects(color);
+		
 		Camera camera = new PerspectiveCamera();
 		SubScene subscene = new SubScene(group, subSceneWidth, subSceneHeight, true, SceneAntialiasing.BALANCED);
 		fxmlPane.getChildren().add(subscene);
@@ -72,18 +78,13 @@ public class MapPreviewController extends Application{
 	
     @FXML
     void changeColor(ActionEvent event) throws IOException {
-    	System.out.println("hello");
     	color = colorPicker.getValue();
-    	this.setMap(App.getMap());
     	group.getChildren().clear();
-    	draw3DObject(color);
+    	create3DObjects(color);
     }
     
-    public Stage getStage() {
-    	return this.stage;
-    }
 	
-	private void draw3DObject(Color color) {
+	private void create3DObjects(Color color) {
 		int rowSpan = 0;
 		int colSpan = 0;
 		for (int r = 0; r < map.getNumRows(); r++) {
@@ -93,12 +94,8 @@ public class MapPreviewController extends Application{
 				if(height == 0) {
 					height = 1;
 				}
-				Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
-				material.setDiffuseColor(color);
-				box.setMaterial(material);
-				box.translateXProperty().set(rowSpan);
-				box.translateYProperty().set(height/-2);
-				box.translateZProperty().set(colSpan);
+				Box box = createBox(rowAndColSpanInpixels, height, rowSpan, colSpan);
+
 				group.getChildren().add(box);
 				if(tile.getIsPointy()) {
 					makePointy(material, rowSpan, colSpan, height);
@@ -109,6 +106,25 @@ public class MapPreviewController extends Application{
 			rowSpan = 0;
 		}
 		position3DObject();
+//		for(int i = 0; i< group.getChildren().size(); i++) {
+//			Box box = (Box) group.getChildren().get(i);
+//			applyTexture(box);
+//		}
+	}
+	
+	private Box createBox(int rowAndColSpanInpixels,int height, int rowSpan, int colSpan) {
+		Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
+		material = new PhongMaterial(color);
+		box.translateXProperty().set(rowSpan);
+		box.translateYProperty().set(height/-2);
+		box.translateZProperty().set(colSpan);
+		box.setMaterial(material);
+		return box;
+	}
+	
+	private void applyTexture(Box box) {
+		material.setDiffuseMap(new Image(getClass().getResourceAsStream("wood.jpg")));
+		box.setMaterial(material);
 	}
 	
 	private void position3DObject() {
@@ -187,15 +203,15 @@ public class MapPreviewController extends Application{
 		});
 	}
 	
-	
-	public void setMap(TerrainMap map) {
-		this.map = map;
-	}
-	
+		
 	@FXML
     private void switchToMainMenu() throws IOException{
         App.setRoot("MainMenu");
     }
+	
+	public Stage getStage() {
+		return this.stage;
+	}
 	
 }
 

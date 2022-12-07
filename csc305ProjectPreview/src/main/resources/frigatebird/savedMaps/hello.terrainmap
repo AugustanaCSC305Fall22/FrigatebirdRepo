@@ -1,0 +1,310 @@
+{
+  "tileGrid": [
+    [
+      {
+<<<<<<< HEAD
+        "height": 4,
+=======
+        "height": 0,
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+        "row": 0,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+<<<<<<< HEAD
+        "height": 6,
+        "row": 0,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 5,
+        "row": 0,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 3,
+        "row": 0,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 1,
+        "row": 0,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 0,
+        "col": 5,
+=======
+        "height": 1,
+        "row": 0,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 2,
+        "row": 0,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 3,
+        "row": 0,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 4,
+        "row": 0,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 5,
+        "row": 0,
+        "col": 5,
+        "isPointy": false
+      },
+      {
+        "height": 6,
+        "row": 0,
+        "col": 6,
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+        "isPointy": false
+      }
+    ],
+    [
+      {
+        "height": 0,
+        "row": 1,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+<<<<<<< HEAD
+        "height": 2,
+        "row": 1,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 1,
+        "row": 1,
+=======
+        "height": 0,
+        "row": 1,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 2,
+        "row": 1,
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 5,
+        "isPointy": false
+<<<<<<< HEAD
+=======
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 6,
+        "isPointy": false
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+      }
+    ],
+    [
+      {
+        "height": 0,
+        "row": 2,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+<<<<<<< HEAD
+        "height": 3,
+=======
+        "height": 2,
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+        "row": 2,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 5,
+        "isPointy": false
+<<<<<<< HEAD
+=======
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 6,
+        "isPointy": false
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+      }
+    ],
+    [
+      {
+        "height": 0,
+        "row": 3,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+<<<<<<< HEAD
+        "height": 1,
+=======
+        "height": 0,
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+        "row": 3,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+<<<<<<< HEAD
+        "height": 5,
+=======
+        "height": 2,
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+        "row": 3,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 5,
+        "isPointy": false
+<<<<<<< HEAD
+=======
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 6,
+        "isPointy": false
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+      }
+    ],
+    [
+      {
+        "height": 0,
+        "row": 4,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+<<<<<<< HEAD
+        "height": 0,
+=======
+        "height": 2,
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+        "row": 4,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 5,
+        "isPointy": false
+<<<<<<< HEAD
+=======
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 6,
+        "isPointy": false
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+      }
+    ]
+  ],
+  "mapName": "hello",
+  "numRows": 5,
+<<<<<<< HEAD
+  "numColumns": 6
+=======
+  "numColumns": 7
+>>>>>>> fb24e0c5293514bdcf6691d656d29a0dce1fbc3d
+}

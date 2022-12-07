@@ -17,14 +17,22 @@ public class GridEditingCanvas extends Canvas {
 
 	private int tileSizeInPixels;
 	private int border;
-	private TerrainMap map = App.getMap();
+	private TerrainMap map;
 
-	public GridEditingCanvas(double width, double height, int tileSizeInPixels, int border) {
+	public GridEditingCanvas(TerrainMap map, double width, double height, int tileSizeInPixels, int border) {
 		super(width, height);
+		this.map = map;
 		this.tileSizeInPixels = tileSizeInPixels;
 		this.border = border;
 	}
 	
+	public void setMap(TerrainMap map) {
+		this.map = map;
+	}
+	public TerrainMap getMap() {
+		return map;
+	}
+
 	public int getTileSizeInPixels() {
 		return tileSizeInPixels;
 	}
@@ -158,4 +166,6 @@ public class GridEditingCanvas extends Canvas {
 			GridEditingCanvas.this.map = (TerrainMap) tempMap.clone();
 		}
 	}
+
+
 }
