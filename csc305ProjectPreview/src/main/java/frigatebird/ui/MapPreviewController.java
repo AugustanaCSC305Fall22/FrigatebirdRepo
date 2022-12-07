@@ -17,10 +17,10 @@ import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -41,6 +41,7 @@ public class MapPreviewController {
     private double anchorAngleX = 0;
     private double anchorAngleY = 0;
     private Stage stage = new Stage();
+    PhongMaterial material;
     
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
@@ -82,9 +83,6 @@ public class MapPreviewController {
     	create3DObjects(color);
     }
     
-    public Stage getStage() {
-    	return this.stage;
-    }
 	
 	private void create3DObjects(Color color) {
 		int rowSpan = 0;
@@ -96,13 +94,8 @@ public class MapPreviewController {
 				if(height == 0) {
 					height = 1;
 				}
-				Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
-				PhongMaterial material = new PhongMaterial(color);
-				//material.setDiffuseColor(color);
-				box.setMaterial(material);
-				box.translateXProperty().set(rowSpan);
-				box.translateYProperty().set(height/-2);
-				box.translateZProperty().set(colSpan);
+				Box box = createBox(rowAndColSpanInpixels, height, rowSpan, colSpan);
+
 				group.getChildren().add(box);
 				if(tile.getIsPointy()) {
 					makePointy(material, rowSpan, colSpan, height);
@@ -113,6 +106,25 @@ public class MapPreviewController {
 			rowSpan = 0;
 		}
 		position3DObject();
+//		for(int i = 0; i< group.getChildren().size(); i++) {
+//			Box box = (Box) group.getChildren().get(i);
+//			applyTexture(box);
+//		}
+	}
+	
+	private Box createBox(int rowAndColSpanInpixels,int height, int rowSpan, int colSpan) {
+		Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
+		material = new PhongMaterial(color);
+		box.translateXProperty().set(rowSpan);
+		box.translateYProperty().set(height/-2);
+		box.translateZProperty().set(colSpan);
+		box.setMaterial(material);
+		return box;
+	}
+	
+	private void applyTexture(Box box) {
+		material.setDiffuseMap(new Image(getClass().getResourceAsStream("wood.jpg")));
+		box.setMaterial(material);
 	}
 	
 	private void position3DObject() {
@@ -196,6 +208,10 @@ public class MapPreviewController {
     private void switchToMainMenu() throws IOException{
         App.setRoot("MainMenu");
     }
+	
+	public Stage getStage() {
+		return this.stage;
+	}
 	
 }
 

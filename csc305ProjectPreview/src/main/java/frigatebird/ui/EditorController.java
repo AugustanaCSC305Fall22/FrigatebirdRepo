@@ -448,49 +448,6 @@ public class EditorController {
 		undoRedoHandler.saveState();
 	}
 
-	private void fillFromTile(Tile initialTile) {
-		Set<Tile> fillSetSecondary = new HashSet<Tile>();
-		int loopCount = 1;
-		int initialTileRow = initialTile.getRow();
-		int initialTileCol = initialTile.getCol();
-		int initialTileHeight = initialTile.getHeight();
-		while ((initialTileCol + loopCount < map.getNumColumns())
-				&& map.getTileAt(initialTileRow, initialTileCol + loopCount).getHeight() == initialTileHeight) {
-			Tile tile = map.getTileAt(initialTileRow, initialTileCol + loopCount);
-			fillSet.add(tile);
-			loopCount++;
-		}
-		loopCount = 0;
-		while ((initialTileCol - loopCount >= 0)
-				&& map.getTileAt(initialTileRow, initialTileCol - loopCount).getHeight() == initialTileHeight) {
-			Tile tile = map.getTileAt(initialTileRow, initialTileCol - loopCount);
-			fillSet.add(tile);
-			loopCount++;
-		}
-		loopCount = 0;
-		for (Tile horizontalFillTile : fillSet) {
-			while ((horizontalFillTile.getRow() + loopCount < map.getNumRows())
-					&& map.getTileAt(horizontalFillTile.getRow() + loopCount, horizontalFillTile.getCol())
-							.getHeight() == initialTileHeight) {
-				Tile tile = map.getTileAt(horizontalFillTile.getRow() + loopCount, horizontalFillTile.getCol());
-				fillSetSecondary.add(tile);
-				loopCount++;
-			}
-			loopCount = 0;
-			while ((horizontalFillTile.getRow() - loopCount >= 0)
-					&& map.getTileAt(horizontalFillTile.getRow() - loopCount, horizontalFillTile.getCol())
-							.getHeight() == initialTileHeight) {
-				Tile tile = map.getTileAt(horizontalFillTile.getRow() - loopCount, horizontalFillTile.getCol());
-				fillSetSecondary.add(tile);
-				loopCount++;
-			}
-			loopCount = 0;
-		}
-		for (Tile tile : fillSetSecondary) {
-			fillSet.add(tile);
-		}
-		fillSetSecondary.clear();
-	}
 
 	private void pointyTilesTool(MouseEvent e) {
 		if (e.getButton().equals(MouseButton.PRIMARY)) {
