@@ -385,7 +385,7 @@ public class EditorController {
 		cutOrCopyString = "copy";
 		cutAndCopyHelper(cutOrCopyString);
 		selectedTileSet.clear();
-		refresh();
+		refresh(); 
 		undoRedoHandler.saveState();
 	}
 

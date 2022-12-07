@@ -32,7 +32,7 @@ public class MapPreviewController {
 	
     
 	@FXML
-    private ColorPicker colorPicker = new ColorPicker(Color.PURPLE);
+    private ColorPicker colorPicker = new ColorPicker();
 	
 	private Color color;
     private TerrainMap map;
@@ -106,15 +106,15 @@ public class MapPreviewController {
 			rowSpan = 0;
 		}
 		position3DObject();
-//		for(int i = 0; i< group.getChildren().size(); i++) {
-//			Box box = (Box) group.getChildren().get(i);
-//			applyTexture(box);
-//		}
+		for(int i = 0; i< group.getChildren().size(); i++) {
+			Box box = (Box) group.getChildren().get(i);
+			applyTexture(box);
+		}
 	}
 	
 	private Box createBox(int rowAndColSpanInpixels,int height, int rowSpan, int colSpan) {
 		Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
-		material = new PhongMaterial(color);
+		material = new PhongMaterial();
 		box.translateXProperty().set(rowSpan);
 		box.translateYProperty().set(height/-2);
 		box.translateZProperty().set(colSpan);
@@ -123,7 +123,7 @@ public class MapPreviewController {
 	}
 	
 	private void applyTexture(Box box) {
-		material.setDiffuseMap(new Image(getClass().getResourceAsStream("wood.jpg")));
+		material.setDiffuseMap(new Image(getClass().getResourceAsStream("Textures/brick.jpg")));
 		box.setMaterial(material);
 	}
 	
