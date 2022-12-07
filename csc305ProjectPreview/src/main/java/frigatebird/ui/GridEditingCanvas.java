@@ -16,13 +16,21 @@ import javafx.scene.text.TextAlignment;
 public class GridEditingCanvas extends Canvas {
 
 	private int tileSizeInPixels;
-	private TerrainMap map = App.getMap();
-
-	public GridEditingCanvas(double width, double height) {
+	private TerrainMap map;
+	
+	public GridEditingCanvas(TerrainMap map, double width, double height) {
 		super(width, height);
 		tileSizeInPixels = 30;
+		this.map = map;
 	}
 	
+	public void setMap(TerrainMap map) {
+		this.map = map;
+	}
+	public TerrainMap getMap() {
+		return map;
+	}
+
 	public int getTileSizeInPixels() {
 		return tileSizeInPixels;
 	}
@@ -156,4 +164,6 @@ public class GridEditingCanvas extends Canvas {
 			GridEditingCanvas.this.map = (TerrainMap) tempMap.clone();
 		}
 	}
+
+
 }

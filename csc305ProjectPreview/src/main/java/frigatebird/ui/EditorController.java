@@ -16,8 +16,10 @@ import frigatebird.terrainbuilder.Tile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -26,6 +28,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -72,7 +75,6 @@ public class EditorController {
 
 	private TerrainMap map;
 	private String cutOrCopyString = "";
-	private int numColors = 16;
 	private int heightNum = 1;
 	private int selectHeightNum = 0;
 	private int maxTileHeight = 99;
@@ -86,14 +88,14 @@ public class EditorController {
 
 	@FXML
 	private void initialize() {
-		editingCanvas = new GridEditingCanvas(592,547);
+		editingCanvas = new GridEditingCanvas(App.getMap(), 592,547);
 		undoRedoHandler = new UndoRedoHandler(editingCanvas);
 		
 		//rootPane.setCenter(editingCanvas);
-        Tab canvasTabOne = new Tab("Untitled" ,editingCanvas);
+		ScrollPane scrollPane = new ScrollPane(editingCanvas);
+        Tab canvasTabOne = new Tab("Untitled" ,scrollPane);
         canvasTabPane.getTabs().clear();
         canvasTabPane.getTabs().add(canvasTabOne);
-
          
         featureType.getItems().addAll("Pyramid", "Depression", "'Actual' Gate of hell", "Wave", "Pointy Building");
                 
@@ -101,7 +103,6 @@ public class EditorController {
 		map = App.getMap();
 		toolbox = new ToolBox(ToolBox.Tool.SELECT);
 
-		numColors = map.findMaxMapHeight() + 1;
 		heightNumTextField.setText(Integer.toString(heightNum));
 		heightTileSelectInput.setText(Integer.toString(selectHeightNum));
 		fillToolInput.setText(Integer.toString(fillToolNum));
@@ -124,11 +125,21 @@ public class EditorController {
 		}
 	}
 
+	private GridEditingCanvas getCurrentGridEditingCanvas() {
+		ScrollPane pane = (ScrollPane) canvasTabPane.getSelectionModel().getSelectedItem().getContent();
+		return (GridEditingCanvas) pane.getContent();
+	}
+	private TerrainMap getCurrentMap() {
+		return getCurrentGridEditingCanvas().getMap();
+	}
+	
 	private void drawMap() {
+		int numColors = map.findMaxMapHeight() + 1;
 		editingCanvas.drawMap(editingCanvas, selectedTileSet, numColors);
 	}
 
 	private void drawFrontPerspective() {
+		int numColors = map.findMaxMapHeight() + 1;
 		editingCanvas.drawFrontPerspective(editingCanvas, numColors);
 	}
 
@@ -505,7 +516,6 @@ public class EditorController {
 
 	private void refresh() {
 		this.map = App.getMap();
-		numColors = map.findMaxMapHeight() + 1;
 		//selectedTileSet = map.getSelectedTileSet();
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
@@ -532,11 +542,17 @@ public class EditorController {
 	private void saveAs() throws IOException {
 		TerrainMapIO.saveAs();
 	}
+	
+	private void changeMap(TerrainMap map) {
+		this.map = map;
+		editingCanvas.setMap(map);
+	}
 
 	@FXML
 	public void loadFile() throws IOException {
 		TerrainMapIO.loadFile();
 		selectedTileSet.clear();
+		changeMap(App.getMap());
 		refresh();
 	}
 
@@ -724,7 +740,7 @@ public class EditorController {
 		undoRedoHandler.undo();
 		refresh();
 	}
-
+    
 	@FXML
 	private void menuEditRedo() {
 		selectedTileSet.clear();
@@ -734,9 +750,8 @@ public class EditorController {
     
     @FXML
     void openPreviewPage(ActionEvent event) throws IOException {
-  	  MapPreviewController threeDMap = new MapPreviewController(); 
-  	  threeDMap.setMap(this.map);
-  	  threeDMap.start(threeDMap.getStage());
+  	  MapPreviewController threeDMap = new MapPreviewController(App.getMap()); 
+   	  threeDMap.start(threeDMap.getStage());
     }
     
     @FXML
