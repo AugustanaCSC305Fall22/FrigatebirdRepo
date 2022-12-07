@@ -1,0 +1,227 @@
+{
+  "tileGrid": [
+    [
+      {
+        "height": 0,
+        "row": 0,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+        "height": 1,
+        "row": 0,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 2,
+        "row": 0,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 3,
+        "row": 0,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 4,
+        "row": 0,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 5,
+        "row": 0,
+        "col": 5,
+        "isPointy": false
+      },
+      {
+        "height": 6,
+        "row": 0,
+        "col": 6,
+        "isPointy": false
+      }
+    ],
+    [
+      {
+        "height": 0,
+        "row": 1,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 2,
+        "row": 1,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 5,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 1,
+        "col": 6,
+        "isPointy": false
+      }
+    ],
+    [
+      {
+        "height": 0,
+        "row": 2,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 2,
+        "row": 2,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 5,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 2,
+        "col": 6,
+        "isPointy": false
+      }
+    ],
+    [
+      {
+        "height": 0,
+        "row": 3,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 2,
+        "row": 3,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 5,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 3,
+        "col": 6,
+        "isPointy": false
+      }
+    ],
+    [
+      {
+        "height": 0,
+        "row": 4,
+        "col": 0,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 1,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 2,
+        "isPointy": false
+      },
+      {
+        "height": 2,
+        "row": 4,
+        "col": 3,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 4,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 5,
+        "isPointy": false
+      },
+      {
+        "height": 0,
+        "row": 4,
+        "col": 6,
+        "isPointy": false
+      }
+    ]
+  ],
+  "mapName": "hello",
+  "numRows": 5,
+  "numColumns": 7
+}

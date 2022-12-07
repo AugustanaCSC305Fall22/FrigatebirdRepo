@@ -77,7 +77,6 @@ public class MapPreviewController {
 	
     @FXML
     void changeColor(ActionEvent event) throws IOException {
-    	System.out.println("hello");
     	color = colorPicker.getValue();
     	group.getChildren().clear();
     	create3DObjects(color);
