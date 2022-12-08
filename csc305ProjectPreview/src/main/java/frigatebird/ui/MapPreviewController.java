@@ -2,9 +2,9 @@ package frigatebird.ui;
 
 import java.io.IOException;
 
+
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.Tile;
-import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
@@ -48,8 +48,8 @@ public class MapPreviewController {
     
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
-    private static final int subSceneWidth = 700;
-    private static final int subSceneHeight = 500;
+    private static final int subSceneWidth = 900;
+    private static final int subSceneHeight = 470;
     private static final int rowAndColSpanInpixels = 5;
 
 		
@@ -70,7 +70,7 @@ public class MapPreviewController {
 		Camera camera = new PerspectiveCamera();
 		SubScene subscene = new SubScene(group, subSceneWidth, subSceneHeight, true, SceneAntialiasing.BALANCED);
 		fxmlPane.getChildren().add(subscene);
-		Scene scene = new Scene(fxmlPane, 900, 500, true);
+		Scene scene = new Scene(fxmlPane, 900, 510, true);
 		subscene.setFill(Color.SILVER);
 		subscene.setCamera(camera);
 		

@@ -37,17 +37,26 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <FontAwesomeIconView fill="#b98dd961" glyphName="CUBE" layoutX="72.0" layoutY="520.0" rotate="-28.8" size="70">
+      <FontAwesomeIconView fill="#b98dd961" glyphName="CUBE" layoutX="65.0" layoutY="394.0" rotate="-28.8" size="70">
          <font>
             <Font size="14.0" />
          </font>
       </FontAwesomeIconView>
-      <FontAwesomeIconView fill="#4c4ca660" glyphName="CUBE" layoutX="702.0" layoutY="308.0" rotate="21.8" size="120">
+      <FontAwesomeIconView fill="#4c4ca660" glyphName="CUBE" layoutX="646.0" layoutY="452.0" rotate="21.8" size="120">
          <font>
             <Font size="14.0" />
          </font>
       </FontAwesomeIconView>
-      <FontAwesomeIconView fill="#b98dd961" glyphName="CUBE" layoutX="165.0" layoutY="120.0" rotate="158.2" size="90" wrappingWidth="69.0">
+      <FontAwesomeIconView fill="#b98dd961" glyphName="CUBE" layoutX="187.0" layoutY="141.0" rotate="158.2" size="90" wrappingWidth="69.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </FontAwesomeIconView>
+      <JFXButton fx:id="copyBtn" layoutX="18.0" layoutY="33.0" onAction="#switchToMainMenu" prefHeight="40.0" prefWidth="48.0" stylesheets="@style.css" text=" " textFill="WHITE">
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="HOME" size="22" text="" wrappingWidth="12.0" />
+         </graphic></JFXButton>
+      <FontAwesomeIconView fill="#4c4ca660" glyphName="CUBE" layoutX="689.0" layoutY="190.0" rotate="148.7" size="250">
          <font>
             <Font size="14.0" />
          </font>

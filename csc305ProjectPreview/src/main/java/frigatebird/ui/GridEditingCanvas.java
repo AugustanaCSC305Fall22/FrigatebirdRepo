@@ -155,7 +155,7 @@ public class GridEditingCanvas extends Canvas {
 		int height = 0;
 		int max = Integer.MIN_VALUE;
 		Color color = Color.rgb(245, 245, 245);
-		gc.setFill(color);
+		gc.setFill(color); 
 		gc.fillRect(0, 0, 1000, 1000);
 		for(int c = 0; c < map.getNumColumns(); c++) {
 			for(int r = 0; r < map.getNumRows(); r++) {

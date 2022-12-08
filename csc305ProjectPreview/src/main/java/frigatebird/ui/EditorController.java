@@ -470,7 +470,7 @@ public class EditorController {
 				tile.setIsPointy(true);
 			}
 		} else if (e.getButton().equals(MouseButton.SECONDARY)) {
-			int row = yCoordToRowNumber((int) e.getY());
+			int row = yCoordToRowNumber((int) e.getY()); 
 			int col = xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
