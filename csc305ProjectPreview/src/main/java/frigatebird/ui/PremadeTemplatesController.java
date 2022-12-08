@@ -2,6 +2,7 @@ package frigatebird.ui;
 
 import java.io.File;
 
+
 import java.io.IOException;
 
 import frigatebird.terrainbuilder.TerrainMapIO;
@@ -14,19 +15,31 @@ import javafx.scene.input.MouseEvent;
 public class PremadeTemplatesController {
 
 	@FXML
-	private ImageView mazeTemp;
+    private ImageView chicago;
 
-	@FXML
-	private ImageView surfaceTemp;
+    @FXML
+    private ImageView stadium;
 
-	@FXML
-	private ImageView citytemp;
+    @FXML
+    private ImageView winterFell;
 
-	@FXML
-	private ImageView castleTemp;
+    @FXML
+    private ImageView street;
 
-	@FXML
-	private ImageView villageTemp;
+    @FXML
+    private ImageView maze;
+
+    @FXML
+    private ImageView bitCoin;
+
+    @FXML
+    private ImageView building;
+
+    @FXML
+    private ImageView road;
+
+    @FXML
+    private ImageView village;
 
 	private String filePath;
 
@@ -36,20 +49,32 @@ public class PremadeTemplatesController {
 	}
 
 	private String pathFinder(MouseEvent event) {
-		if (event.getSource().equals(mazeTemp)) {
+		if (event.getSource().equals(maze)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\maze1.terrainmap";
 		}
-		if (event.getSource().equals(castleTemp)) {
+		if (event.getSource().equals(winterFell)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\castle.terrainmap";
 		}
-		if (event.getSource().equals(citytemp)) {
+		if (event.getSource().equals(chicago)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\city.terrainmap";
 		}
-		if (event.getSource().equals(surfaceTemp)) {
-			filePath = "src\\main\\resources\\frigatebird\\Templates\\surface.terrainmap";
+		if (event.getSource().equals(bitCoin)) {
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\bitcoinTemplet.terrainmap";
 		}
-		if (event.getSource().equals(villageTemp)) {
+		if (event.getSource().equals(village)) {
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\vill.terrainmap";
+		}
+		if (event.getSource().equals(street)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\village2.terrainmap";
+		}
+		if (event.getSource().equals(building)) {
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\buildingCombo.terrainmap";
+		}
+		if (event.getSource().equals(road)) {
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\road.terrainmap";
+		}
+		if (event.getSource().equals(stadium)) {
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\stadium.terrainmap";
 		}
 		return filePath;
 	}

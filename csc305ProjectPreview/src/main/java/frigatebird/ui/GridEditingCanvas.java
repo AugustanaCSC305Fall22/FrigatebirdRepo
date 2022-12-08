@@ -35,9 +35,11 @@ public class GridEditingCanvas extends Canvas {
 	 */
 	public GridEditingCanvas(TerrainMap map, double width, double height, int tileSizeInPixels, int border) {
 		super(width, height);
+		
 		this.map = map;
 		this.tileSizeInPixels = tileSizeInPixels;
 		this.border = border;
+		tileSizeInPixels = 10;
 	}
 	
 	/**

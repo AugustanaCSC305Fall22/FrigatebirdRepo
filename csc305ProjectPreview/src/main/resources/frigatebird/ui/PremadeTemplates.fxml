@@ -1,42 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.PremadeTemplatesController">
-   <children>
-      <Label layoutX="185.0" layoutY="14.0" prefHeight="77.0" prefWidth="256.0" text="Premade Templets">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="mazeTemp" fitHeight="179.0" fitWidth="265.0" layoutX="65.0" layoutY="98.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="335.0603790283203">
-         <image>
-            <Image url="@../Templates/templet%20Pictures/maze%20template.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="surfaceTemp" fitHeight="158.0" fitWidth="200.0" layoutX="313.0" layoutY="105.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Templates/templet%20Pictures/surface%20Template.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="citytemp" fitHeight="150.0" fitWidth="200.0" layoutX="57.0" layoutY="319.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Templates/templet%20Pictures/city%20Template.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="castleTemp" fitHeight="150.0" fitWidth="200.0" layoutX="313.0" layoutY="290.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Templates/templet%20Pictures/castle%20Template.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="villageTemp" fitHeight="150.0" fitWidth="200.0" layoutX="50.0" layoutY="458.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Templates/templet%20Pictures/village%20Template.png" />
-         </image>
-      </ImageView>
-   </children>
-</AnchorPane>
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="frigatebird.ui.PremadeTemplatesController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="900.0">
+         <children>
+            <ImageView fx:id="chicago" fitHeight="187.0" fitWidth="253.0" layoutX="63.0" layoutY="66.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/Chicago.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="stadium" fitHeight="206.0" fitWidth="268.0" layoutX="336.0" layoutY="64.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/stadium.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="winterFell" fitHeight="196.0" fitWidth="253.0" layoutX="617.0" layoutY="61.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/winterfell.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="street" fitHeight="186.0" fitWidth="244.0" layoutX="68.0" layoutY="279.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/street.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="maze" fitHeight="193.0" fitWidth="317.0" layoutX="630.0" layoutY="276.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/maze.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="bitCoin" fitHeight="186.0" fitWidth="335.0" layoutX="340.0" layoutY="279.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/bitcoin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="building" fitHeight="196.0" fitWidth="263.0" layoutX="339.0" layoutY="508.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/building.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="road" fitHeight="171.0" fitWidth="275.0" layoutX="62.0" layoutY="495.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/road.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="village" fitHeight="270.0" fitWidth="240.0" layoutX="630.0" layoutY="508.0" onMouseClicked="#LoadToScreen" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/village%20.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="141.0" layoutY="249.0" prefHeight="16.0" prefWidth="63.0" text="Chicago" />
+            <Label layoutX="444.0" layoutY="249.0" text="stadium" />
+            <Label layoutX="710.0" layoutY="249.0" text="Witerfell" />
+            <Label layoutX="152.0" layoutY="468.0" text="Street" />
+            <Label layoutX="424.0" layoutY="468.0" text="Bitcoin" />
+            <Label layoutX="720.0" layoutY="468.0" text="Maze" />
+            <Label layoutX="175.0" layoutY="669.0" text="Road" />
+            <Label layoutX="431.0" layoutY="661.0" text="Building" />
+            <Label layoutX="744.0" layoutY="680.0" text="Village" />
+            <Label layoutX="414.0" layoutY="23.0" text="Templates" textOverrun="CENTER_WORD_ELLIPSIS">
+               <font>
+                  <Font name="Bell MT" size="24.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
