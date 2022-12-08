@@ -136,7 +136,7 @@ public class EditorController {
 	
 	private void drawMap() {
 		int numColors = map.findMaxMapHeight() + 1;
-		editingCanvas.drawMap(editingCanvas, selectedTileSet, numColors);
+		editingCanvas.drawMap(selectedTileSet, numColors);
 	}
 
 	private void drawFrontPerspective() {
@@ -482,9 +482,6 @@ public class EditorController {
 
 	private void refresh() {
 		this.map = App.getMap();
-		System.out.println(scrollPane.getHvalue());
-		System.out.println(scrollPane.getVvalue());
-		System.out.println();
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		} else if (App.getView().equals("Side View")) {
