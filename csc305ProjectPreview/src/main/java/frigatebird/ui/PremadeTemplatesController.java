@@ -59,7 +59,7 @@ public class PremadeTemplatesController {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\city.terrainmap";
 		}
 		if (event.getSource().equals(bitCoin)) {
-			filePath = "src\\main\\resources\\frigatebird\\Templates\\bitcoinTemplet.terrainmap";
+			filePath = "src\\main\\resources\\frigatebird\\Templates\\bitcoinTemplate.terrainmap";
 		}
 		if (event.getSource().equals(village)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\vill.terrainmap";
