@@ -1,4 +1,4 @@
-module edu.augustana.csc305ProjectPreview {
+module edu.augustana.FrigatebirdProject {
 	
     requires javafx.controls;
     requires javafx.fxml;

@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -33,6 +34,8 @@ public class MapPreviewController {
     
 	@FXML
     private ColorPicker colorPicker = new ColorPicker();
+	@FXML
+	private ComboBox<String> textureComboBox;
 	
 	private Color color;
     private TerrainMap map;
@@ -61,7 +64,8 @@ public class MapPreviewController {
         AnchorPane fxmlPane = (AnchorPane) fxmlLoader.load();
         
         color = colorPicker.getValue();
-		create3DObjects(color);
+        textureComboBox.getItems().addAll("Brick","Flame", "Glass", "Grass", "Iron", "Paper", "Rock", "Sand", "Space", "Water", "Wood");
+		create3DObjects();
 		
 		Camera camera = new PerspectiveCamera();
 		SubScene subscene = new SubScene(group, subSceneWidth, subSceneHeight, true, SceneAntialiasing.BALANCED);
@@ -80,11 +84,29 @@ public class MapPreviewController {
     void changeColor(ActionEvent event) throws IOException {
     	color = colorPicker.getValue();
     	group.getChildren().clear();
-    	create3DObjects(color);
+    	create3DObjects();
     }
     
+    @FXML
+    void changeTexture() {
+    	applyTexture();
+    }
+   
+	private void applyTexture() {
+		color = Color.WHITE;
+		group.getChildren().clear();
+		create3DObjects();
+		for(int i = 0; i < group.getChildren().size(); i++) {
+			Box box = (Box) group.getChildren().get(i);
+			String texture = textureComboBox.getValue();
+			String path = "Textures/" + texture + ".jpg";
+			material.setDiffuseMap(new Image(getClass().getResourceAsStream(path)));
+			box.setMaterial(material);
+		}
+	}
 	
-	private void create3DObjects(Color color) {
+	
+	private void create3DObjects() {
 		int rowSpan = 0;
 		int colSpan = 0;
 		for (int r = 0; r < map.getNumRows(); r++) {
@@ -106,25 +128,16 @@ public class MapPreviewController {
 			rowSpan = 0;
 		}
 		position3DObject();
-		for(int i = 0; i< group.getChildren().size(); i++) {
-			Box box = (Box) group.getChildren().get(i);
-			applyTexture(box);
-		}
 	}
 	
 	private Box createBox(int rowAndColSpanInpixels,int height, int rowSpan, int colSpan) {
 		Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
-		material = new PhongMaterial();
+		material = new PhongMaterial(color);
 		box.translateXProperty().set(rowSpan);
 		box.translateYProperty().set(height/-2);
 		box.translateZProperty().set(colSpan);
 		box.setMaterial(material);
 		return box;
-	}
-	
-	private void applyTexture(Box box) {
-		material.setDiffuseMap(new Image(getClass().getResourceAsStream("Textures/brick.jpg")));
-		box.setMaterial(material);
 	}
 	
 	private void position3DObject() {

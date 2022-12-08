@@ -270,7 +270,7 @@ public class EditorController {
 		try {
 			heightNum = Integer.parseInt(text);
 			if (heightNum > maxTileHeight) {
-				heightNum = maxTileHeight;
+				heightNum = maxTileHeight; 
 				heightNumTextField.setText(Integer.toString(heightNum));
 			} else if (heightNum < 1) {
 				heightNum = 1;
