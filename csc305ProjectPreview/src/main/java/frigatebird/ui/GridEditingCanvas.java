@@ -13,12 +13,26 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * A subclass of canvas which uses a grid to display a TerrainMap
+ * 
+ * State pattern and memento methods marked as authored by Dale Skrien are from examples given by Skrien as part of his book, "Object Oriented Design Using Java".
+ */
 public class GridEditingCanvas extends Canvas {
 
 	private int tileSizeInPixels;
 	private int border;
 	private TerrainMap map;
 
+	/**
+	 * Creates a canvas with a size and a TerrainMap used to generate a grid.
+	 * 
+	 * @param map - a TerrainMap object which will be displayed in the canvas
+	 * @param width - the width to make the canvas in pixels
+	 * @param height - the height to make the canvas in pixels
+	 * @param tileSizeInPixels - the side length of a tile in pixels
+	 * @param border - the size of the grid lines and border in pixels
+	 */
 	public GridEditingCanvas(TerrainMap map, double width, double height, int tileSizeInPixels, int border) {
 		super(width, height);
 		this.map = map;
@@ -26,18 +40,41 @@ public class GridEditingCanvas extends Canvas {
 		this.border = border;
 	}
 	
+	/**
+	 * Sets the map variable in the GridEditingCanvas map data field
+	 * 
+	 * @param map - a TerrainMap object to set the GridEditingCanvas map data field to
+	 */
 	public void setMap(TerrainMap map) {
 		this.map = map;
 	}
+	
+	/**
+	 * Returns the TerrainMap map data field of the GridEditingCanvas class
+	 * 
+	 * @return - the TerrainMap map data field of this GridEditingCanvas
+	 */
 	public TerrainMap getMap() {
 		return map;
 	}
 
+	/**
+	 * Returns the side length of the tiles in this GridEditingCanvas via the tileSizeInPixels data field
+	 * 
+	 * @return - the tileSizeInPixels data field
+	 */
 	public int getTileSizeInPixels() {
 		return tileSizeInPixels;
 	}
 
 	
+	/**
+	 * Draws the GridEditingCanvas with all the Tiles in the map data field
+	 * 
+	 * @param editingCanvas - a given Canvas object to draw and draw on
+	 * @param selectedTileSet - a set of Tiles to draw on the canvas
+	 * @param numColors - an int used to generate the color of tiles based on the height of the highest tile
+	 */
 	public void drawMap(Canvas editingCanvas, Set<Tile> selectedTileSet, int numColors) {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
 		
@@ -109,6 +146,12 @@ public class GridEditingCanvas extends Canvas {
 		}
 	}
 	
+	/**
+	 * Draws the TerrainMap on the canvas from a side view perspective
+	 * 
+	 * @param editingCanvas - a canvas to draw the side view on
+	 * @param numColors - an int used to determine which colors to use on the Tiles based on the height of the highest tile
+	 */
 	public void drawFrontPerspective(Canvas editingCanvas, int numColors) {
     	GraphicsContext gc = editingCanvas.getGraphicsContext2D();
     	ArrayList<Integer> heightList = new ArrayList<>();
@@ -146,26 +189,46 @@ public class GridEditingCanvas extends Canvas {
     }
 	
 	
+	/**
+	 * @author Dale Skrien
+	 * Creates a memento State object which holds a cloned  copy of a TerrainMap
+	 * 
+	 * @return - a new instance of the State class which holds a cloned copy of a TerrainMap
+	 */
 	public State createMemento() {
 		return new State();
 	}
 
+	/**
+	 * @author Dale Skrien
+	 * Uses a memento with a cloned copy of a previous TerrainMap to make it the current map
+	 * 
+	 * @param canvasState - the memento State object containing a cloned copy of a previous TerrainMap
+	 */
 	public void restoreState(State canvasState) {
 		canvasState.restore();
 		App.setMap(this.map);
 	}
 
+	/**
+	 * @author Dale Skrien
+	 * Creates a copy of a TerrainMap to mark its state for future use
+	 */
 	public class State {
 		private TerrainMap tempMap;
 
+		/**
+		 * Creates a copy of the current TerrainMap to mark its state
+		 */
 		public State() {
 			tempMap = (TerrainMap) GridEditingCanvas.this.map.clone();
 		}
 
+		/**
+		 * Restores a previous TerrainMap stored in a state object to the current map
+		 */
 		public void restore() {
 			GridEditingCanvas.this.map = (TerrainMap) tempMap.clone();
 		}
 	}
-
-
 }
