@@ -2,42 +2,34 @@ package frigatebird.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 
 import com.jfoenix.controls.JFXToggleButton;
 
-import frigatebird.ui.UndoRedoHandler;
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.TerrainMapIO;
 import frigatebird.terrainbuilder.Tile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class EditorController {
 
@@ -86,6 +78,7 @@ public class EditorController {
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
 	private Set<Tile> fillSet = new HashSet<Tile>();
+	private List<Tab> createdTabs = new ArrayList<>();
 
 	private ToolBox toolbox;
 
@@ -99,9 +92,10 @@ public class EditorController {
 		scrollPane = new ScrollPane(editingCanvas);
 		scrollPane.setHvalue(0.5);
 		scrollPane.setVvalue(0.5);
-        Tab canvasTabOne = new Tab("Untitled", scrollPane);
+		
+        Tab canvasTab = new Tab(App.getMap().getName(), scrollPane); 
         canvasTabPane.getTabs().clear();
-        canvasTabPane.getTabs().add(canvasTabOne);
+        canvasTabPane.getTabs().add(canvasTab);
          
         featureType.getItems().addAll("Pyramid", "Depression", "'Actual' Gate of hell", "Wave", "Building", "Pointy Building");
                 
@@ -438,6 +432,10 @@ public class EditorController {
 				tileToFillSearcher(row - 1, col, fillHeight, targetTileHeight);
 				tileToFillSearcher(row, col + 1, fillHeight, targetTileHeight);
 				tileToFillSearcher(row, col - 1, fillHeight, targetTileHeight);
+				tileToFillSearcher(row + 1, col + 1, fillHeight, targetTileHeight);
+				tileToFillSearcher(row - 1, col - 1, fillHeight, targetTileHeight);
+				tileToFillSearcher(row - 1, col + 1, fillHeight, targetTileHeight);
+				tileToFillSearcher(row + 1, col - 1, fillHeight, targetTileHeight);
 			}
 			refresh();
 		}
@@ -504,7 +502,11 @@ public class EditorController {
 
 	@FXML
 	private void newFile() {
-		// Will allow user to get a new terrain map to work on.
+		TerrainMap newMap = new TerrainMap("Untitled", 15, 15);
+		App.setMap(newMap);
+		GridEditingCanvas newGridEditingCanvas = new GridEditingCanvas(getCurrentMap(), 3000, 3000, 100, 3);
+        Tab canvasTab = new Tab("Untitled", scrollPane); 
+        canvasTabPane.getTabs().add(canvasTab);
 	}
 
 	@FXML

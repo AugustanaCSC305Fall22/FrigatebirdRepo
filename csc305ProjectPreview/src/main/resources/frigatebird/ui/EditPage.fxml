@@ -82,7 +82,7 @@
       </MenuBar>
       <TabPane fx:id="canvasTabPane" layoutX="61.0" layoutY="26.0" prefHeight="575.0" prefWidth="573.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Untitled Tab 1">
+          <Tab text="Untitled ">
             <content>
                   <ScrollPane>
                      <content>

@@ -206,7 +206,7 @@ public class GridEditingCanvas extends Canvas {
 	public void restoreState(State canvasState) {
 		canvasState.restore();
 		App.setMap(this.map);
-	}
+	} 
 
 	/**
 	 * @author Dale Skrien
