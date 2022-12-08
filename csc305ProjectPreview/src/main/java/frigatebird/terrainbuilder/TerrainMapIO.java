@@ -74,9 +74,10 @@ public class TerrainMapIO {
 	 * @throws IOException - general exception for failed or interrupted I/O operations
 	 */
 	public static void saveAs() throws IOException {
-		FileChooser fileChooser = new FileChooser();
+		FileChooser fileChooser = new FileChooser(); 
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
 				"*.terrainmap");
+		fileChooser.setInitialFileName(App.getMap().getName());
 		fileChooser.getExtensionFilters().add(filter);
 		fileChooser.setInitialDirectory(App.getDirectory());
 		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
