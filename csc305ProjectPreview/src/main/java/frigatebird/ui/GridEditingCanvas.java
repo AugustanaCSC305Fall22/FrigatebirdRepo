@@ -20,7 +20,7 @@ public class GridEditingCanvas extends Canvas {
 	
 	public GridEditingCanvas(TerrainMap map, double width, double height) {
 		super(width, height);
-		tileSizeInPixels = 30;
+		tileSizeInPixels = 10;
 		this.map = map;
 	}
 	
