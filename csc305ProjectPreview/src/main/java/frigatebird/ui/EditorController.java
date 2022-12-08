@@ -374,6 +374,7 @@ public class EditorController {
 		cutOrCopyString = "cut";
 		cutAndCopyHelper(cutOrCopyString);
 		selectedTileSet.clear();
+		untoggleToggleButtons();
 		refresh();
 		undoRedoHandler.saveState();
 	}
@@ -383,7 +384,7 @@ public class EditorController {
 		cutAndCopySet.clear();
 		cutOrCopyString = "copy";
 		cutAndCopyHelper(cutOrCopyString);
-		selectedTileSet.clear();
+		untoggleToggleButtons();
 		refresh(); 
 		undoRedoHandler.saveState();
 	}
@@ -567,8 +568,9 @@ public class EditorController {
 	@FXML
 	private void pasteTool() {
 		toolbox.setCurrentTool(ToolBox.Tool.PASTE);
+		untoggleToggleButtons();
 	}
-
+	
 	@FXML
 	private void fillTool() {
 		toolbox.setCurrentTool(ToolBox.Tool.FILL);
@@ -712,6 +714,14 @@ public class EditorController {
         refresh();
         undoRedoHandler.saveState();
       }
+	
+	private void untoggleToggleButtons() {
+		heightToggleButton.setSelected(false);
+		fillToolButton.setSelected(false);
+		selectToggleButton.setSelected(false);
+		multiSelectToggleButton.setSelected(false);
+	}
+
     
     @FXML
 	private void menuEditUndo() {
