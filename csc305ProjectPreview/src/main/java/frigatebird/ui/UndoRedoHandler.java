@@ -8,6 +8,8 @@ import java.util.Stack;
  * 
  * @author Dale Skrien (ported to JavaFX by Forrest Stonedahl)
  * @version 1.0 August 2005 (updated to JavaFX Oct. 2018)
+ * 
+ * This class was authored by Dale Skrien from examples given by Skrien as part of his book, "Object Oriented Design Using Java".
  */
 public class UndoRedoHandler {
 	private Stack<GridEditingCanvas.State> undoStack, redoStack;

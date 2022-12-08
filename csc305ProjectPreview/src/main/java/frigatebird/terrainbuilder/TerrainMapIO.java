@@ -19,6 +19,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Deals with saving, loading, and exporting of TerrainMap objects
+ */
 public class TerrainMapIO {
 
 	private static boolean openSave = false;
@@ -31,6 +34,15 @@ public class TerrainMapIO {
 		writer.close();
 	}
 
+	/**
+	 * Converts json text files to a saved TerrainMap object
+	 * 
+	 * @param inputFile - a text file storing TerrainMap save info in the form of a json
+	 * @return - the saved TerrainMap object found from the input json file
+	 * @throws JsonSyntaxException - exception thrown when gson tries to read a malformed json file
+	 * @throws JsonIOException - exception when gson is unable to read or write to an input stream
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public static TerrainMap jsonToTerrainMap(File inputFile) throws JsonSyntaxException, JsonIOException, IOException {
 		Gson gson = new Gson();
 		FileReader reader = new FileReader(inputFile);
@@ -39,6 +51,11 @@ public class TerrainMapIO {
 		return map;
 	}
 
+	/**
+	 * Saves a TerrainMap object to an existing text file json
+	 * 
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public static void save() throws IOException {
 		File file = App.getCurrentFile();
 		File saveFile = new File("src\\main\\resources\\frigatebird\\SavedMaps\\" + App.getMap().getName() + ".terrainmap");
@@ -51,10 +68,16 @@ public class TerrainMapIO {
 		}
 	}
 
+	/**
+	 * Saves a TerrainMap object to a new json text file that it creates and names
+	 * 
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public static void saveAs() throws IOException {
-		FileChooser fileChooser = new FileChooser();
+		FileChooser fileChooser = new FileChooser(); 
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Terrain map (*.terrainmap)",
 				"*.terrainmap");
+		fileChooser.setInitialFileName(App.getMap().getName());
 		fileChooser.getExtensionFilters().add(filter);
 		fileChooser.setInitialDirectory(App.getDirectory());
 		Stage saveWindow = new Stage(StageStyle.TRANSPARENT);
@@ -72,6 +95,11 @@ public class TerrainMapIO {
 		}
 	}
 
+	/**
+	 * Displays an alert to the user in the case that they have not saved and will create a save
+	 * 
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public static void confirmSave() throws IOException {
 		Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
 		confirm.setTitle("You forgot to save!");
@@ -83,6 +111,11 @@ public class TerrainMapIO {
 		}
 	}
 
+	/**
+	 * Loads a selected TerrainMap using json and makes it the current map
+	 * 
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public static void loadFile() throws IOException {
 		if (openSave) {
 			confirmSave();
@@ -111,6 +144,11 @@ public class TerrainMapIO {
 		}
 	}
 
+	/**
+	 * Creates an .obj object using a TerrainMap object and file
+	 * 
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public static void terrainMapToObj() throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Wavefront (*.obj)", "*.obj");
@@ -182,14 +220,29 @@ public class TerrainMapIO {
 		writer.close();
 	}
 
+	/**
+	 * Returns a boolean with information on whether or not the TerrainMap has been saved yet
+	 * 
+	 * @return - openSave, a boolean with information on whether or not the TerrainMap has been saved yet
+	 */
 	public static boolean isOpenSave() {
 		return openSave;
 	}
 	
+	/**
+	 * Returns a list of all the names of the TerrainMaps that have been saved
+	 * 
+	 * @return - a list of all the names of the TerrainMaps that have been saved
+	 */
 	public static List getSavedMapNames() {
 		return TerrainMapIO.savedMapNames;
 	}
 
+	/**
+	 * Sets the state of the boolean openSave
+	 * 
+	 * @param openSave - the given boolean to change the openSave variable to
+	 */
 	public static void setOpenSave(boolean openSave) {
 		TerrainMapIO.openSave = openSave;
 	}
