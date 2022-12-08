@@ -48,6 +48,8 @@ public class EditorController {
 	@FXML
 	private TabPane canvasTabPane;
 	@FXML
+	private ScrollPane scrollPane;
+	@FXML
 	private JFXToggleButton heightToggleButton;
 	@FXML
 	private TextField heightNumTextField;
@@ -90,11 +92,14 @@ public class EditorController {
 	@FXML
 	private void initialize() {
 		editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		editingCanvas.setScaleX(0.16);
+		editingCanvas.setScaleY(0.16);
 		undoRedoHandler = new UndoRedoHandler(editingCanvas);
 		
-		//rootPane.setCenter(editingCanvas);
-		ScrollPane scrollPane = new ScrollPane(editingCanvas);
-        Tab canvasTabOne = new Tab("Untitled" ,scrollPane);
+		scrollPane = new ScrollPane(editingCanvas);
+		scrollPane.setHvalue(0.5);
+		scrollPane.setVvalue(0.5);
+        Tab canvasTabOne = new Tab("Untitled", scrollPane);
         canvasTabPane.getTabs().clear();
         canvasTabPane.getTabs().add(canvasTabOne);
          
@@ -478,7 +483,9 @@ public class EditorController {
 
 	private void refresh() {
 		this.map = App.getMap();
-		//numColors = map.findMaxMapHeight() + 1;
+		System.out.println(scrollPane.getHvalue());
+		System.out.println(scrollPane.getVvalue());
+		System.out.println();
 		if(App.getView().equals("Top Down View")) {
 			drawMap();
 		} else if (App.getView().equals("Side View")) {
@@ -744,24 +751,32 @@ public class EditorController {
 	
 	private void zoom(ScrollEvent e) {
 		if(e.getDeltaY() > 0) {
-			editingCanvas.setScaleX(editingCanvas.getScaleX() * 1.1);
-			editingCanvas.setScaleY(editingCanvas.getScaleY() * 1.1);
+			zoomIn();
+			scrollPane.setVvalue(0.513);
 		}
 		else if(e.getDeltaY() < 0) {
-			editingCanvas.setScaleX(editingCanvas.getScaleX() / 1.1);
-			editingCanvas.setScaleY(editingCanvas.getScaleY() / 1.1);
+			zoomOut();
+			scrollPane.setVvalue(0.487);
 		}
 	}
 	
 	@FXML
 	private void zoomIn() {
-		editingCanvas.setScaleX(editingCanvas.getScaleX() * 1.1);
-		editingCanvas.setScaleY(editingCanvas.getScaleY() * 1.1);
+		if (editingCanvas.getScaleX() * 1.1 < 1) {
+			editingCanvas.setScaleX(editingCanvas.getScaleX() * 1.1);
+			editingCanvas.setScaleY(editingCanvas.getScaleY() * 1.1);
+		}
+		scrollPane.setHvalue(0.5);
+		scrollPane.setVvalue(0.5);
 	}
 	
 	@FXML
 	private void zoomOut() {
-		editingCanvas.setScaleX(editingCanvas.getScaleX() / 1.1);
-		editingCanvas.setScaleY(editingCanvas.getScaleY() / 1.1);
+		if (editingCanvas.getScaleX() / 1.1 > 0.15) {
+			editingCanvas.setScaleX(editingCanvas.getScaleX() / 1.1);
+			editingCanvas.setScaleY(editingCanvas.getScaleY() / 1.1);
+		}
+		scrollPane.setHvalue(0.5);
+		scrollPane.setVvalue(0.5);
 	}
 }
