@@ -515,7 +515,7 @@
         "height": 0,
         "row": 6,
         "col": 5,
-        "isPointy": true
+        "isPointy": false
       },
       {
         "height": 0,

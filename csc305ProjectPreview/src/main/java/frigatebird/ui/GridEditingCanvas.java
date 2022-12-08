@@ -78,15 +78,11 @@ public class GridEditingCanvas extends Canvas {
 	public void drawMap(Canvas editingCanvas, Set<Tile> selectedTileSet, int numColors) {
 		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
 		
-		/*
 		double width = editingCanvas.getWidth();
 		double length = editingCanvas.getHeight();
 		int tempWidthSize = (int) width/map.getNumColumns();
 		int tempLengthSize = (int) length/map.getNumRows();
-		System.out.println(tempWidthSize);
-		System.out.println(tempLengthSize);
 		tileSizeInPixels = Math.min(tempWidthSize, tempLengthSize);
-		*/
 		
 		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());

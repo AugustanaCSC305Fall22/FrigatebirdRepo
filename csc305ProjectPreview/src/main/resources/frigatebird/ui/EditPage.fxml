@@ -187,9 +187,6 @@
       </JFXButton>
       <JFXToggleButton fx:id="fillToolButton" layoutX="702.0" layoutY="273.0" onAction="#fillTool" text="Fill Tool" toggleColor="#a059d0" toggleGroup="$toolButtonGroup" toggleLineColor="#bd8edb" />
       <TextField fx:id="fillToolInput" layoutX="821.0" layoutY="289.0" prefHeight="23.0" prefWidth="62.0" />
-
-      
-
       <ComboBox fx:id="featureType" layoutX="688.0" layoutY="235.0" onAction="#AdditionOfFeature" prefHeight="21.0" prefWidth="171.0" promptText="Land Forms" />
       <JFXButton fx:id="copyBtn" layoutX="642.0" layoutY="298.0" onAction="#zoomIn" prefHeight="25.0" prefWidth="29.0" stylesheets="@style.css" text=" ">
          <tooltip>
