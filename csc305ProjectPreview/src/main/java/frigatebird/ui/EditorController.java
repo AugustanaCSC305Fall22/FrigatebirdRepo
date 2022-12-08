@@ -486,6 +486,11 @@ public class EditorController {
 		}
 	}
 
+	/**
+	 * Calls the confirmSave() method of the TerrainMapIO class
+	 * 
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public void confirmSave() throws IOException {
 		TerrainMapIO.confirmSave();
 	}
@@ -511,7 +516,7 @@ public class EditorController {
 	}
 
 	@FXML
-	public void loadFile() throws IOException {
+	private void loadFile() throws IOException {
 		TerrainMapIO.loadFile();
 		selectedTileSet.clear();
 		changeMap(App.getMap());
@@ -524,44 +529,44 @@ public class EditorController {
 	}
 
 	@FXML
-	public void topDownView() {
+	private void topDownView() {
 		App.setView("Top Down View");
 		refresh();
 	}
 
 	@FXML
-	public void sideView() {
+	private void sideView() {
 		App.setView("Side View");
 		refresh();
 	}
 
 	@FXML
-	public void selectTool() {
+	private void selectTool() {
 		toolbox.setCurrentTool(ToolBox.Tool.SELECT);
 	}
 
 	@FXML
-	public void twoPointSelectTool() {
+	private void twoPointSelectTool() {
 		toolbox.setCurrentTool(ToolBox.Tool.TWO_POINT_SELECT);
 	}
 
 	@FXML
-	public void heightTool() {
+	private void heightTool() {
 		toolbox.setCurrentTool(ToolBox.Tool.HEIGHT);
 	}
 
 	@FXML
-	public void pasteTool() {
+	private void pasteTool() {
 		toolbox.setCurrentTool(ToolBox.Tool.PASTE);
 	}
 
 	@FXML
-	public void fillTool() {
+	private void fillTool() {
 		toolbox.setCurrentTool(ToolBox.Tool.FILL);
 	}
 
 	@FXML
-	public void pointyTiles() {
+	private void pointyTiles() {
 		toolbox.setCurrentTool(ToolBox.Tool.POINTY);
 	}
 
@@ -711,7 +716,7 @@ public class EditorController {
 	}
     
     @FXML
-    void openPreviewPage(ActionEvent event) throws IOException {
+    private void openPreviewPage(ActionEvent event) throws IOException {
   	  MapPreviewController threeDMap = new MapPreviewController(App.getMap()); 
    	  threeDMap.start(threeDMap.getStage());
     }
