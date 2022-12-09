@@ -35,6 +35,10 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 		int tempWidthSize = (int) width/getMap().getNumColumns();
 		int tempLengthSize = (int) length/getMap().getNumRows();
 		setTileSizeInPixels(Math.min(tempWidthSize, tempLengthSize));
+		radius = getTileSizeInPixels() / 2.0;
+		n = Math.sqrt(radius * radius * 0.75);
+        tileHeight = 2 * radius;
+        tileWidth = 2 * n;
 		
 		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());
@@ -76,7 +80,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 	
 	@Override
 	protected void drawMapNumbers(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
-		Font font = Font.loadFont("file:src/main/resources/frigatebird/Fonts/Majoris_Italic.ttf", ((double) getTileSizeInPixels()) * 0.75);
+		Font font = Font.loadFont("file:src/main/resources/frigatebird/Fonts/Majoris_Italic.ttf", radius);
 		gc.setFont(font);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
@@ -95,11 +99,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 				else {
 					gc.setFill(Color.WHITE);
 				}
-				if (tile.getHeight() < 10) {
-					gc.fillText(Integer.toString(height), x + tileWidth / 2, y + getTileSizeInPixels() / 2);
-				} else {
-					gc.fillText(Integer.toString(height), x + tileWidth / 2, y + getTileSizeInPixels() / 2);
-				}
+				gc.fillText(Integer.toString(height), x + tileWidth / 2, y + n * 5 / 8);
 			}
 		}
 	}
@@ -118,7 +118,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 					if(r % 2 == 1) {
 						x += n;
 					}
-					gc.strokeLine(x, y, x + tileWidth, y + radius);
+					gc.strokeLine(x, y, x + tileWidth, y + y + radius);
 					gc.strokeLine(x, y + radius, x + tileWidth, y);
 				}
 			}

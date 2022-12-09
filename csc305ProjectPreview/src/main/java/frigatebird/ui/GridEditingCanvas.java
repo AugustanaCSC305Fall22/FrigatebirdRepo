@@ -164,11 +164,7 @@ public class GridEditingCanvas extends Canvas {
 				else {
 					gc.setFill(Color.WHITE);
 				}
-				if (tile.getHeight() < 10) {
-					gc.fillText(Integer.toString(height), x + tileSizeInPixels / 2, y + tileSizeInPixels / 2);
-				} else {
-					gc.fillText(Integer.toString(height), x + tileSizeInPixels / 2, y + tileSizeInPixels / 2);
-				}
+				gc.fillText(Integer.toString(height), x + tileSizeInPixels / 2, y + tileSizeInPixels / 2);
 			}
 		}
 	}

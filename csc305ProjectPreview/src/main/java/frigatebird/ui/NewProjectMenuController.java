@@ -43,7 +43,7 @@ public class NewProjectMenuController {
 				new Alert(AlertType.ERROR, "Please enter a name for your project.").showAndWait();
 			}
 			else {
-				App.setMap(new TerrainMap(mapName, numRows, numColumns, false));
+				App.setMap(new TerrainMap(mapName, numRows, numColumns, true));
 		        App.setRoot("EditPage");
 			}
 		} catch (NumberFormatException e) {
