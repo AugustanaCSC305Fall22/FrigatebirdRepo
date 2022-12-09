@@ -715,6 +715,28 @@ public class EditorController {
         undoRedoHandler.saveState();
       }
 	
+	private void resizing() {
+		TerrainMap resized  = new TerrainMap(map.getName(), map.getNumRows()+1, map.getNumColumns());
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				Tile tileResized = resized.getTileAt(r, c);
+				int height = tile.getHeight();
+				tile.setHeight(height);
+				if(tile.getIsPointy() == true) {
+					tileResized.setIsPointy(true);
+			}
+			}
+			
+		}
+		App.setMap(resized);
+	}
+	
+	
+	
+	
+	
+	
 	private void untoggleToggleButtons() {
 		heightToggleButton.setSelected(false);
 		fillToolButton.setSelected(false);
