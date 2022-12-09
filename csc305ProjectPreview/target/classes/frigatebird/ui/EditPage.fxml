@@ -77,6 +77,9 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
             </items>
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#switchToInstructionScreen" text="Instruction" />
+            </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Edit">
               <items>

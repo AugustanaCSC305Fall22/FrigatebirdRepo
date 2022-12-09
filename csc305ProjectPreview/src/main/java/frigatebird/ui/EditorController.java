@@ -732,7 +732,7 @@ public class EditorController {
 			}
 			
 		}
-		//App.setMap(resized);
+		
 		this.map = resized;
 		editingCanvas.setMap(resized);
 		drawMap();
@@ -795,6 +795,11 @@ public class EditorController {
     @FXML
 	private void switchToAboutScreen() throws IOException {
 		App.setRoot("AboutScreen");
+	}
+    
+    @FXML
+	private void switchToInstructionScreen() throws IOException {
+		App.setRoot("EditPageInstructions");
 	}
 
 	@FXML
