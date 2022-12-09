@@ -356,13 +356,13 @@ public class EditorController {
 	private void cutAndCopyHelper(String cutOrCopy) {
 		if (cutOrCopy.equals("cut")) {
 			for (Tile tile : selectedTileSet) {
-				Tile tileCopy = new Tile(tile.getHeight(), tile.getRow(), tile.getCol(), tile.getIsPointy());
+				Tile tileCopy = new Tile(tile.getHeight(), tile.getRow(), tile.getCol(), tile.getIsPointy(), false);
 				cutAndCopySet.add(tileCopy);
 				tile.setHeight(0);
 			}
 		} else {
 			for (Tile tile : selectedTileSet) {
-				Tile tileCopy = new Tile(tile.getHeight(), tile.getRow(), tile.getCol(), tile.getIsPointy());
+				Tile tileCopy = new Tile(tile.getHeight(), tile.getRow(), tile.getCol(), tile.getIsPointy(), false);
 				cutAndCopySet.add(tileCopy);
 			}
 		}
@@ -788,9 +788,14 @@ public class EditorController {
     
     @FXML
     private void openPreviewPage(ActionEvent event) throws IOException {
-  	  MapPreviewController threeDMap = new MapPreviewController(App.getMap()); 
-   	  threeDMap.start(threeDMap.getStage());
-    }
+		if (!(App.getMap().getHexagonal())) {
+			MapPreviewController threeDMap = new MapPreviewController(App.getMap());
+			threeDMap.start(threeDMap.getStage());
+		} else {
+			HexMapPreviewController threeDMap = new HexMapPreviewController(App.getMap());
+			threeDMap.start(threeDMap.getStage());
+		}
+	}
     
     @FXML
 	private void switchToAboutScreen() throws IOException {

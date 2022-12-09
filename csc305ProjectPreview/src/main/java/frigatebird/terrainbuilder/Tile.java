@@ -9,6 +9,7 @@ public class Tile {
 	private int row;
 	private int col;
 	private boolean isPointy;
+	private boolean isHexagonal;
 
 	/**
 	 * A Tile object that stores its location in a TerrainMap object, it's current height, and whether it is pointy
@@ -18,11 +19,12 @@ public class Tile {
 	 * @param col - the column this Tile object is located at in a TerrainMap object
 	 * @param isPointy - a boolean saying whether or not this tile is pointy in 3D space
 	 */
-	public Tile(int height, int row, int col, boolean isPointy) {
+	public Tile(int height, int row, int col, boolean isPointy, boolean isHexagonal) {
 		this.height = height;
 		this.row = row;
 		this.col = col;
 		this.isPointy = isPointy;
+		this.isHexagonal=isHexagonal;
 	}
 
 	/**
@@ -79,6 +81,66 @@ public class Tile {
 		this.col = col;
 	}
 	
+	public double getCenterX(double tileWidth) {
+		if (!isHexagonal) {
+			return (col + 0.5) * tileWidth;
+		} else {
+			if (row % 2 == 0) {
+				return (col + 0.5) * tileWidth;				
+			} else { // shifted right a half hexagon
+				return (col + 1) * tileWidth;
+			}
+		}
+	}
+	public double getCenterY(double tileWidth) {
+		if (!isHexagonal) {
+			return (row + 0.5) * tileWidth;
+		} else {
+			double sideLen = tileWidth/Math.sqrt(3);
+			double rowHeight = tileWidth * Math.sqrt(3) / 2;
+			return sideLen + rowHeight*row;
+		}
+		
+	}
+	/**
+	 * @param tileWidth - for scaling to the target coordinate system
+	 * @return the polygon's x-coordinates in a clockwise order, starting from top left corner
+	 */
+	public double[] getPolygonXCoords(double tileWidth) {
+		if (!isHexagonal) {
+			double xLeft = col * tileWidth;
+			double xRight = (col+1) * tileWidth;
+			return new double[] { xLeft, xRight, xRight, xLeft };
+		} else {
+			double xLeft = col * tileWidth;
+			double xMid = (col + 0.5) * tileWidth;
+			double xRight = (col+1) * tileWidth;
+			return new double[] { xLeft, xMid, xRight, xRight, xMid, xLeft}; 
+		}
+		
+	}
+	
+	/**
+	 * @param tileWidth - for scaling to the target coordinate system
+	 * @return the polygon's y-coordinates in a clockwise order, starting from top left corner
+	 */
+	public double[] getPolygonYCoords(double tileWidth) {
+		if (!isHexagonal) {
+			double yTop = row * tileWidth;
+			double yBottom = (row+1) * tileWidth;
+			return new double[] {yTop, yTop, yBottom, yBottom };
+		} else {
+			double yTop = row * tileWidth;
+			double yMidTop = (row * tileWidth) + (tileWidth/Math.sqrt(3))/2;
+			double yMidBottom = yMidTop + (tileWidth/Math.sqrt(3))/2;
+			double yBottom = yMidBottom + (tileWidth/Math.sqrt(3))/2;
+			return new double[] {yTop, yMidTop, yMidBottom, yBottom};
+			
+		}
+		
+	}
+	
+
 	/**
 	 * Returns whether this Tile is pointy or not in 3D space
 	 * 
@@ -103,7 +165,7 @@ public class Tile {
 	 *@return - a new Tile object which is a copy of the current Tile object
 	 */
 	public Tile clone() {
-		Tile tile = new Tile(this.height, this.row, this.col, this.isPointy);
+		Tile tile = new Tile(this.height, this.row, this.col, this.isPointy, this.isHexagonal);
 		return tile;
 	}
 
