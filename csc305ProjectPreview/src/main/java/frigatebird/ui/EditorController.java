@@ -84,7 +84,7 @@ public class EditorController {
 
 	@FXML
 	private void initialize() {
-		editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
 		editingCanvas.setScaleX(0.16);
 		editingCanvas.setScaleY(0.16);
 		undoRedoHandler = new UndoRedoHandler(editingCanvas);
@@ -500,7 +500,7 @@ public class EditorController {
 
 	@FXML
 	private void newFile() {
-		TerrainMap newMap = new TerrainMap("Untitled", 15, 15);
+		TerrainMap newMap = new TerrainMap("Untitled", 15, 15, false);
 		App.setMap(newMap);
 		GridEditingCanvas newGridEditingCanvas = new GridEditingCanvas(getCurrentMap(), 3000, 3000, 100, 3);
         Tab canvasTab = new Tab("Untitled", scrollPane); 
@@ -715,9 +715,9 @@ public class EditorController {
 	private void resizing(int deltaRow, int deltaColumn, int rowDecrement, int columnDecrement) {
 		TerrainMap resized; 
 		if((deltaRow == 1 || deltaColumn == 1) && (rowDecrement == 0 && columnDecrement == 0)) {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn);
-		}else {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn);
+			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn, map.getHexagonal());
+		} else {
+			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn, map.getHexagonal());
 		}
 		for (int r = 0; r < map.getNumRows()-rowDecrement; r++) {
 			for (int c = 0; c < map.getNumColumns()-columnDecrement; c++) {

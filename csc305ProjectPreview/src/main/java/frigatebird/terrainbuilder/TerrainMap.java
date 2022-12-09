@@ -20,6 +20,7 @@ public class TerrainMap implements Cloneable {
 	private String mapName;
 	private int numRows;
 	private int numColumns;
+	private boolean hexagonal;
 	
 	/**
 	 * Makes a grid map out of Tile objects in a 2D array
@@ -28,11 +29,12 @@ public class TerrainMap implements Cloneable {
 	 * @param rows - number of rows of tiles in this TerrainMap object and it's 2D array
 	 * @param columns - number of columns of tiles in this TerrainMap object and it's 2D array
 	 */
-	public TerrainMap(String mapName, int rows, int columns) {
+	public TerrainMap(String mapName, int rows, int columns, boolean hexagonal) {
 		this.tileGrid = new Tile[rows][columns];
 		this.mapName = mapName;
 		this.numRows = rows;
 		this.numColumns = columns;
+		this.hexagonal = hexagonal;
 		
 		for(int r = 0; r < numRows; r++) {
 			for(int c = 0; c < numColumns; c++) {
@@ -80,6 +82,22 @@ public class TerrainMap implements Cloneable {
 		return numColumns;
 	}
 	
+	public String getMapName() {
+		return mapName;
+	}
+
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
+	}
+
+	public boolean getHexagonal() {
+		return hexagonal;
+	}
+
+	public void setHexagonal(boolean hexagonal) {
+		this.hexagonal = hexagonal;
+	}
+
 	/**
 	 * Returns highest height of all the tiles in the TerrainMap object
 	 * 
