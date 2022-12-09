@@ -17,13 +17,15 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
     private double n;
     private double tileHeight;
     private double tileWidth;
+    private double shift;
 	
 	public HexGridEditingCanvas(TerrainMap map, double width, double height, int tileSizeInPixels, int border) {
 		super(map, width, height, tileSizeInPixels, border);
-		this.radius = getTileSizeInPixels() / 2.0;
-		this.n = Math.sqrt(radius * radius * 0.75);
+		this.n = getTileSizeInPixels() / 2.0;
+		this.radius = n * 2 / Math.sqrt(3);
         this.tileHeight = 2 * radius;
         this.tileWidth = 2 * n;
+        this.shift = n / Math.sqrt(3);
 	}
 	
 	@Override
@@ -32,15 +34,17 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 		
 		double width = getWidth();
 		double length = getHeight();
-		int tempWidthSize = (int) width/getMap().getNumColumns();
-		int tempLengthSize = (int) length/getMap().getNumRows();
-		setTileSizeInPixels(Math.min(tempWidthSize, tempLengthSize));
-		radius = getTileSizeInPixels() / 2.0;
-		n = Math.sqrt(radius * radius * 0.75);
+		double tempWidthSize = width/((double) getMap().getNumColumns() + 0.5);
+		double tempLengthSize = length/((double)getMap().getNumRows() + 0.5 / Math.sqrt(3));
+		setTileSizeInPixels((int) Math.min(tempWidthSize, tempLengthSize));
+		n = getTileSizeInPixels() / 2.0;
+		radius = n * 2 / Math.sqrt(3);
         tileHeight = 2 * radius;
         tileWidth = 2 * n;
+        shift = n / Math.sqrt(3);
 		
-		gc.setFill(Color.rgb(245, 245, 245));
+		//gc.setFill(Color.rgb(245, 245, 245));
+        gc.setFill(Color.GREY);
 		gc.fillRect(0, 0, getWidth(), getHeight());
 		
 		drawMapTiles(gc, selectedTileSet, numColors);
@@ -72,7 +76,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 				}
 		        // creates the polygon using the corner coordinates
 		        double[] xPoints = {x, x, x + n, x + tileWidth, x + tileWidth, x + n};
-		        double[] yPoints = {y, y + radius, y + radius * 1.5, y + radius, y, y - radius * 0.5};
+		        double[] yPoints = {y + shift, y + radius + shift, y + radius * 1.5 + shift, y + radius + shift, y + shift, y - radius * 0.5 + shift};
 				gc.fillPolygon(xPoints, yPoints, 6);
 			}
 		}
@@ -99,7 +103,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 				else {
 					gc.setFill(Color.WHITE);
 				}
-				gc.fillText(Integer.toString(height), x + tileWidth / 2, y + n * 5 / 8);
+				gc.fillText(Integer.toString(height), x + tileWidth / 2, y + n * 5 / 8 + shift);
 			}
 		}
 	}
@@ -118,8 +122,8 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 					if(r % 2 == 1) {
 						x += n;
 					}
-					gc.strokeLine(x, y, x + tileWidth, y + y + radius);
-					gc.strokeLine(x, y + radius, x + tileWidth, y);
+					gc.strokeLine(x, y + shift, x + tileWidth, y + y + radius + shift);
+					gc.strokeLine(x, y + radius + shift, x + tileWidth, y + shift);
 				}
 			}
 		}
