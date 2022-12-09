@@ -39,17 +39,13 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());
 		
-		drawMapTiles(gc, numColors);
-		gc.setFill(Color.LIGHTBLUE);
-		for(Tile tile: selectedTileSet) {
-			//gc.fillRect(tile.getCol() * getTileSizeInPixels(), tile.getRow() * getTileSizeInPixels(), getTileSizeInPixels()-1, getTileSizeInPixels()-1);
-		}
-		drawPointyTiles(gc, selectedTileSet, getTileSizeInPixels());
+		drawMapTiles(gc, selectedTileSet, numColors);
+		drawPointyTiles(gc, selectedTileSet);
 		drawMapNumbers(gc, selectedTileSet, numColors);
 	}
 	
 	@Override
-	protected void drawMapTiles(GraphicsContext gc, int numColors) {
+	protected void drawMapTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
 		for (int r = 0; r < getMap().getNumRows(); r++) {
 			for (int c = 0; c < getMap().getNumColumns(); c++) {
 				Tile tile = getMap().getTileAt(r, c);
@@ -62,6 +58,9 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 				double brightness = (double) height/numColors;
 				Color color = Color.hsb(hue, saturation, brightness);
 				gc.setFill(color);
+				if(selectedTileSet.contains(tile)) {
+					gc.setFill(Color.LIGHTBLUE);
+				}
 		        double x = c * tileWidth;
 		        double y = r * tileHeight * 0.75;
 				if(r % 2 == 1) {
@@ -103,6 +102,28 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected void drawPointyTiles(GraphicsContext gc, Set<Tile> selectedTileSet) {
+		Color color = Color.rgb(255, 100, 100);
+		gc.setStroke(color);
+		gc.setLineWidth(3);
+		for (int r = 0; r < getMap().getNumRows(); r++) {
+			for (int c = 0; c < getMap().getNumColumns(); c++) {
+				Tile tile = getMap().getTileAt(r, c);
+				if(tile.getIsPointy()) {
+					double x = c * tileWidth;
+			        double y = r * tileHeight * 0.75;
+					if(r % 2 == 1) {
+						x += n;
+					}
+					gc.strokeLine(x, y, x + tileWidth, y + radius);
+					gc.strokeLine(x, y + radius, x + tileWidth, y);
+				}
+			}
+		}
+		gc.setLineWidth(1);
 	}
 	
 }

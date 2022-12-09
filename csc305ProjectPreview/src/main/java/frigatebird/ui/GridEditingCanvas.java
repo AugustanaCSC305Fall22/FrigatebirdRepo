@@ -100,16 +100,12 @@ public class GridEditingCanvas extends Canvas {
 		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());
 		
-		drawMapTiles(gc, numColors);
-		gc.setFill(Color.LIGHTBLUE);
-		for(Tile tile: selectedTileSet) {
-			gc.fillRect(tile.getCol() * tileSizeInPixels, tile.getRow() * tileSizeInPixels, tileSizeInPixels-1, tileSizeInPixels-1);
-		}
-		drawPointyTiles(gc, selectedTileSet, tileSizeInPixels);
+		drawMapTiles(gc, selectedTileSet, numColors);
+		drawPointyTiles(gc, selectedTileSet);
 		drawMapNumbers(gc, selectedTileSet, numColors);
 	}
 	
-	protected void drawMapTiles(GraphicsContext gc, int numColors) {
+	protected void drawMapTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
 
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
@@ -123,6 +119,9 @@ public class GridEditingCanvas extends Canvas {
 				double brightness = (double) height/numColors;
 				Color color = Color.hsb(hue, saturation, brightness);
 				gc.setFill(color);
+				if(selectedTileSet.contains(tile)) {
+					gc.setFill(Color.LIGHTBLUE);
+				}
 				double x = c * tileSizeInPixels;
 				double y = r * tileSizeInPixels;
 				gc.fillRect(x, y, tileSizeInPixels - border, tileSizeInPixels - border);
@@ -130,7 +129,7 @@ public class GridEditingCanvas extends Canvas {
 		}
 	}
 	
-	protected void drawPointyTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int tileSize) {
+	protected void drawPointyTiles(GraphicsContext gc, Set<Tile> selectedTileSet) {
 		Color color = Color.rgb(255, 100, 100);
 		gc.setStroke(color);
 		gc.setLineWidth(3);
