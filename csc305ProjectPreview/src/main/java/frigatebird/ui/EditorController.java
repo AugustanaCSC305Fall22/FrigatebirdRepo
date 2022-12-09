@@ -714,7 +714,7 @@ public class EditorController {
 	
 	private void resizing(int deltaRow, int deltaColumn, int rowDecrement, int columnDecrement) {
 		TerrainMap resized; 
-		if((deltaRow == 1 || deltaColumn == 1) && (rowDecrement == 0 && columnDecrement == 0)) {
+		if((deltaRow >= 1 || deltaColumn >= 1) && (rowDecrement == 0 && columnDecrement == 0)) {
 			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn);
 		}else {
 			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn);
@@ -753,7 +753,7 @@ public class EditorController {
 	
     @FXML
     void addColumnAction(ActionEvent event) {
-    	resizing(0,1,0,0);
+    	resizing(2,2,0,0);
     }
 
     @FXML

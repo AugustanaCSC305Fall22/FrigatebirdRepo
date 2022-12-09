@@ -2441,6 +2441,7 @@
       }
     ]
   ],
+  "mapName": "Maze",
   "numRows": 20,
   "numColumns": 20
 }

@@ -39,7 +39,7 @@ public class GridEditingCanvas extends Canvas {
 		this.map = map;
 		this.tileSizeInPixels = tileSizeInPixels;
 		this.border = border;
-		tileSizeInPixels = 10;
+		
 	}
 	
 	/**
