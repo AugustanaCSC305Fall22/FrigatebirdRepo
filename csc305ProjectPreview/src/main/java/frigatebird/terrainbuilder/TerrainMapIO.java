@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.google.gson.*;
 
@@ -26,7 +28,8 @@ public class TerrainMapIO {
 
 	private static boolean openSave = false;
 	private static List<String> savedMapNames = new ArrayList<String>();
-
+	private static Set<String> templateMapNames = new HashSet<String>();
+	
 	private static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		FileWriter writer = new FileWriter(outputFile);
@@ -59,11 +62,19 @@ public class TerrainMapIO {
 	public static void save() throws IOException {
 		File file = App.getCurrentFile();
 		File saveFile = new File("src\\main\\resources\\frigatebird\\SavedMaps\\" + App.getMap().getName() + ".terrainmap");
-		if (file != null) {
-			savedMapNames.add(App.getMap().getName());
-			terrainMapToJSON(App.getMap(), file);
-			terrainMapToJSON(App.getMap(), saveFile);
-		} else {
+		initializeTemplates();
+		if(file != null) {
+			System.out.println(file.getName());
+			if(templateMapNames.contains(file.getName())) {
+				saveAs();
+			}
+			else if (file != null) {
+				savedMapNames.add(App.getMap().getName());
+				terrainMapToJSON(App.getMap(), file);
+				terrainMapToJSON(App.getMap(), saveFile);
+			}
+		}
+		else {
 			saveAs();
 		}
 	}
@@ -218,6 +229,27 @@ public class TerrainMapIO {
 
 		}
 		writer.close();
+	}
+	
+	private static void initializeTemplates() {
+		templateMapNames.add("bitcoinTemplate.terrainmap");
+		templateMapNames.add("buildingCombo.terrainmap");
+		templateMapNames.add("buildingPointy.terrainmap");
+		templateMapNames.add("building.terrainmap");
+		templateMapNames.add("castle.terrainmap");
+		templateMapNames.add("city.terrainmap");
+		templateMapNames.add("depression.terrainmap");
+		templateMapNames.add("gate.terrainmap");
+		templateMapNames.add("maze1.terrainmap");
+		templateMapNames.add("Mountain.terrainmap");
+		templateMapNames.add("pyramid.terrainmap");
+		templateMapNames.add("road.terrainmap");
+		templateMapNames.add("stadium.terrainmap");
+		templateMapNames.add("surface.terrainmap");
+		templateMapNames.add("Sus.terrainmap");
+		templateMapNames.add("vill.terrainmap");
+		templateMapNames.add("village2.terrainmap");
+		templateMapNames.add("wave.terrainmap");
 	}
 
 	/**

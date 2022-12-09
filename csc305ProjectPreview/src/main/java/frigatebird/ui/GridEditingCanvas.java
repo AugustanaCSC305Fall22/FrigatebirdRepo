@@ -77,11 +77,11 @@ public class GridEditingCanvas extends Canvas {
 	 * @param selectedTileSet - a set of Tiles to draw on the canvas
 	 * @param numColors - an int used to generate the color of tiles based on the height of the highest tile
 	 */
-	public void drawMap(Canvas editingCanvas, Set<Tile> selectedTileSet, int numColors) {
-		GraphicsContext gc = editingCanvas.getGraphicsContext2D();
+	public void drawMap(Set<Tile> selectedTileSet, int numColors) {
+		GraphicsContext gc = getGraphicsContext2D();
 		
-		double width = editingCanvas.getWidth();
-		double length = editingCanvas.getHeight();
+		double width = getWidth();
+		double length = getHeight();
 		int tempWidthSize = (int) width/map.getNumColumns();
 		int tempLengthSize = (int) length/map.getNumRows();
 		tileSizeInPixels = Math.min(tempWidthSize, tempLengthSize);
@@ -94,6 +94,7 @@ public class GridEditingCanvas extends Canvas {
 		for(Tile tile: selectedTileSet) {
 			gc.fillRect(tile.getCol() * tileSizeInPixels, tile.getRow() * tileSizeInPixels, tileSizeInPixels-1, tileSizeInPixels-1);
 		}
+		drawPointyTiles(gc, selectedTileSet, tileSizeInPixels);
 		drawMapNumbers(gc, selectedTileSet, tileSizeInPixels, numColors);
 	}
 	
@@ -116,6 +117,24 @@ public class GridEditingCanvas extends Canvas {
 				gc.fillRect(x, y, tileSizeInPixels - border, tileSizeInPixels - border);
 			}
 		}
+	}
+	
+	private void drawPointyTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int tileSize) {
+		Color color = Color.rgb(255, 100, 100);
+		gc.setStroke(color);
+		gc.setLineWidth(3);
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				if(tile.getIsPointy()) {
+					double x = c * tileSizeInPixels;
+					double y = r * tileSizeInPixels;
+					gc.strokeLine(x, y, x + tileSizeInPixels - border, y + tileSizeInPixels - border);
+					gc.strokeLine(x, y + tileSizeInPixels - border, x + tileSizeInPixels - border, y);
+				}
+			}
+		}
+		gc.setLineWidth(1);
 	}
 	
 	private void drawMapNumbers(GraphicsContext gc, Set<Tile> selectedTileSet, int tileSize, int numColors) {

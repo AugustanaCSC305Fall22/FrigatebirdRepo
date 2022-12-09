@@ -78,6 +78,14 @@
               <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#addRowAction" text="Add Row" />
+                  <MenuItem mnemonicParsing="false" onAction="#addColumnAction" text="Add Column" />
+                  <MenuItem mnemonicParsing="false" onAction="#removeRowAction" text="Remove Row" />
+                  <MenuItem mnemonicParsing="false" onAction="#removeColumnAction" text="Remove Column" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
       <TabPane fx:id="canvasTabPane" layoutX="61.0" layoutY="26.0" prefHeight="575.0" prefWidth="573.0" tabClosingPolicy="UNAVAILABLE">
@@ -101,7 +109,7 @@
             <FontAwesomeIconView fill="WHITE" glyphName="COPY" size="22" wrappingWidth="14.0" />
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="pasteBtn" layoutX="832.0" layoutY="454.0" onAction="#pasteTool" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" ">
+      <JFXButton fx:id="pasteBtn" layoutX="826.0" layoutY="454.0" onAction="#pasteTool" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" ">
          <tooltip>
             <Tooltip text="Paste" />
          </tooltip>
