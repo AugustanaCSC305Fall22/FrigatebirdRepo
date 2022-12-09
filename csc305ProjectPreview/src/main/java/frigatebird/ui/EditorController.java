@@ -84,7 +84,13 @@ public class EditorController {
 
 	@FXML
 	private void initialize() {
-		editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		if(App.getMap().getHexagonal()) {
+			editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		}
+		else {
+			editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		}
+		System.out.println(App.getMap().getHexagonal());
 		editingCanvas.setScaleX(0.16);
 		editingCanvas.setScaleY(0.16);
 		undoRedoHandler = new UndoRedoHandler(editingCanvas);
@@ -502,7 +508,13 @@ public class EditorController {
 	private void newFile() {
 		TerrainMap newMap = new TerrainMap("Untitled", 15, 15, false);
 		App.setMap(newMap);
-		GridEditingCanvas newGridEditingCanvas = new GridEditingCanvas(getCurrentMap(), 3000, 3000, 100, 3);
+		GridEditingCanvas newGridEditingCanvas;
+		if(App.getMap().getHexagonal()) {
+			newGridEditingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		}
+		else {
+			newGridEditingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		}
         Tab canvasTab = new Tab("Untitled", scrollPane); 
         canvasTabPane.getTabs().add(canvasTab);
 	}
