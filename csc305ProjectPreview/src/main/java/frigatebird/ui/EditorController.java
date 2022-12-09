@@ -718,7 +718,28 @@ public class EditorController {
 		selectToggleButton.setSelected(false);
 		multiSelectToggleButton.setSelected(false);
 	}
+	
+	
+    @FXML
+    void addColumnAction(ActionEvent event) {
 
+    }
+
+    @FXML
+    void addRowAction(ActionEvent event) {
+
+    }
+	
+	
+    @FXML
+    void removeColumnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void removeRowAction(ActionEvent event) {
+
+    }
     
     @FXML
 	private void menuEditUndo() {
