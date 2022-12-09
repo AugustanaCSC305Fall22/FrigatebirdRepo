@@ -712,21 +712,30 @@ public class EditorController {
         undoRedoHandler.saveState();
       }
 	
-	private void resizing() {
-		TerrainMap resized  = new TerrainMap(map.getName(), map.getNumRows()+1, map.getNumColumns());
-		for (int r = 0; r < map.getNumRows(); r++) {
-			for (int c = 0; c < map.getNumColumns(); c++) {
+	private void resizing(int deltaRow, int deltaColumn, int rowDecrement, int columnDecrement) {
+		TerrainMap resized; 
+		if((deltaRow == 1 || deltaColumn == 1) && (rowDecrement == 0 && columnDecrement == 0)) {
+			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn);
+		}else {
+			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn);
+		}
+		for (int r = 0; r < map.getNumRows()-rowDecrement; r++) {
+			for (int c = 0; c < map.getNumColumns()-columnDecrement; c++) {
 				Tile tile = map.getTileAt(r, c);
 				Tile tileResized = resized.getTileAt(r, c);
+				
 				int height = tile.getHeight();
-				tile.setHeight(height);
+				tileResized.setHeight(height);
 				if(tile.getIsPointy() == true) {
 					tileResized.setIsPointy(true);
 			}
 			}
 			
 		}
-		App.setMap(resized);
+		//App.setMap(resized);
+		this.map = resized;
+		editingCanvas.setMap(resized);
+		drawMap();
 	}
 	
 	
@@ -744,23 +753,23 @@ public class EditorController {
 	
     @FXML
     void addColumnAction(ActionEvent event) {
-
+    	resizing(0,1,0,0);
     }
 
     @FXML
     void addRowAction(ActionEvent event) {
-
+    	resizing(1,0,0,0);
     }
 	
 	
     @FXML
     void removeColumnAction(ActionEvent event) {
-
+    	resizing(0,1,0,1);
     }
 
     @FXML
     void removeRowAction(ActionEvent event) {
-
+    	resizing(1,0,1,0);
     }
     
     @FXML
