@@ -68,8 +68,19 @@ public class GridEditingCanvas extends Canvas {
 	public int getTileSizeInPixels() {
 		return tileSizeInPixels;
 	}
-
 	
+	public void setTileSizeInPixels(int tileSizeInPixels) {
+		this.tileSizeInPixels = tileSizeInPixels;
+	}
+	
+	public int getBorder() {
+		return border;
+	}
+
+	public void setBorder(int border) {
+		this.border = border;
+	}
+
 	/**
 	 * Draws the GridEditingCanvas with all the Tiles in the map data field
 	 * 
@@ -89,16 +100,12 @@ public class GridEditingCanvas extends Canvas {
 		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());
 		
-		drawMapTiles(gc, numColors);
-		gc.setFill(Color.LIGHTBLUE);
-		for(Tile tile: selectedTileSet) {
-			gc.fillRect(tile.getCol() * tileSizeInPixels, tile.getRow() * tileSizeInPixels, tileSizeInPixels-1, tileSizeInPixels-1);
-		}
-		drawPointyTiles(gc, selectedTileSet, tileSizeInPixels);
-		drawMapNumbers(gc, selectedTileSet, tileSizeInPixels, numColors);
+		drawMapTiles(gc, selectedTileSet, numColors);
+		drawPointyTiles(gc, selectedTileSet);
+		drawMapNumbers(gc, selectedTileSet, numColors);
 	}
 	
-	private void drawMapTiles(GraphicsContext gc, int numColors) {
+	protected void drawMapTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
 
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
@@ -112,6 +119,9 @@ public class GridEditingCanvas extends Canvas {
 				double brightness = (double) height/numColors;
 				Color color = Color.hsb(hue, saturation, brightness);
 				gc.setFill(color);
+				if(selectedTileSet.contains(tile)) {
+					gc.setFill(Color.LIGHTBLUE);
+				}
 				double x = c * tileSizeInPixels;
 				double y = r * tileSizeInPixels;
 				gc.fillRect(x, y, tileSizeInPixels - border, tileSizeInPixels - border);
@@ -119,7 +129,7 @@ public class GridEditingCanvas extends Canvas {
 		}
 	}
 	
-	private void drawPointyTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int tileSize) {
+	protected void drawPointyTiles(GraphicsContext gc, Set<Tile> selectedTileSet) {
 		Color color = Color.rgb(255, 100, 100);
 		gc.setStroke(color);
 		gc.setLineWidth(3);
@@ -137,8 +147,8 @@ public class GridEditingCanvas extends Canvas {
 		gc.setLineWidth(1);
 	}
 	
-	private void drawMapNumbers(GraphicsContext gc, Set<Tile> selectedTileSet, int tileSize, int numColors) {
-		Font font = Font.loadFont("file:src/main/resources/frigatebird/Fonts/Majoris_Italic.ttf", ((double) tileSize-1)/2);
+	protected void drawMapNumbers(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
+		Font font = Font.loadFont("file:src/main/resources/frigatebird/Fonts/Majoris_Italic.ttf", ((double) tileSizeInPixels-1)/2);
 		gc.setFont(font);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
@@ -146,19 +156,15 @@ public class GridEditingCanvas extends Canvas {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
 				int height = tile.getHeight();
-				double x = c * tileSize;
-				double y = r * tileSize;
+				double x = c * tileSizeInPixels;
+				double y = r * tileSizeInPixels;
 				if(height > numColors/2 || selectedTileSet.contains(tile)) {
 					gc.setFill(Color.BLACK);
 				}
 				else {
 					gc.setFill(Color.WHITE);
 				}
-				if (tile.getHeight() < 10) {
-					gc.fillText(Integer.toString(height), x + tileSize / 2, y + tileSize / 2);
-				} else {
-					gc.fillText(Integer.toString(height), x + tileSize / 2, y + tileSize / 2);
-				}
+				gc.fillText(Integer.toString(height), x + tileSizeInPixels / 2, y + tileSizeInPixels / 2);
 			}
 		}
 	}

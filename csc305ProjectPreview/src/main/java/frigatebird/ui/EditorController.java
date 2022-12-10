@@ -500,7 +500,7 @@ public class EditorController {
 
 	@FXML
 	private void newFile() {
-		TerrainMap newMap = new TerrainMap("Untitled", 15, 15);
+		TerrainMap newMap = new TerrainMap("Untitled", 15, 15, false);
 		App.setMap(newMap);
 		GridEditingCanvas newGridEditingCanvas = new GridEditingCanvas(getCurrentMap(), 3000, 3000, 100, 3);
         Tab canvasTab = new Tab("Untitled", scrollPane); 
@@ -715,9 +715,9 @@ public class EditorController {
 	private void resizing(int deltaRow, int deltaColumn, int rowDecrement, int columnDecrement) {
 		TerrainMap resized; 
 		if((deltaRow >= 1 || deltaColumn >= 1) && (rowDecrement == 0 && columnDecrement == 0)) {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn);
+			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn, false);
 		}else {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn);
+			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn, false);
 		}
 		for (int r = 0; r < map.getNumRows()-rowDecrement; r++) {
 			for (int c = 0; c < map.getNumColumns()-columnDecrement; c++) {
@@ -753,7 +753,7 @@ public class EditorController {
 	
     @FXML
     void addColumnAction(ActionEvent event) {
-    	resizing(2,2,0,0);
+    	resizing(0,1,0,0);
     }
 
     @FXML
