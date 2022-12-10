@@ -102,6 +102,7 @@ public class Tile {
 		}
 		
 	}
+	
 	/**
 	 * @param tileWidth - for scaling to the target coordinate system
 	 * @return the polygon's x-coordinates in a clockwise order, starting from top left corner

@@ -50,7 +50,7 @@ public class HexMapPreviewController {
 	private final DoubleProperty angleY = new SimpleDoubleProperty(0);
 	private static final int subSceneWidth = 900;
 	private static final int subSceneHeight = 470;
-	private static final int rowAndColSpanInpixels = 8;
+	private static final int TILE_WIDTH = 8;
 
 	public HexMapPreviewController(TerrainMap map) {
 		this.map = map;
@@ -106,9 +106,6 @@ public class HexMapPreviewController {
 	}
 
 	private void create3DObjects() {
-		Transform transform = new Rotate(45, new Point3D(0, 1, 0));
-		int rowSpan = 0;
-		int colSpan = 0;
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
@@ -116,67 +113,66 @@ public class HexMapPreviewController {
 				if (height == 0) {
 					height = 1;
 				}
-				Box box1;
-				Box box2;
-				Box box3;
-				box1 = createBox(rowAndColSpanInpixels, 8, rowSpan, colSpan);
-				box2 = createBox(rowAndColSpanInpixels / 1.39, 8, rowSpan + 3.5, colSpan);
-				box2.getTransforms().add(transform);
-				box3 = createBox(rowAndColSpanInpixels / 1.39, 8, rowSpan - 3.5, colSpan);
-				box3.getTransforms().add(transform);
-				HexCompoundGroup hexGroup = new HexCompoundGroup();
-				hexGroup.getChildren().add(box1);
-				hexGroup.getChildren().add(box2);
-				hexGroup.getChildren().add(box3);
-				group.getChildren().add(hexGroup);
+
+				HexCompoundGroup hexagon = createHexGroup(tile);
+				group.getChildren().add(hexagon);
+				
 
 				if (tile.getIsPointy()) {
-					makePointy(material, rowSpan, colSpan, height);
+					makePointy(material, tile);
 				}
-				rowSpan += rowAndColSpanInpixels;
 			}
-			colSpan += rowAndColSpanInpixels;
-			rowSpan = 0;
 		}
 		position3DObject();
 	}
-
-	private Box createBox(double rowAndColSpanInpixels, double height, double rowSpan, double colSpan) {
-		Box box = new Box(rowAndColSpanInpixels, height, rowAndColSpanInpixels);
-		material = new PhongMaterial(color);
-		box.translateXProperty().set(rowSpan);
-		box.translateYProperty().set(height / -2);
-		if(rowIndexCount % 2 == 0) {
-			box.translateZProperty().set(colSpan);
-		}
-		else {
-			box.translateZProperty().set(colSpan + 4);
-		}
-		box.setMaterial(material);
-		rowIndexCount+=1;
-		return box;
+	
+	private HexCompoundGroup createHexGroup(Tile tile) {
+		Transform transform60 = new Rotate(60, new Point3D(0, 1, 0));
+		Transform transfor120 = new Rotate(120, new Point3D(0, 1, 0));
+		Box box1 = createRectangleBox(tile);
+		Box box2 = createRectangleBox(tile);
+		box2.getTransforms().add(transform60);
+		Box box3 = createRectangleBox(tile);
+		box3.getTransforms().add(transfor120);
+		HexCompoundGroup hexGroup = new HexCompoundGroup();
+		hexGroup.getChildren().add(box1);
+		hexGroup.getChildren().add(box2);
+		hexGroup.getChildren().add(box3);
+		return hexGroup; 
+		
 	}
 
+	private Box createRectangleBox(Tile tile) {
+		double height = tile.getHeight() * TILE_WIDTH;
+		Box box = new Box(TILE_WIDTH, height, TILE_WIDTH / Math.sqrt(3.0));
+		material = new PhongMaterial(color);
+		box.translateXProperty().set(tile.getCenterX(TILE_WIDTH));
+		box.translateYProperty().set(height / -2);
+		box.translateZProperty().set(tile.getCenterY(TILE_WIDTH));
+		box.setMaterial(material);
+		return box;
+	}
+	
 	private void position3DObject() {
-		int mapSizeInPixels = rowAndColSpanInpixels * map.getNumRows();
+		int mapSizeInPixels = TILE_WIDTH * map.getNumRows();
 		group.translateXProperty().set(subSceneWidth / 2 - (mapSizeInPixels / 2));
 		group.translateYProperty().set(subSceneHeight / 1.7);
 		group.translateZProperty().set(-400);
 	}
 
-	private void makePointy(PhongMaterial material, int rowSpan, int colSpan, int height) {
+	private void makePointy(PhongMaterial material, Tile tile) {
 		double smallBoxWidthAndDepth = 5;
-		double heightIncrement = 0.5;
+		double heightIncrement = 0.5 * 8;
+		double height = tile.getHeight() * TILE_WIDTH;
 		// approximate a pyramid using a stack of many shrinking boxes
 		for (int i = 0; i < 50; i++) {
-			Box smallBox = new Box(smallBoxWidthAndDepth, heightIncrement, smallBoxWidthAndDepth);
-			smallBox.setMaterial(material);
-			smallBox.translateXProperty().set(rowSpan);
-			smallBox.translateYProperty().set((height / -2) - (height / 2) - (heightIncrement / 2));
-			smallBox.translateZProperty().set(colSpan);
-			group.getChildren().add(smallBox);
+			Box smallHex = new Box(TILE_WIDTH, height, TILE_WIDTH / Math.sqrt(3.0));
+			smallHex.translateXProperty().set(tile.getCenterX(TILE_WIDTH)); 
+			smallHex.translateYProperty().set(-height - (heightIncrement / 2));
+			smallHex.translateZProperty().set(tile.getCenterY(TILE_WIDTH));
+			group.getChildren().add(smallHex);
 			smallBoxWidthAndDepth -= 0.1;
-			heightIncrement += 0.5;
+			heightIncrement += heightIncrement;
 		}
 	}
 
