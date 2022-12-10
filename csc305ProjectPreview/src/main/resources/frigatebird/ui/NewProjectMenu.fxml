@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@newProjectStyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.NewProjectMenuController">
@@ -32,7 +35,7 @@
       </Label>
       <TextField fx:id="rowTextField" layoutX="413.0" layoutY="272.0" />
       <TextField fx:id="columnTextField" layoutX="413.0" layoutY="344.0" onAction="#switchToEditPage" />
-      <JFXButton fx:id="createButton" buttonType="RAISED" layoutX="364.0" layoutY="432.0" onAction="#switchToEditPage" prefHeight="30.0" prefWidth="137.0" text="Create" textFill="WHITE">
+      <JFXButton fx:id="createButton" buttonType="RAISED" layoutX="371.0" layoutY="457.0" onAction="#switchToEditPage" prefHeight="30.0" prefWidth="137.0" text="Create" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
@@ -61,5 +64,24 @@
             <Font size="14.0" />
          </font>
       </FontAwesomeIconView>
+      <JFXRadioButton layoutX="279.0" layoutY="408.0" text="Square TIles" textFill="WHITE">
+         <toggleGroup>
+            <ToggleGroup fx:id="hexagonalToggleGroup" />
+         </toggleGroup>
+         <unSelectedColor>
+            <Color red="1.0" green="1.0" blue="1.0" />
+         </unSelectedColor>
+         <selectedColor>
+            <Color red="0.615686297416687" blue="0.6823529601097107" />
+         </selectedColor>
+      </JFXRadioButton>
+      <JFXRadioButton layoutX="445.0" layoutY="408.0" prefHeight="17.0" prefWidth="126.0" text="Hexagonal Tiles" textFill="WHITE" toggleGroup="$hexagonalToggleGroup">
+         <unSelectedColor>
+            <Color red="1.0" green="1.0" blue="1.0" />
+         </unSelectedColor>
+         <selectedColor>
+            <Color red="0.615686297416687" blue="0.6823529601097107" />
+         </selectedColor>
+      </JFXRadioButton>
    </children>
 </AnchorPane>

@@ -193,18 +193,18 @@ public class TerrainMapIO {
 					yVertexTranslate = yVertexTranslate + 1;
 				}
 
-				writer.write("v" + " " + r + " " + c + yVertexTranslate + " " + height + "\n");
-				writer.write("v" + " " + r + xVertexTranslate + " " + c + (yVertexTranslate/2) + " " + height + "\n");
-				writer.write("v" + " " + r + xVertexTranslate + " " + (c - (yVertexTranslate/2)) + " " + height + "\n");
-				writer.write("v" + " " + r + " " + (c - yVertexTranslate) + " " + height + "\n");			
-				writer.write("v" + " " + (r - xVertexTranslate) + " " + (c - (yVertexTranslate/2)) + " " + height + "\n");
-				writer.write("v" + " " + (r - xVertexTranslate) + " " + c + (yVertexTranslate/2) + " " + height + "\n");
-				writer.write("v" + " " + r + " " + c + yVertexTranslate + " " + 0 + "\n");
-				writer.write("v" + " " + r + xVertexTranslate + " " + c + (yVertexTranslate/2) + " " + 0 + "\n");
-				writer.write("v" + " " + r + xVertexTranslate + " " + (c - (yVertexTranslate/2)) + " " + 0 + "\n");			
-				writer.write("v" + " " + r + " " + (c - yVertexTranslate) + " " + 0 + "\n");
-				writer.write("v" + " " + (r - xVertexTranslate) + " " + (c - (yVertexTranslate/2)) + " " + 0 + "\n");
-				writer.write("v" + " " + (r - xVertexTranslate) + " " + c + (yVertexTranslate/2) + " " + 0 + "\n");
+				writer.write("v" + " " + r + " " + height + " " + c + yVertexTranslate + "\n");
+				writer.write("v" + " " + r + xVertexTranslate + " " + height + " " + c + (yVertexTranslate/2) + "\n");
+				writer.write("v" + " " + r + xVertexTranslate + " " + height + " " + (c - (yVertexTranslate/2)) + "\n");
+				writer.write("v" + " " + r + " " + (c - yVertexTranslate) + " " + (c - yVertexTranslate) + "\n");			
+				writer.write("v" + " " + (r - xVertexTranslate) + " " + height + " " + (c - (yVertexTranslate/2)) + "\n");
+				writer.write("v" + " " + (r - xVertexTranslate) + " " + height + " " + c + (yVertexTranslate/2) + "\n");
+				writer.write("v" + " " + r + " " + 0 + " " + c + yVertexTranslate + "\n");
+				writer.write("v" + " " + r + xVertexTranslate + " " + 0 + " " + c + (yVertexTranslate/2) + "\n");
+				writer.write("v" + " " + r + xVertexTranslate + " " + 0 + " " + (c - (yVertexTranslate/2)) + "\n");			
+				writer.write("v" + " " + r + " " + 0 + " " + (c - yVertexTranslate) + "\n");
+				writer.write("v" + " " + (r - xVertexTranslate) + " " + 0 + " " + (c - (yVertexTranslate/2)) + "\n");
+				writer.write("v" + " " + (r - xVertexTranslate) + " " + c + 0 + " " + (yVertexTranslate/2) + "\n");
 				writer.write("v" + " " + r + " " + c + " " + height + "\n");
 				writer.write("v" + " " + r + " " + c + " " + 0 + "\n");
 			}
