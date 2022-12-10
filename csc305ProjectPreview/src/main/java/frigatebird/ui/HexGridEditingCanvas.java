@@ -121,7 +121,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 					if(r % 2 == 1) {
 						x += n;
 					}
-					gc.strokeLine(x, y + shift, x + tileWidth, y + y + radius + shift);
+					gc.strokeLine(x, y + shift, x + tileWidth, y + radius + shift);
 					gc.strokeLine(x, y + radius + shift, x + tileWidth, y + shift);
 				}
 			}
