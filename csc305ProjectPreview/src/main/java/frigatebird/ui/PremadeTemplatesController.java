@@ -12,6 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Controls the menu and ui to select from premade TerrainMap templates
+ */
 public class PremadeTemplatesController {
 
 	@FXML
@@ -80,7 +83,7 @@ public class PremadeTemplatesController {
 	}
 
 	@FXML
-	void LoadToScreen(MouseEvent event) throws IOException {
+	private void LoadToScreen(MouseEvent event) throws IOException {
 		if (event.getButton().equals(MouseButton.PRIMARY)) {
 
 			File file = new File(pathFinder(event));

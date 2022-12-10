@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.HexMapPreviewController">
+   <children>
+      <ToolBar layoutY="465.0" prefHeight="43.0" prefWidth="901.0">
+        <items>
+            <ComboBox fx:id="textureComboBox" onAction="#changeTexture" prefHeight="25.0" prefWidth="125.0" promptText="Textures" />
+            <ColorPicker fx:id="colorPicker" onAction="#changeColor">
+               <value>
+                  <Color red="0.5662280917167664" green="0.09210526198148727" blue="0.7105262875556946" opacity="0.7599999904632568" />
+               </value>
+            </ColorPicker>
+            <JFXButton fx:id="copyBtn" buttonType="RAISED" prefHeight="30.0" prefWidth="57.0" stylesheets="@style.css" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="QUESTION" size="22" text="" wrappingWidth="12.0" />
+               </graphic>
+            </JFXButton>
+        </items>
+      </ToolBar>
+   </children>
+</AnchorPane>
