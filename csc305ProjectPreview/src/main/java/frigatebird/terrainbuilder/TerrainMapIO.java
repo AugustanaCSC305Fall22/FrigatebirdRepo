@@ -29,6 +29,7 @@ public class TerrainMapIO {
 	private static boolean openSave = false;
 	private static List<String> savedMapNames = new ArrayList<String>();
 	private static Set<String> templateMapNames = new HashSet<String>();
+	private static final int TILE_WIDTH = 8;
 	
 	private static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -172,8 +173,78 @@ public class TerrainMapIO {
 			if(file.getParent() != null) {
 				App.setDirectory(new File(file.getParent()));
 			}
-			createObjFile(App.getMap(), file);
+			if(App.getMap().isHexagonal()) {
+				createHexObjFile(App.getMap(), file);
+			}else {
+				createObjFile(App.getMap(), file);
+			}
 		}
+	}
+
+	private static void createHexObjFile(TerrainMap map, File objFile) throws IOException {
+		FileWriter writer = new FileWriter(objFile);
+		double xVertexTranslate = 0.433000;
+		double yVertexTranslate = 0.500000;
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				int height = tile.getHeight();
+				if(r % 2 != 0) {
+					yVertexTranslate = yVertexTranslate + 1;
+				}
+
+				writer.write("v" + " " + r + " " + c + yVertexTranslate + " " + height + "\n");
+				writer.write("v" + " " + r + xVertexTranslate + " " + c + (yVertexTranslate/2) + " " + height + "\n");
+				writer.write("v" + " " + r + xVertexTranslate + " " + (c - (yVertexTranslate/2)) + " " + height + "\n");
+				writer.write("v" + " " + r + " " + (c - yVertexTranslate) + " " + height + "\n");			
+				writer.write("v" + " " + (r - xVertexTranslate) + " " + (c - (yVertexTranslate/2)) + " " + height + "\n");
+				writer.write("v" + " " + (r - xVertexTranslate) + " " + c + (yVertexTranslate/2) + " " + height + "\n");
+				writer.write("v" + " " + r + " " + c + yVertexTranslate + " " + 0 + "\n");
+				writer.write("v" + " " + r + xVertexTranslate + " " + c + (yVertexTranslate/2) + " " + 0 + "\n");
+				writer.write("v" + " " + r + xVertexTranslate + " " + (c - (yVertexTranslate/2)) + " " + 0 + "\n");			
+				writer.write("v" + " " + r + " " + (c - yVertexTranslate) + " " + 0 + "\n");
+				writer.write("v" + " " + (r - xVertexTranslate) + " " + (c - (yVertexTranslate/2)) + " " + 0 + "\n");
+				writer.write("v" + " " + (r - xVertexTranslate) + " " + c + (yVertexTranslate/2) + " " + 0 + "\n");
+				writer.write("v" + " " + r + " " + c + " " + height + "\n");
+				writer.write("v" + " " + r + " " + c + " " + 0 + "\n");
+			}
+		}
+		
+		int vertexCount = 0;
+		for (int i = 0; i < map.getNumRows(); i++) {
+			for (int j = 0; j < map.getNumColumns(); j++) {
+				Tile tile = map.getTileAt(i, j);
+		
+				writer.write("f" + " " + (1 + vertexCount) + " " + (7 + vertexCount) + " " + (8 + vertexCount)
+						+ " " + (2 + vertexCount) + "\n");
+				writer.write("f" + " " + (2 + vertexCount) + " " + (8 + vertexCount) + " " + (9 + vertexCount)
+						+ " " + (3 + vertexCount) + "\n");
+				writer.write("f" + " " + (3 + vertexCount) + " " + (9 + vertexCount) + " " + (10 + vertexCount)
+						+ " " + (4 + vertexCount) + "\n");
+				writer.write("f" + " " + (4 + vertexCount) + " " + (10 + vertexCount) + " " + (11 + vertexCount)
+						+ " " + (5 + vertexCount) + "\n");
+				writer.write("f" + " " + (5 + vertexCount) + " " + (11 + vertexCount) + " " + (12 + vertexCount)
+						+ " " + (6 + vertexCount) + "\n");
+				writer.write("f" + " " + (6 + vertexCount) + " " + (12 + vertexCount) + " " + (7 + vertexCount)
+						+ " " + (1 + vertexCount) + "\n");
+				writer.write("f" + " " + (1 + vertexCount) + " " + (2 + vertexCount) + " " + (13 + vertexCount)+ "\n");
+				writer.write("f" + " " + (2 + vertexCount) + " " + (3 + vertexCount) + " " + (13 + vertexCount)+ "\n");
+				writer.write("f" + " " + (3 + vertexCount) + " " + (4 + vertexCount) + " " + (13 + vertexCount)+ "\n");
+				writer.write("f" + " " + (4 + vertexCount) + " " + (5 + vertexCount) + " " + (13 + vertexCount)+ "\n");
+				writer.write("f" + " " + (5 + vertexCount) + " " + (6 + vertexCount) + " " + (13 + vertexCount)+ "\n");
+				writer.write("f" + " " + (6 + vertexCount) + " " + (1 + vertexCount) + " " + (13 + vertexCount)+ "\n");
+				writer.write("f" + " " + (8 + vertexCount) + " " + (7 + vertexCount) + " " + (14 + vertexCount)+ "\n");
+				writer.write("f" + " " + (9 + vertexCount) + " " + (8 + vertexCount) + " " + (14 + vertexCount)+ "\n");
+				writer.write("f" + " " + (10 + vertexCount) + " " + (9 + vertexCount) + " " + (14 + vertexCount)+ "\n");
+				writer.write("f" + " " + (11 + vertexCount) + " " + (10 + vertexCount) + " " + (14 + vertexCount)+ "\n");			
+				writer.write("f" + " " + (12 + vertexCount) + " " + (11 + vertexCount) + " " + (14 + vertexCount)+ "\n");
+				writer.write("f" + " " + (7 + vertexCount) + " " + (12 + vertexCount) + " " + (14 + vertexCount)+ "\n");
+				
+				} 
+					vertexCount += 14;
+			}
+		writer.close();
+		
 	}
 
 	private static void createObjFile(TerrainMap map, File objFile) throws IOException {

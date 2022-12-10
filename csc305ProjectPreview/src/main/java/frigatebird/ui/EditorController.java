@@ -84,13 +84,13 @@ public class EditorController {
 
 	@FXML
 	private void initialize() {
-		if(App.getMap().getHexagonal()) {
+		if(App.getMap().isHexagonal()) {
 			editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
 		}
 		else {
 			editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
 		}
-		System.out.println(App.getMap().getHexagonal());
+		System.out.println(App.getMap().isHexagonal());
 		editingCanvas.setScaleX(0.16);
 		editingCanvas.setScaleY(0.16);
 		undoRedoHandler = new UndoRedoHandler(editingCanvas);
@@ -509,7 +509,7 @@ public class EditorController {
 		TerrainMap newMap = new TerrainMap("Untitled", 15, 15, false);
 		App.setMap(newMap);
 		GridEditingCanvas newGridEditingCanvas;
-		if(App.getMap().getHexagonal()) {
+		if(App.getMap().isHexagonal()) {
 			newGridEditingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
 		}
 		else {
@@ -727,9 +727,9 @@ public class EditorController {
 	private void resizing(int deltaRow, int deltaColumn, int rowDecrement, int columnDecrement) {
 		TerrainMap resized; 
 		if((deltaRow == 1 || deltaColumn == 1) && (rowDecrement == 0 && columnDecrement == 0)) {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn, map.getHexagonal());
+			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn, map.isHexagonal());
 		} else {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn, map.getHexagonal());
+			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn, map.isHexagonal());
 		}
 		for (int r = 0; r < map.getNumRows()-rowDecrement; r++) {
 			for (int c = 0; c < map.getNumColumns()-columnDecrement; c++) {
@@ -800,7 +800,7 @@ public class EditorController {
     
     @FXML
     private void openPreviewPage(ActionEvent event) throws IOException {
-		if (!(App.getMap().getHexagonal())) {
+		if (!(App.getMap().isHexagonal())) {
 			MapPreviewController threeDMap = new MapPreviewController(App.getMap());
 			threeDMap.start(threeDMap.getStage());
 		} else {
