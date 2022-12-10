@@ -35,7 +35,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 		double width = getWidth();
 		double length = getHeight();
 		double tempWidthSize = width/((double) getMap().getNumColumns() + 0.5);
-		double tempLengthSize = length/((double)getMap().getNumRows() + 0.5 / Math.sqrt(3));
+		double tempLengthSize = length/((double) getMap().getNumRows() * 1.5 / Math.sqrt(3) + 0.5 / Math.sqrt(3));
 		setTileSizeInPixels((int) Math.min(tempWidthSize, tempLengthSize));
 		n = getTileSizeInPixels() / 2.0;
 		radius = n * 2 / Math.sqrt(3);
