@@ -43,8 +43,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
         tileWidth = 2 * n;
         shift = n / Math.sqrt(3);
 		
-		//gc.setFill(Color.rgb(245, 245, 245));
-        gc.setFill(Color.GREY);
+		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());
 		
 		drawMapTiles(gc, selectedTileSet, numColors);
