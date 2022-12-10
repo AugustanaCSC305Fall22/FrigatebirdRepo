@@ -54,7 +54,7 @@ public class MainMenuController {
     }
     
     @FXML
-    void deleteMapAction(ActionEvent event) throws IOException {
+    private void deleteMapAction(ActionEvent event) throws IOException {
 		String mapToDelete = listView.getSelectionModel().getSelectedItem();
 		int mapNameIndex = listView.getSelectionModel().getSelectedIndex();
 		
@@ -65,6 +65,12 @@ public class MainMenuController {
 		}
 	}
     
+	/**
+	 * Removes a saved map file from the directory
+	 * 
+	 * @param mapName - name of the map file to delete from the save directory
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public void deleteSavedFile(String mapName) throws IOException {
 		Path path = Paths.get("src\\main\\resources\\frigatebird\\SavedMaps\\" + mapName);
 		if (dir.isDirectory()) {

@@ -29,6 +29,9 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 
+/**
+ * Manages the 3D preview of TerrainMap objects
+ */
 public class MapPreviewController {
 	
     
@@ -53,10 +56,21 @@ public class MapPreviewController {
     private static final int rowAndColSpanInpixels = 5;
 
 		
+	/**
+	 * Starts the map preview by picking a TerrainMap to preview
+	 * 
+	 * @param map - a TerrainMap object to preview
+	 */
 	public MapPreviewController(TerrainMap map) {
 		this.map = map;
 	}
 
+	/**
+	 * Starts the 3D preview window and sets default options and controls
+	 * 
+	 * @param stage - a stage to draw the 3D preview scene on
+	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 */
 	public void start(Stage stage) throws IOException {
 		
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MapPreview.fxml"));
@@ -81,14 +95,14 @@ public class MapPreviewController {
 }
 	
     @FXML
-    void changeColor(ActionEvent event) throws IOException {
+    private void changeColor(ActionEvent event) throws IOException {
     	color = colorPicker.getValue();
     	group.getChildren().clear();
     	create3DObjects();
     }
     
     @FXML
-    void changeTexture() {
+    private void changeTexture() {
     	applyTexture();
     }
    
@@ -222,6 +236,11 @@ public class MapPreviewController {
         App.setRoot("MainMenu");
     }
 	
+	/**
+	 * Returns the current stage of the 3D preview controller
+	 * 
+	 * @return - the current stage of the 3D preview controller
+	 */
 	public Stage getStage() {
 		return this.stage;
 	}
@@ -233,14 +252,24 @@ class CompoundGroup extends Group{
 	Rotate rotationDegree;
 	Transform transform = new Rotate();
 	
-	void rotateByX(int angle) {
+	/**
+	 * Rotates the camera angle on the X axis by a certain angle
+	 * 
+	 * @param angle - the angle degree value with which to rotate the camera
+	 */
+	public void rotateByX(int angle) {
 		rotationDegree = new Rotate(angle, Rotate.X_AXIS);
 		transform = transform.createConcatenation(rotationDegree);
 		this.getTransforms().clear();
 		this.getTransforms().add(transform);
 	}
 	
-	void rotateByY(int angle) {
+	/**
+	 * Rotates the camera angle on the Y axis by a certain angle
+	 * 
+	 * @param angle - the angle degree value with which to rotate the camera
+	 */
+	public void rotateByY(int angle) {
 		rotationDegree = new Rotate(angle, Rotate.Y_AXIS);
 		transform = transform.createConcatenation(rotationDegree);
 		this.getTransforms().clear();

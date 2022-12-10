@@ -10,6 +10,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Controls the display of the menu and ui to create a new project
+ */
 public class NewProjectMenuController {
 	
 	@FXML
