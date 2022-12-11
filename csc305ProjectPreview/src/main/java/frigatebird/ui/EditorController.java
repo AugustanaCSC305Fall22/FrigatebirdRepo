@@ -730,7 +730,7 @@ public class EditorController {
 	}
 	
 	@FXML
-	private void selectAllTiles() {
+	private void selectAllTilesOnMap() {
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
@@ -744,7 +744,7 @@ public class EditorController {
 	}
 	
 	@FXML
-	private void clearAllTiles() {
+	private void clearAllTilesOnMap() {
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
@@ -795,12 +795,12 @@ public class EditorController {
     
     @FXML
     void clearAllTiles(ActionEvent event) {
-    	clearAllTiles();
+    	clearAllTilesOnMap();
     }
     
     @FXML
     void selectAllTiles(ActionEvent event) {
-    	selectAllTiles();
+    	selectAllTilesOnMap();
     }
     
     @FXML
