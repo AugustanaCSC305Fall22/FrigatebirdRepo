@@ -33,6 +33,7 @@ public class EditorController {
 
 	private UndoRedoHandler undoRedoHandler;
 	private GridEditingCanvas editingCanvas;
+
 	@FXML
 	private BorderPane rootPane;
 	@FXML
@@ -81,26 +82,25 @@ public class EditorController {
 
 	@FXML
 	private void initialize() {
-		if(App.getMap().isHexagonal()) {
+		if (App.getMap().isHexagonal()) {
 			editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
-		}
-		else {
+		} else {
 			editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
 		}
 		editingCanvas.setScaleX(0.16);
 		editingCanvas.setScaleY(0.16);
 		undoRedoHandler = new UndoRedoHandler(editingCanvas);
-		
+
 		scrollPane = new ScrollPane(editingCanvas);
 		scrollPane.setHvalue(0.5);
 		scrollPane.setVvalue(0.5);
-		
-        Tab canvasTab = new Tab(App.getMap().getName(), scrollPane); 
-        canvasTabPane.getTabs().clear();
-        canvasTabPane.getTabs().add(canvasTab);
-         
-        featureType.getItems().addAll("Pyramid", "Depression", "'Actual' Gate of hell", "Wave", "Building", "Pointy Building");
-                
+
+		Tab canvasTab = new Tab(App.getMap().getName(), scrollPane);
+		canvasTabPane.getTabs().clear();
+		canvasTabPane.getTabs().add(canvasTab);
+
+		featureType.getItems().addAll("Pyramid", "Depression", "'Actual' Gate of hell", "Wave", "Building",
+				"Pointy Building");
 
 		map = App.getMap();
 		toolbox = new ToolBox(ToolBox.Tool.SELECT);
@@ -112,11 +112,13 @@ public class EditorController {
 			try {
 				handleCanvasMouse(e);
 			} catch (IOException e1) {
-				
+
 				e1.printStackTrace();
 			}
 		});
-		editingCanvas.setOnScroll(e -> {zoom(e);});
+		editingCanvas.setOnScroll(e -> {
+			zoom(e);
+		});
 
 		heightNumTextField.setOnKeyTyped(e -> setHeightNum(e));
 		heightTileSelectInput.setOnKeyTyped(e -> setSelectHeightNum(e));
@@ -210,25 +212,19 @@ public class EditorController {
 		if (App.getView().equals("Top Down View")) {
 			if (toolbox.getCurrentTool().equals(ToolBox.Tool.HEIGHT)) {
 				changeHeight(e);
-			}
-			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.SELECT)) {
+			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.SELECT)) {
 				selectTiles(e);
-			}
-			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
+			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
 				twoPointSelectTool(e);
-			}
-			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
+			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
 				pasteSelectedTiles(e);
-			}
-			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
+			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
 				pointyTilesTool(e);
-			}
-			else if(toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
+			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
 				floodFill(e);
+			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
+				insertFeature(e);
 			}
-			else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
-		        insertFeature(e);
-		    }
 		}
 	}
 
@@ -263,7 +259,7 @@ public class EditorController {
 		try {
 			heightNum = Integer.parseInt(text);
 			if (heightNum > maxTileHeight) {
-				heightNum = maxTileHeight; 
+				heightNum = maxTileHeight;
 				heightNumTextField.setText(Integer.toString(heightNum));
 			} else if (heightNum < 1) {
 				heightNum = 1;
@@ -379,7 +375,7 @@ public class EditorController {
 		cutOrCopyString = "copy";
 		cutAndCopyHelper(cutOrCopyString);
 		untoggleToggleButtons();
-		refresh(); 
+		refresh();
 		undoRedoHandler.saveState();
 	}
 
@@ -419,40 +415,40 @@ public class EditorController {
 
 	private void tileToFillSearcher(int row, int col, int fillHeight, int targetTileHeight) {
 		if (row < 0 || row >= map.getNumRows() || col < 0 || col >= map.getNumColumns()
-				|| map.getTileAt(row, col).getHeight() != targetTileHeight || map.getTileAt(row, col).getHeight() == fillHeight) {
+				|| map.getTileAt(row, col).getHeight() != targetTileHeight
+				|| map.getTileAt(row, col).getHeight() == fillHeight) {
 			return;
 		} else {
-				map.getTileAt(row, col).setHeight(fillHeight);
-				tileToFillSearcher(row + 1, col, fillHeight, targetTileHeight);
-				tileToFillSearcher(row - 1, col, fillHeight, targetTileHeight);
-				tileToFillSearcher(row, col + 1, fillHeight, targetTileHeight);
-				tileToFillSearcher(row, col - 1, fillHeight, targetTileHeight);
-				tileToFillSearcher(row + 1, col + 1, fillHeight, targetTileHeight);
-				tileToFillSearcher(row - 1, col - 1, fillHeight, targetTileHeight);
-				tileToFillSearcher(row - 1, col + 1, fillHeight, targetTileHeight);
-				tileToFillSearcher(row + 1, col - 1, fillHeight, targetTileHeight);
-			}
-			refresh();
+			map.getTileAt(row, col).setHeight(fillHeight);
+			tileToFillSearcher(row + 1, col, fillHeight, targetTileHeight);
+			tileToFillSearcher(row - 1, col, fillHeight, targetTileHeight);
+			tileToFillSearcher(row, col + 1, fillHeight, targetTileHeight);
+			tileToFillSearcher(row, col - 1, fillHeight, targetTileHeight);
+			tileToFillSearcher(row + 1, col + 1, fillHeight, targetTileHeight);
+			tileToFillSearcher(row - 1, col - 1, fillHeight, targetTileHeight);
+			tileToFillSearcher(row - 1, col + 1, fillHeight, targetTileHeight);
+			tileToFillSearcher(row + 1, col - 1, fillHeight, targetTileHeight);
 		}
-		
-			private void floodFill(MouseEvent e) {
-				int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-				int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
-				int targetTileHeight = map.getTileAt(row, col).getHeight();
-				
-				int fillHeight = Integer.parseInt(fillToolInput.getText());
-				
-				if (e.getButton().equals(MouseButton.PRIMARY) && fillToolButton.isSelected()) {
-					tileToFillSearcher(row, col, fillHeight, targetTileHeight);
-				}
-			for(Tile tile: fillSet) {
-				tile.setHeight(fillToolNum);
-			}
-			fillSet.clear();
+		refresh();
+	}
+
+	private void floodFill(MouseEvent e) {
+		int row = editingCanvas.yCoordToRowNumber((int) e.getY());
+		int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+		int targetTileHeight = map.getTileAt(row, col).getHeight();
+
+		int fillHeight = Integer.parseInt(fillToolInput.getText());
+
+		if (e.getButton().equals(MouseButton.PRIMARY) && fillToolButton.isSelected()) {
+			tileToFillSearcher(row, col, fillHeight, targetTileHeight);
+		}
+		for (Tile tile : fillSet) {
+			tile.setHeight(fillToolNum);
+		}
+		fillSet.clear();
 		refresh();
 		undoRedoHandler.saveState();
 	}
-
 
 	private void pointyTilesTool(MouseEvent e) {
 		if (e.getButton().equals(MouseButton.PRIMARY)) {
@@ -463,7 +459,7 @@ public class EditorController {
 				tile.setIsPointy(true);
 			}
 		} else if (e.getButton().equals(MouseButton.SECONDARY)) {
-			int row = editingCanvas.yCoordToRowNumber((int) e.getY()); 
+			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
 			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
@@ -476,7 +472,7 @@ public class EditorController {
 
 	private void refresh() {
 		this.map = App.getMap();
-		if(App.getView().equals("Top Down View")) {
+		if (App.getView().equals("Top Down View")) {
 			drawMap();
 		} else if (App.getView().equals("Side View")) {
 			drawFrontPerspective();
@@ -486,7 +482,8 @@ public class EditorController {
 	/**
 	 * Calls the confirmSave() method of the TerrainMapIO class
 	 * 
-	 * @throws IOException - general exception for failed or interrupted I/O operations
+	 * @throws IOException - general exception for failed or interrupted I/O
+	 *                     operations
 	 */
 	public void confirmSave() throws IOException {
 		TerrainMapIO.confirmSave();
@@ -506,7 +503,7 @@ public class EditorController {
 	private void saveAs() throws IOException {
 		TerrainMapIO.saveAs();
 	}
-	
+
 	private void changeMap(TerrainMap map) {
 		this.map = map;
 		editingCanvas.setMap(map);
@@ -518,14 +515,11 @@ public class EditorController {
 		selectedTileSet.clear();
 		changeMap(App.getMap());
 		/*
-		if(App.getMap().isHexagonal()) {
-			editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
-		}
-		else {
-			editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
-		}
-		*/
-		//refresh();
+		 * if(App.getMap().isHexagonal()) { editingCanvas = new
+		 * HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3); } else {
+		 * editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3); }
+		 */
+		// refresh();
 		initialize();
 	}
 
@@ -566,7 +560,7 @@ public class EditorController {
 		toolbox.setCurrentTool(ToolBox.Tool.PASTE);
 		untoggleToggleButtons();
 	}
-	
+
 	@FXML
 	private void fillTool() {
 		toolbox.setCurrentTool(ToolBox.Tool.FILL);
@@ -610,160 +604,190 @@ public class EditorController {
 		if (Type == "Pointy Building") {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\buildingPointy.terrainmap";
 		}
-		
+
 		return filePath;
 	}
-	
+
 	private int featureSizeAdjustment() {
 		int sizeAdj = 0;
-		if(map.getNumColumns()<50 && map.getNumColumns() > 40 &&  map.getNumRows()<50 && map.getNumRows() > 40) {
-			sizeAdj = 1; 
+		if (map.getNumColumns() < 50 && map.getNumColumns() > 40 && map.getNumRows() < 50 && map.getNumRows() > 40) {
+			sizeAdj = 1;
 		}
-		if(map.getNumColumns()<=40 && map.getNumColumns() > 30 &&  map.getNumRows()<=40 && map.getNumRows() > 30) {
-			sizeAdj = 2; 
-		}if(map.getNumColumns()<=30 && map.getNumColumns() > 20 &&  map.getNumRows()<=30 && map.getNumRows() > 20) {
-			sizeAdj = 3; 
-		}if(map.getNumColumns()<=20 && map.getNumColumns() > 10 &&  map.getNumRows()<=20 && map.getNumRows() > 10) {
-			sizeAdj = 4; 
-		}if(map.getNumColumns()<=10 && map.getNumColumns() > 5 &&  map.getNumRows()<=10 && map.getNumRows() > 5) {
-			sizeAdj = 5; 
-		}else {
+		if (map.getNumColumns() <= 40 && map.getNumColumns() > 30 && map.getNumRows() <= 40 && map.getNumRows() > 30) {
+			sizeAdj = 2;
+		}
+		if (map.getNumColumns() <= 30 && map.getNumColumns() > 20 && map.getNumRows() <= 30 && map.getNumRows() > 20) {
+			sizeAdj = 3;
+		}
+		if (map.getNumColumns() <= 20 && map.getNumColumns() > 10 && map.getNumRows() <= 20 && map.getNumRows() > 10) {
+			sizeAdj = 4;
+		}
+		if (map.getNumColumns() <= 10 && map.getNumColumns() > 5 && map.getNumRows() <= 10 && map.getNumRows() > 5) {
+			sizeAdj = 5;
+		} else {
 			int minSize = 0;
-			if(map.getNumColumns() > map.getNumRows() + 10) {
+			if (map.getNumColumns() > map.getNumRows() + 10) {
 				minSize = map.getNumRows();
-			}if(map.getNumRows() > map.getNumColumns() + 10) {
+			}
+			if (map.getNumRows() > map.getNumColumns() + 10) {
 				minSize = map.getNumColumns();
 			}
-			
-			if(minSize < 50 && minSize > 40) {
+
+			if (minSize < 50 && minSize > 40) {
 				sizeAdj = 1;
 			}
-			if(minSize <= 40 && minSize > 30) {
+			if (minSize <= 40 && minSize > 30) {
 				sizeAdj = 2;
 			}
-			if(minSize <= 30 && minSize > 20) {
+			if (minSize <= 30 && minSize > 20) {
 				sizeAdj = 3;
 			}
-			if(minSize <= 20 && minSize > 10) {
+			if (minSize <= 20 && minSize > 10) {
 				sizeAdj = 4;
 			}
-			if(minSize <= 10 && minSize > 5) {
+			if (minSize <= 10 && minSize > 5) {
 				sizeAdj = 5;
 			}
-			
-		}
-		
-		return sizeAdj;
-		
-	}
 
+		}
+
+		return sizeAdj;
+
+	}
 
 	private void insertFeature(MouseEvent e) throws IOException {
 
-	
-			String type = featureType.getValue();
-			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
-			Tile initialTile = map.getTileAt(row, col);
-			File file = new File(insertFeatureHelper(type));
-            
-			try {
+		String type = featureType.getValue();
+		int row = editingCanvas.yCoordToRowNumber((int) e.getY());
+		int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+		Tile initialTile = map.getTileAt(row, col);
+		File file = new File(insertFeatureHelper(type));
+
+		try {
 			TerrainMap feature = TerrainMapIO.jsonToTerrainMap(file);
 
 			int midRow = feature.getNumRows() / 2;
 			int midCol = feature.getNumColumns() / 2 + 1;
-            int trimSize = featureSizeAdjustment();
-			
-			
-           
-				int colIncrement = 1 ;
-				int rowIncrement = -midCol + trimSize;
-				for (int r = trimSize; r < feature.getNumRows()-trimSize; r++) {
-					colIncrement = 0;
-					rowIncrement++;
-					
-					for (int c = trimSize; c < feature.getNumColumns()-trimSize; c++) {
-						Tile tile = feature.getTileAt(r, c);
-						int height = tile.getHeight();
-						
-                        
-						Tile tileOnMap = map.getTileAt(initialTile.getRow() + rowIncrement,
-								initialTile.getCol() + colIncrement - midRow + trimSize);
-						 
-							 
-							    if(tile.getIsPointy() == true) {
-							    	tileOnMap.setIsPointy(true);
-							    }if(tile.getHeight() > 0) {
-								tileOnMap.setHeight(height);
-							    }
-								colIncrement++;
-							
-						 
-						}
-					
-				
-				
+			int trimSize = featureSizeAdjustment();
+
+			int colIncrement = 1;
+			int rowIncrement = -midCol + trimSize;
+			for (int r = trimSize; r < feature.getNumRows() - trimSize; r++) {
+				colIncrement = 0;
+				rowIncrement++;
+
+				for (int c = trimSize; c < feature.getNumColumns() - trimSize; c++) {
+					Tile tile = feature.getTileAt(r, c);
+					int height = tile.getHeight();
+
+					Tile tileOnMap = map.getTileAt(initialTile.getRow() + rowIncrement,
+							initialTile.getCol() + colIncrement - midRow + trimSize);
+
+					if (tile.getIsPointy() == true) {
+						tileOnMap.setIsPointy(true);
+					}
+					if (tile.getHeight() > 0) {
+						tileOnMap.setHeight(height);
+					}
+					colIncrement++;
+
+				}
+
+			}
+		} catch (IndexOutOfBoundsException e1) {
+			new Alert(AlertType.ERROR, "Not enough real estate here to build this feature.").showAndWait();
 		}
-           }catch(IndexOutOfBoundsException e1) {
-        	   new Alert(AlertType.ERROR, "Not enough real estate here to build this feature.").showAndWait();
-           }
-        refresh();
-        undoRedoHandler.saveState();
-      }
-	
+		refresh();
+		undoRedoHandler.saveState();
+	}
+
 	private void resizing(int deltaRow, int deltaColumn, int rowDecrement, int columnDecrement) {
-		TerrainMap resized; 
-		if((deltaRow == 1 || deltaColumn == 1) && (rowDecrement == 0 && columnDecrement == 0)) {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn, map.isHexagonal());
+		TerrainMap resized;
+		if ((deltaRow == 1 || deltaColumn == 1) && (rowDecrement == 0 && columnDecrement == 0)) {
+			resized = new TerrainMap(map.getName(), map.getNumRows() + deltaRow, map.getNumColumns() + deltaColumn,
+					map.isHexagonal());
 		} else {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn, map.isHexagonal());
+			resized = new TerrainMap(map.getName(), map.getNumRows() - deltaRow, map.getNumColumns() - deltaColumn,
+					map.isHexagonal());
 		}
-		for (int r = 0; r < map.getNumRows()-rowDecrement; r++) {
-			for (int c = 0; c < map.getNumColumns()-columnDecrement; c++) {
+		for (int r = 0; r < map.getNumRows() - rowDecrement; r++) {
+			for (int c = 0; c < map.getNumColumns() - columnDecrement; c++) {
 				Tile tile = map.getTileAt(r, c);
 				Tile tileResized = resized.getTileAt(r, c);
-				
+
 				int height = tile.getHeight();
 				tileResized.setHeight(height);
-				if(tile.getIsPointy() == true) {
+				if (tile.getIsPointy() == true) {
 					tileResized.setIsPointy(true);
+				}
 			}
-			}
-			
+
 		}
-		
+
 		this.map = resized;
 		editingCanvas.setMap(resized);
 		drawMap();
 		undoRedoHandler.saveState();
 	}
-	
+
 	@FXML
 	private void selectAllTilesOnMap() {
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
-				
-					selectedTileSet.add(tile);
-				
+
+				selectedTileSet.add(tile);
+
 			}
 		}
 		refresh();
 		undoRedoHandler.saveState();
 	}
-	
+
 	@FXML
 	private void clearAllTilesOnMap() {
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
-				
-					tile.setHeight(0);
-					tile.setIsPointy(false);
-				
+
+				tile.setHeight(0);
+				tile.setIsPointy(false);
+
 			}
 		}
 		refresh();
+		undoRedoHandler.saveState();
+	}
+
+	private void changeMapType() {
+		TerrainMap transformedMap;
+		if (map.isHexagonal()) {
+			transformedMap = new TerrainMap(map.getName(), map.getNumRows(), map.getNumColumns(), false);
+			
+		} else {
+			transformedMap = new TerrainMap(map.getName(), map.getNumRows(), map.getNumColumns(), true);
+			
+		}
+
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				Tile transformedMapTile = transformedMap.getTileAt(r, c);
+
+				int height = tile.getHeight();
+				transformedMapTile.setHeight(height);
+
+				if (tile.getIsPointy() == true) {
+					transformedMapTile.setIsPointy(true);
+
+				}
+			}
+		}
+		this.map = transformedMap;
+		App.setMap(map);
+		initialize();
+				
+		drawMap();
 		undoRedoHandler.saveState();
 	}
 
@@ -773,57 +797,61 @@ public class EditorController {
 		selectToggleButton.setSelected(false);
 		multiSelectToggleButton.setSelected(false);
 	}
-	
-	
-    @FXML
-    void addColumnAction(ActionEvent event) {
-    	resizing(0,1,0,0);
-    }
 
-    @FXML
-    void addRowAction(ActionEvent event) {
-    	resizing(1,0,0,0);
-    }
-	
-	
-    @FXML
-    void removeColumnAction(ActionEvent event) {
-    	resizing(0,1,0,1);
-    }
+	@FXML
+	void addColumnAction(ActionEvent event) {
+		resizing(0, 1, 0, 0);
+	}
 
-    @FXML
-    void removeRowAction(ActionEvent event) {
-    	resizing(1,0,1,0);
-    }
-    
-    @FXML
+	@FXML
+	void addRowAction(ActionEvent event) {
+		resizing(1, 0, 0, 0);
+	}
+	
 
-    void clearAllTiles(ActionEvent event) {
-    	clearAllTilesOnMap();
-    }
-    
-    @FXML
-    void selectAllTiles(ActionEvent event) {
-    	selectAllTilesOnMap();
-    }
-    
-    @FXML
+	@FXML
+	void removeColumnAction(ActionEvent event) {
+		resizing(0, 1, 0, 1);
+	}
+
+	@FXML
+	void removeRowAction(ActionEvent event) {
+		resizing(1, 0, 1, 0);
+	}
+
+	@FXML
+
+	void clearAllTiles(ActionEvent event) {
+		clearAllTilesOnMap();
+	}
+
+	@FXML
+	void selectAllTiles(ActionEvent event) {
+		selectAllTilesOnMap();
+	}
+
+	@FXML
+	void changeMap(ActionEvent event) {
+		changeMapType();
+	}
+	
+	@FXML
 
 	private void menuEditUndo() {
-    	selectedTileSet.clear();
+		selectedTileSet.clear();
 		undoRedoHandler.undo();
 		refresh();
 	}
-    
+
 	@FXML
 	private void menuEditRedo() {
 		selectedTileSet.clear();
 		undoRedoHandler.redo();
 		refresh();
 	}
-    
-    @FXML
-    private void openPreviewPage(ActionEvent event) throws IOException {
+
+	@FXML
+	private void openPreviewPage(ActionEvent event) throws IOException {
 		if (!(App.getMap().isHexagonal())) {
 			MapPreviewController threeDMap = new MapPreviewController(App.getMap());
 			threeDMap.start(threeDMap.getStage());
@@ -832,17 +860,17 @@ public class EditorController {
 			threeDMap.start(threeDMap.getStage());
 		}
 	}
-    
-    @FXML
+
+	@FXML
 	private void switchToAboutScreen() throws IOException {
 		App.setRoot("AboutScreen");
 	}
-    
-    @FXML
+
+	@FXML
 	private void switchToInstructionScreen() throws IOException {
 		App.setRoot("EditPageInstructions");
 	}
-    
+
 	@FXML
 	private void switchToTemplateMenu() throws IOException {
 		App.setRoot("premadeTemplates");
@@ -863,18 +891,17 @@ public class EditorController {
 	private void switchToMainMenu() throws IOException {
 		App.setRoot("MainMenu");
 	}
-	
+
 	private void zoom(ScrollEvent e) {
-		if(e.getDeltaY() > 0) {
+		if (e.getDeltaY() > 0) {
 			zoomIn();
 			scrollPane.setVvalue(0.513);
-		}
-		else if(e.getDeltaY() < 0) {
+		} else if (e.getDeltaY() < 0) {
 			zoomOut();
 			scrollPane.setVvalue(0.487);
 		}
 	}
-	
+
 	@FXML
 	private void zoomIn() {
 		if (editingCanvas.getScaleX() * 1.1 < 1) {
@@ -884,7 +911,7 @@ public class EditorController {
 		scrollPane.setHvalue(0.5);
 		scrollPane.setVvalue(0.5);
 	}
-	
+
 	@FXML
 	private void zoomOut() {
 		if (editingCanvas.getScaleX() / 1.1 > 0.15) {

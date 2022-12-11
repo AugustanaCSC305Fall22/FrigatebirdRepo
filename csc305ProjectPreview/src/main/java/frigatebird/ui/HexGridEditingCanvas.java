@@ -51,6 +51,8 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 		drawMapNumbers(gc, selectedTileSet, numColors);
 	}
 	
+	
+	
 	@Override
 	protected void drawMapTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
 		for (int r = 0; r < getMap().getNumRows(); r++) {

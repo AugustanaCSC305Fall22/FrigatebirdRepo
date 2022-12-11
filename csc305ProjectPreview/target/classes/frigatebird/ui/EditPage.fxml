@@ -87,6 +87,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#removeColumnAction" text="Remove Column" />
                   <MenuItem mnemonicParsing="false" onAction="#clearAllTiles" text="Clear All" />
                   <MenuItem mnemonicParsing="false" onAction="#selectAllTiles" text="Select All" />
+                  <MenuItem mnemonicParsing="false" onAction="#changeMap" text="Change map type" />
               </items>
             </Menu>
         </menus>
