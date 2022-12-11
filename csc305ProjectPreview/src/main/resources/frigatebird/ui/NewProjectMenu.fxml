@@ -64,7 +64,7 @@
             <Font size="14.0" />
          </font>
       </FontAwesomeIconView>
-      <JFXRadioButton layoutX="279.0" layoutY="408.0" text="Square TIles" textFill="WHITE">
+      <JFXRadioButton fx:id="squareTileButton" layoutX="279.0" layoutY="408.0" selected="true" text="Square TIles" textFill="WHITE">
          <toggleGroup>
             <ToggleGroup fx:id="hexagonalToggleGroup" />
          </toggleGroup>
@@ -75,7 +75,7 @@
             <Color red="0.615686297416687" blue="0.6823529601097107" />
          </selectedColor>
       </JFXRadioButton>
-      <JFXRadioButton layoutX="445.0" layoutY="408.0" prefHeight="17.0" prefWidth="126.0" text="Hexagonal Tiles" textFill="WHITE" toggleGroup="$hexagonalToggleGroup">
+      <JFXRadioButton fx:id="hexTileButton" layoutX="445.0" layoutY="408.0" prefHeight="17.0" prefWidth="126.0" text="Hexagonal Tiles" textFill="WHITE" toggleGroup="$hexagonalToggleGroup">
          <unSelectedColor>
             <Color red="1.0" green="1.0" blue="1.0" />
          </unSelectedColor>
