@@ -786,9 +786,6 @@ public class EditorController {
 		this.map = transformedMap;
 		App.setMap(map);
 		initialize();
-				
-		drawMap();
-		undoRedoHandler.saveState();
 	}
 
 	private void untoggleToggleButtons() {

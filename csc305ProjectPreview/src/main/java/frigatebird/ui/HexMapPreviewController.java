@@ -50,7 +50,7 @@ public class HexMapPreviewController {
 	private final DoubleProperty angleY = new SimpleDoubleProperty(0);
 	private static final int subSceneWidth = 900;
 	private static final int subSceneHeight = 470;
-	private static final int TILE_WIDTH = 8;
+	private static final int TILE_WIDTH = 5;
 
 	public HexMapPreviewController(TerrainMap map) {
 		this.map = map;
@@ -76,6 +76,9 @@ public class HexMapPreviewController {
 
 		initMouseControl(group, subscene, stage);
 		initKeyboardControls(group, stage);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("Images/favicon.png")));
+        stage.setTitle("Frigatebird 3D Editor");
+        stage.setResizable(false);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -97,11 +100,14 @@ public class HexMapPreviewController {
 		group.getChildren().clear();
 		create3DObjects();
 		for (int i = 0; i < group.getChildren().size(); i++) {
-			Box box = (Box) group.getChildren().get(i);
-			String texture = textureComboBox.getValue();
-			String path = "Textures/" + texture + ".jpg";
-			material.setDiffuseMap(new Image(getClass().getResourceAsStream(path)));
-			box.setMaterial(material);
+			Group hexGroup = (Group) group.getChildren().get(i);
+			for (int j = 0; j < hexGroup.getChildren().size(); j++) { 
+				Box box = (Box) hexGroup.getChildren().get(j);
+				String texture = textureComboBox.getValue();
+				String path = "Textures/" + texture + ".jpg";
+				material.setDiffuseMap(new Image(getClass().getResourceAsStream(path)));
+				box.setMaterial(material);
+			}
 		}
 	}
 
@@ -118,9 +124,9 @@ public class HexMapPreviewController {
 				group.getChildren().add(hexagon);
 				
 
-				if (tile.getIsPointy()) {
-					makePointy(material, tile);
-				}
+//				if (tile.getIsPointy()) {
+//					makePointy(material, tile);
+//				}
 			}
 		}
 		position3DObject();
@@ -144,10 +150,10 @@ public class HexMapPreviewController {
 
 	private Box createRectangleBox(Tile tile) {
 		double height = tile.getHeight() * TILE_WIDTH;
-		Box box = new Box(TILE_WIDTH, height, TILE_WIDTH / Math.sqrt(3.0));
+		Box box = new Box(TILE_WIDTH, height/4, TILE_WIDTH / Math.sqrt(3.0));
 		material = new PhongMaterial(color);
 		box.translateXProperty().set(tile.getCenterX(TILE_WIDTH));
-		box.translateYProperty().set(height / -2);
+		box.translateYProperty().set(height/-8);
 		box.translateZProperty().set(tile.getCenterY(TILE_WIDTH));
 		box.setMaterial(material);
 		return box;
