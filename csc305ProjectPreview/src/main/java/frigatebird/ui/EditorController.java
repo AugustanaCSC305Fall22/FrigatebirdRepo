@@ -517,7 +517,16 @@ public class EditorController {
 		TerrainMapIO.loadFile();
 		selectedTileSet.clear();
 		changeMap(App.getMap());
-		refresh();
+		/*
+		if(App.getMap().isHexagonal()) {
+			editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		}
+		else {
+			editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		}
+		*/
+		//refresh();
+		initialize();
 	}
 
 	@FXML
@@ -758,12 +767,6 @@ public class EditorController {
 		undoRedoHandler.saveState();
 	}
 
-	
-	
-	
-	
-	
-	
 	private void untoggleToggleButtons() {
 		heightToggleButton.setSelected(false);
 		fillToolButton.setSelected(false);
@@ -794,6 +797,7 @@ public class EditorController {
     }
     
     @FXML
+
     void clearAllTiles(ActionEvent event) {
     	clearAllTilesOnMap();
     }
@@ -804,6 +808,7 @@ public class EditorController {
     }
     
     @FXML
+
 	private void menuEditUndo() {
     	selectedTileSet.clear();
 		undoRedoHandler.undo();
@@ -836,6 +841,11 @@ public class EditorController {
     @FXML
 	private void switchToInstructionScreen() throws IOException {
 		App.setRoot("EditPageInstructions");
+	}
+    
+	@FXML
+	private void switchToTemplateMenu() throws IOException {
+		App.setRoot("premadeTemplates");
 	}
 
 	@FXML

@@ -76,9 +76,6 @@ public class HexMapPreviewController {
 
 		initMouseControl(group, subscene, stage);
 		initKeyboardControls(group, stage);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("Images/favicon.png")));
-        stage.setTitle("Frigatebird 3D Editor");
-        stage.setResizable(false);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -131,12 +128,12 @@ public class HexMapPreviewController {
 	
 	private HexCompoundGroup createHexGroup(Tile tile) {
 		Transform transform60 = new Rotate(60, new Point3D(0, 1, 0));
-		Transform transform120 = new Rotate(120, new Point3D(0, 1, 0));
+		Transform transfor120 = new Rotate(120, new Point3D(0, 1, 0));
 		Box box1 = createRectangleBox(tile);
 		Box box2 = createRectangleBox(tile);
 		box2.getTransforms().add(transform60);
 		Box box3 = createRectangleBox(tile);
-		box3.getTransforms().add(transform120);
+		box3.getTransforms().add(transfor120);
 		HexCompoundGroup hexGroup = new HexCompoundGroup();
 		hexGroup.getChildren().add(box1);
 		hexGroup.getChildren().add(box2);

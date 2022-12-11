@@ -34,7 +34,7 @@ public class TerrainMap implements Cloneable {
 		this.mapName = mapName;
 		this.numRows = rows;
 		this.numColumns = columns;
-		this.hexagonal = true;
+		this.hexagonal = hexagonal;
 		
 		for(int r = 0; r < numRows; r++) {
 			for(int c = 0; c < numColumns; c++) {

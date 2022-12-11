@@ -25,7 +25,7 @@
                   <Tooltip text="Home" />
                </tooltip>
             </JFXButton>
-            <JFXButton layoutX="-1.0" layoutY="244.0" prefHeight="58.0" prefWidth="63.0" styleClass="menu_button" text=" ">
+            <JFXButton layoutX="-1.0" layoutY="244.0" onAction="#switchToTemplateMenu" prefHeight="58.0" prefWidth="63.0" styleClass="menu_button" text=" ">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="IMAGE" size="1.5em" styleClass="icon" text="" />
                </graphic>
