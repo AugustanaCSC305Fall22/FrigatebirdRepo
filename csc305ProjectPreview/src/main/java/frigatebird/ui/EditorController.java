@@ -494,7 +494,7 @@ public class EditorController {
 
 	@FXML
 	private void newFile() {
-		
+
 	}
 
 	@FXML
@@ -726,7 +726,38 @@ public class EditorController {
 		this.map = resized;
 		editingCanvas.setMap(resized);
 		drawMap();
+		undoRedoHandler.saveState();
 	}
+	
+	@FXML
+	private void selectAllTiles() {
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				
+					selectedTileSet.add(tile);
+				
+			}
+		}
+		refresh();
+		undoRedoHandler.saveState();
+	}
+	
+	@FXML
+	private void clearAllTiles() {
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				
+					tile.setHeight(0);
+					tile.setIsPointy(false);
+				
+			}
+		}
+		refresh();
+		undoRedoHandler.saveState();
+	}
+
 	
 	
 	

@@ -181,6 +181,7 @@ public class TerrainMapIO {
 		}
 	}
 
+
 	private static void createHexObjFile(TerrainMap map, File objFile) throws IOException {
 		FileWriter writer = new FileWriter(objFile);
 		double xVertexTranslate = 0.433000;
@@ -246,6 +247,7 @@ public class TerrainMapIO {
 		writer.close();
 		
 	}
+
 
 	private static void createObjFile(TerrainMap map, File objFile) throws IOException {
 		FileWriter writer = new FileWriter(objFile);
