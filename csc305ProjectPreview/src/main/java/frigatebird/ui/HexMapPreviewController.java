@@ -76,6 +76,9 @@ public class HexMapPreviewController {
 
 		initMouseControl(group, subscene, stage);
 		initKeyboardControls(group, stage);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("Images/favicon.png")));
+        stage.setTitle("Frigatebird 3D Editor");
+        stage.setResizable(false);
 		stage.setScene(scene);
 		stage.show();
 	}

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -34,8 +35,10 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("mainMenu"), 900, 594);
+        scene = new Scene(loadFXML("mainMenu"), 900, 603);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("Images/favicon.png")));
         stage.setTitle("Frigatebird 3D Editor");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
