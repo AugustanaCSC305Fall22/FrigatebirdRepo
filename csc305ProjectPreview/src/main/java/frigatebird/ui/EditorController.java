@@ -794,6 +794,16 @@ public class EditorController {
     }
     
     @FXML
+    void clearAllTiles(ActionEvent event) {
+    	clearAllTiles();
+    }
+    
+    @FXML
+    void selectAllTiles(ActionEvent event) {
+    	selectAllTiles();
+    }
+    
+    @FXML
 	private void menuEditUndo() {
     	selectedTileSet.clear();
 		undoRedoHandler.undo();
