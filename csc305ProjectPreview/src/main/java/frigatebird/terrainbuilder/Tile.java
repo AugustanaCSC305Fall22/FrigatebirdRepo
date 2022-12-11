@@ -24,7 +24,7 @@ public class Tile {
 		this.row = row;
 		this.col = col;
 		this.isPointy = isPointy;
-		this.isHexagonal=false;
+		this.isHexagonal=isHexagonal;
 	}
 
 	/**
