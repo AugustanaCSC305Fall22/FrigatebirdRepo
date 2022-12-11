@@ -211,6 +211,39 @@ public class GridEditingCanvas extends Canvas {
 		}
     }
 	
+	/**
+	 * Given an x-coordinate of a pixel in the MosaicCanvas, this method returns the
+	 * row number of the mosaic rectangle that contains that pixel. If the
+	 * x-coordinate does not lie within the bounds of the mosaic, the return value
+	 * is -1 or is equal to the number of columns, depending on whether x is to the
+	 * left or to the right of the mosaic.
+	 */
+	public int xCoordToColumnNumber(double x) {
+		if (x < 0)
+			return -1;
+		if (x >= (map.getNumColumns() * tileSizeInPixels)) {
+			return -1;
+		}
+		int col = (int) (x / tileSizeInPixels);
+		return col;
+	}
+	
+	/**
+	 * Given a y-coordinate of a pixel in the MosaicCanvas, this method returns the
+	 * column number of the mosaic rectangle that contains that pixel. If the
+	 * y-coordinate does not lie within the bounds of the mosaic, the return value
+	 * is -1 or is equal to the number of rows, depending on whether y is above or
+	 * below the mosaic.
+	 */
+	public int yCoordToRowNumber(double y) {
+		if (y < 0)
+			return -1;
+		if (y >= (map.getNumRows() * tileSizeInPixels)) {
+			return -1;
+		}
+		int row = (int) (y / tileSizeInPixels);
+		return row;
+	}
 	
 	/**
 	 * @author Dale Skrien
