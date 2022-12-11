@@ -837,6 +837,11 @@ public class EditorController {
 	private void switchToInstructionScreen() throws IOException {
 		App.setRoot("EditPageInstructions");
 	}
+    
+	@FXML
+	private void switchToTemplateMenu() throws IOException {
+		App.setRoot("premadeTemplates");
+	}
 
 	@FXML
 	private void AdditionOfFeature() {
