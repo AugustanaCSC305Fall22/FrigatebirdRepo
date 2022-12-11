@@ -2,9 +2,7 @@ package frigatebird.ui;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -78,13 +76,17 @@ public class EditorController {
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
 	private Set<Tile> fillSet = new HashSet<Tile>();
-	private List<Tab> createdTabs = new ArrayList<>();
 
 	private ToolBox toolbox;
 
 	@FXML
 	private void initialize() {
-		editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		if(App.getMap().isHexagonal()) {
+			editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		}
+		else {
+			editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+		}
 		editingCanvas.setScaleX(0.16);
 		editingCanvas.setScaleY(0.16);
 		undoRedoHandler = new UndoRedoHandler(editingCanvas);
@@ -126,14 +128,6 @@ public class EditorController {
 		}
 	}
 
-	private GridEditingCanvas getCurrentGridEditingCanvas() {
-		ScrollPane pane = (ScrollPane) canvasTabPane.getSelectionModel().getSelectedItem().getContent();
-		return (GridEditingCanvas) pane.getContent();
-	}
-	private TerrainMap getCurrentMap() {
-		return getCurrentGridEditingCanvas().getMap();
-	}
-	
 	private void drawMap() {
 		int numColors = map.findMaxMapHeight() + 1;
 		editingCanvas.drawMap(selectedTileSet, numColors);
@@ -180,8 +174,8 @@ public class EditorController {
 
 	private void changeHeight(MouseEvent e) {
 		if (selectedTileSet.isEmpty() && heightToggleButton.isSelected()) {
-			int row = yCoordToRowNumber((int) e.getY());
-			int col = xCoordToColumnNumber((int) e.getX());
+			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
+			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
 			Tile tile = map.getTileAt(row, col);
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				changeHeightHelper(e, tile);
@@ -299,8 +293,8 @@ public class EditorController {
 	private void selectTiles(MouseEvent e) {
 		if (e.getButton().equals(MouseButton.PRIMARY) && selectToggleButton.isSelected()
 				|| multiSelectToggleButton.isSelected()) {
-			int row = yCoordToRowNumber((int) e.getY());
-			int col = xCoordToColumnNumber((int) e.getX());
+			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
+			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
 				selectedTileSet.add(tile);
@@ -395,8 +389,8 @@ public class EditorController {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				int rowDiff = 0;
 				int colDiff = 0;
-				int row = yCoordToRowNumber((int) e.getY());
-				int col = xCoordToColumnNumber((int) e.getX());
+				int row = editingCanvas.yCoordToRowNumber((int) e.getY());
+				int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
 				int rowColComboNum = 1000;
 				for (Tile tile : cutAndCopySet) {
 					if (tile.getRow() + tile.getCol() < rowColComboNum) {
@@ -442,8 +436,8 @@ public class EditorController {
 		}
 		
 			private void floodFill(MouseEvent e) {
-				int row = yCoordToRowNumber((int) e.getY());
-				int col = xCoordToColumnNumber((int) e.getX());
+				int row = editingCanvas.yCoordToRowNumber((int) e.getY());
+				int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
 				int targetTileHeight = map.getTileAt(row, col).getHeight();
 				
 				int fillHeight = Integer.parseInt(fillToolInput.getText());
@@ -462,15 +456,15 @@ public class EditorController {
 
 	private void pointyTilesTool(MouseEvent e) {
 		if (e.getButton().equals(MouseButton.PRIMARY)) {
-			int row = yCoordToRowNumber((int) e.getY());
-			int col = xCoordToColumnNumber((int) e.getX());
+			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
+			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
 				tile.setIsPointy(true);
 			}
 		} else if (e.getButton().equals(MouseButton.SECONDARY)) {
-			int row = yCoordToRowNumber((int) e.getY()); 
-			int col = xCoordToColumnNumber((int) e.getX());
+			int row = editingCanvas.yCoordToRowNumber((int) e.getY()); 
+			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
 				tile.setIsPointy(false);
@@ -500,11 +494,7 @@ public class EditorController {
 
 	@FXML
 	private void newFile() {
-		TerrainMap newMap = new TerrainMap("Untitled", 15, 15, false );
-		App.setMap(newMap);
-		GridEditingCanvas newGridEditingCanvas = new GridEditingCanvas(getCurrentMap(), 3000, 3000, 100, 3);
-        Tab canvasTab = new Tab("Untitled", scrollPane); 
-        canvasTabPane.getTabs().add(canvasTab);
+
 	}
 
 	@FXML
@@ -663,8 +653,8 @@ public class EditorController {
 
 	
 			String type = featureType.getValue();
-			int row = yCoordToRowNumber((int) e.getY());
-			int col = xCoordToColumnNumber((int) e.getX());
+			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
+			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
 			Tile initialTile = map.getTileAt(row, col);
 			File file = new File(insertFeatureHelper(type));
             
@@ -714,10 +704,10 @@ public class EditorController {
 	
 	private void resizing(int deltaRow, int deltaColumn, int rowDecrement, int columnDecrement) {
 		TerrainMap resized; 
-		if((deltaRow >= 1 || deltaColumn >= 1) && (rowDecrement == 0 && columnDecrement == 0)) {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn, false);
-		}else {
-			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn, false);
+		if((deltaRow == 1 || deltaColumn == 1) && (rowDecrement == 0 && columnDecrement == 0)) {
+			resized  = new TerrainMap(map.getName(), map.getNumRows()+deltaRow, map.getNumColumns()+deltaColumn, map.isHexagonal());
+		} else {
+			resized  = new TerrainMap(map.getName(), map.getNumRows()-deltaRow, map.getNumColumns()-deltaColumn, map.isHexagonal());
 		}
 		for (int r = 0; r < map.getNumRows()-rowDecrement; r++) {
 			for (int c = 0; c < map.getNumColumns()-columnDecrement; c++) {
@@ -819,7 +809,7 @@ public class EditorController {
     
     @FXML
     private void openPreviewPage(ActionEvent event) throws IOException {
-		if (!(App.getMap().getHexagonal())) {
+		if (!(App.getMap().isHexagonal())) {
 			MapPreviewController threeDMap = new MapPreviewController(App.getMap());
 			threeDMap.start(threeDMap.getStage());
 		} else {

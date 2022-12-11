@@ -35,7 +35,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 		double width = getWidth();
 		double length = getHeight();
 		double tempWidthSize = width/((double) getMap().getNumColumns() + 0.5);
-		double tempLengthSize = length/((double)getMap().getNumRows() + 0.5 / Math.sqrt(3));
+		double tempLengthSize = length/((double) getMap().getNumRows() * 1.5 / Math.sqrt(3) + 0.5 / Math.sqrt(3));
 		setTileSizeInPixels((int) Math.min(tempWidthSize, tempLengthSize));
 		n = getTileSizeInPixels() / 2.0;
 		radius = n * 2 / Math.sqrt(3);
@@ -43,8 +43,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
         tileWidth = 2 * n;
         shift = n / Math.sqrt(3);
 		
-		//gc.setFill(Color.rgb(245, 245, 245));
-        gc.setFill(Color.GREY);
+		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());
 		
 		drawMapTiles(gc, selectedTileSet, numColors);
@@ -122,7 +121,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 					if(r % 2 == 1) {
 						x += n;
 					}
-					gc.strokeLine(x, y + shift, x + tileWidth, y + y + radius + shift);
+					gc.strokeLine(x, y + shift, x + tileWidth, y + radius + shift);
 					gc.strokeLine(x, y + radius + shift, x + tileWidth, y + shift);
 				}
 			}

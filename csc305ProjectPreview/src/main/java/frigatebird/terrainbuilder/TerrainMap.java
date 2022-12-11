@@ -90,7 +90,7 @@ public class TerrainMap implements Cloneable {
 		this.mapName = mapName;
 	}
 
-	public boolean getHexagonal() {
+	public boolean isHexagonal() {
 		return hexagonal;
 	}
 

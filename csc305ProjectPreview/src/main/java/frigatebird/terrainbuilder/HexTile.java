@@ -8,6 +8,7 @@ public class HexTile extends Polygon {
     private double n;
     private double tileHeight;
     private double tileWidth;
+    
 	
     HexTile(double x, double y, double r) {
     	r = 20; // the inner radius from hexagon center to outer corner

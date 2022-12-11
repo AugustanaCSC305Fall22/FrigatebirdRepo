@@ -60,6 +60,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
                   <MenuItem mnemonicParsing="false" onAction="#saveAs" text="Save As" />
                   <MenuItem mnemonicParsing="false" onAction="#terrainMapToObj" text="Export" />
+                  
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="View">
@@ -77,11 +78,8 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
             </items>
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#switchToInstructionScreen" text="Instruction" />
-            </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Edit">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#addRowAction" text="Add Row" />
                   <MenuItem mnemonicParsing="false" onAction="#addColumnAction" text="Add Column" />
@@ -93,7 +91,7 @@
       </MenuBar>
       <TabPane fx:id="canvasTabPane" layoutX="61.0" layoutY="26.0" prefHeight="575.0" prefWidth="573.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Untitled ">
+          <Tab text="Untitled Tab 1">
             <content>
                   <ScrollPane>
                      <content>
@@ -112,7 +110,7 @@
             <FontAwesomeIconView fill="WHITE" glyphName="COPY" size="22" wrappingWidth="14.0" />
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="pasteBtn" layoutX="826.0" layoutY="454.0" onAction="#pasteTool" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" ">
+      <JFXButton fx:id="pasteBtn" layoutX="832.0" layoutY="454.0" onAction="#pasteTool" prefHeight="46.0" prefWidth="48.0" stylesheets="@style.css" text=" ">
          <tooltip>
             <Tooltip text="Paste" />
          </tooltip>
@@ -198,6 +196,9 @@
       </JFXButton>
       <JFXToggleButton fx:id="fillToolButton" layoutX="702.0" layoutY="273.0" onAction="#fillTool" text="Fill Tool" toggleColor="#a059d0" toggleGroup="$toolButtonGroup" toggleLineColor="#bd8edb" />
       <TextField fx:id="fillToolInput" layoutX="821.0" layoutY="289.0" prefHeight="23.0" prefWidth="62.0" />
+
+      
+
       <ComboBox fx:id="featureType" layoutX="688.0" layoutY="235.0" onAction="#AdditionOfFeature" prefHeight="21.0" prefWidth="171.0" promptText="Land Forms" />
       <JFXButton fx:id="copyBtn" layoutX="642.0" layoutY="298.0" onAction="#zoomIn" prefHeight="25.0" prefWidth="29.0" stylesheets="@style.css" text=" ">
          <tooltip>

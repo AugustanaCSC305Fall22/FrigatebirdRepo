@@ -92,6 +92,7 @@ public class Tile {
 			}
 		}
 	}
+	
 	public double getCenterY(double tileWidth) {
 		if (!isHexagonal) {
 			return (row + 0.5) * tileWidth;
