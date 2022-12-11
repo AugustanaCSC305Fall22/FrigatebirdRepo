@@ -175,7 +175,7 @@ public class TerrainMapIO {
 			createObjFile(App.getMap(), file);
 		}
 	}
-
+  
 	private static void createObjFile(TerrainMap map, File objFile) throws IOException {
 		FileWriter writer = new FileWriter(objFile);
 		for (int r = 0; r < map.getNumRows(); r++) {

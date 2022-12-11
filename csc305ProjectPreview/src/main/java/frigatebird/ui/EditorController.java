@@ -500,7 +500,7 @@ public class EditorController {
 
 	@FXML
 	private void newFile() {
-		TerrainMap newMap = new TerrainMap("Untitled", 15, 15, false);
+		TerrainMap newMap = new TerrainMap("Untitled", 15, 15, false );
 		App.setMap(newMap);
 		GridEditingCanvas newGridEditingCanvas = new GridEditingCanvas(getCurrentMap(), 3000, 3000, 100, 3);
         Tab canvasTab = new Tab("Untitled", scrollPane); 
@@ -736,7 +736,38 @@ public class EditorController {
 		this.map = resized;
 		editingCanvas.setMap(resized);
 		drawMap();
+		undoRedoHandler.saveState();
 	}
+	
+	@FXML
+	private void selectAllTiles() {
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				
+					selectedTileSet.add(tile);
+				
+			}
+		}
+		refresh();
+		undoRedoHandler.saveState();
+	}
+	
+	@FXML
+	private void clearAllTiles() {
+		for (int r = 0; r < map.getNumRows(); r++) {
+			for (int c = 0; c < map.getNumColumns(); c++) {
+				Tile tile = map.getTileAt(r, c);
+				
+					tile.setHeight(0);
+					tile.setIsPointy(false);
+				
+			}
+		}
+		refresh();
+		undoRedoHandler.saveState();
+	}
+
 	
 	
 	
