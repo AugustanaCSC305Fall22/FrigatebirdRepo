@@ -2,9 +2,7 @@ package frigatebird.ui;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -78,7 +76,6 @@ public class EditorController {
 	private Stack<Tile> selectedTileStack = new Stack<Tile>();
 	private Set<Tile> cutAndCopySet = new HashSet<Tile>();
 	private Set<Tile> fillSet = new HashSet<Tile>();
-	private List<Tab> createdTabs = new ArrayList<>();
 
 	private ToolBox toolbox;
 
@@ -131,14 +128,6 @@ public class EditorController {
 		}
 	}
 
-	private GridEditingCanvas getCurrentGridEditingCanvas() {
-		ScrollPane pane = (ScrollPane) canvasTabPane.getSelectionModel().getSelectedItem().getContent();
-		return (GridEditingCanvas) pane.getContent();
-	}
-	private TerrainMap getCurrentMap() {
-		return getCurrentGridEditingCanvas().getMap();
-	}
-	
 	private void drawMap() {
 		int numColors = map.findMaxMapHeight() + 1;
 		editingCanvas.drawMap(selectedTileSet, numColors);
@@ -505,17 +494,7 @@ public class EditorController {
 
 	@FXML
 	private void newFile() {
-		TerrainMap newMap = new TerrainMap("Untitled", 15, 15, false);
-		App.setMap(newMap);
-		GridEditingCanvas newGridEditingCanvas;
-		if(App.getMap().isHexagonal()) {
-			newGridEditingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
-		}
-		else {
-			newGridEditingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
-		}
-        Tab canvasTab = new Tab("Untitled", scrollPane); 
-        canvasTabPane.getTabs().add(canvasTab);
+		
 	}
 
 	@FXML
