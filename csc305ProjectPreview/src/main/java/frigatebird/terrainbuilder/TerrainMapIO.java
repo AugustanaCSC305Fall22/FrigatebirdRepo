@@ -213,6 +213,7 @@ public class TerrainMapIO {
 				writer.write("v" + " " + xCoords[4] + " " + yCoords[4] + " " + height + "\n");
 				writer.write("v" + " " + xCoords[5] + " " + yCoords[5] + " " + height + "\n");
 			}
+			y += tileHeight - rad;
 		}
 		
 		int vertexCount = 0;
@@ -237,9 +238,9 @@ public class TerrainMapIO {
 				
 				writer.write("f" + " " + (12 + vertexCount) + " " + (11 + vertexCount) + " " + (10 + vertexCount)
 						+ " " + (9 + vertexCount) + " " + (8 + vertexCount) + " " + (7 + vertexCount) + "\n");
-				
-				} 
-					vertexCount += 12;
+				vertexCount += 12;
+
+				}
 			}
 		writer.close();
 		

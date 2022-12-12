@@ -133,12 +133,12 @@ public class Tile {
 			return new double[] {yTop, yTop, yBottom, yBottom };
 		} else {
 			double sideLen = tileWidth/Math.sqrt(3);
-			//double rowHeight = tileWidth * Math.sqrt(3) / 2;
+			double rowHeight = tileWidth * Math.sqrt(3) / 2;
 			
-			double yTop = row * tileWidth;
-			double yMidTop = yTop + sideLen;
+			double yTop = row * rowHeight;
+			double yMidTop = yTop + (sideLen/2);
 			double yMidBottom = yMidTop + sideLen;
-			double yBottom = yMidBottom + sideLen;
+			double yBottom = yMidBottom + (sideLen/2);
 			
 			return new double[] {yMidTop, yTop, yMidTop, yMidBottom, yBottom, yMidBottom};
 			
