@@ -29,7 +29,11 @@ public class TerrainMapIO {
 	private static boolean openSave = false;
 	private static List<String> savedMapNames = new ArrayList<String>();
 	private static Set<String> templateMapNames = new HashSet<String>();
-	private static final int TILE_WIDTH = 8;
+	private static double rad = 1; 
+    private static double n = Math.sqrt(rad * rad * 0.75); 
+    private static double tileHeight = 2 * rad;
+    private static double tileWidth = 2 * n;
+    private static double shift = n / Math.sqrt(3);
 	
 	private static void terrainMapToJSON(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -183,30 +187,31 @@ public class TerrainMapIO {
 	
 	private static void createHexObjFile(TerrainMap map, File objFile) throws IOException {
 		FileWriter writer = new FileWriter(objFile);
-		double xVertexTranslate = 0.433000;
-		double yVertexTranslate = 0.500000;
+		double y = rad * tileHeight * 0.75;
 		for (int r = 0; r < map.getNumRows(); r++) {
 			for (int c = 0; c < map.getNumColumns(); c++) {
 				Tile tile = map.getTileAt(r, c);
-				int height = tile.getHeight();
-				if(r % 2 != 0) {
-					yVertexTranslate = yVertexTranslate + 1;
+				double x = c * tileWidth;
+				if(r % 2 == 1) {
+					x += n;
 				}
-
-				writer.write("v" + " " + r + " " + height + " " + c + yVertexTranslate + "\n");
-				writer.write("v" + " " + r + xVertexTranslate + " " + height + " " + c + (yVertexTranslate/2) + "\n");
-				writer.write("v" + " " + r + xVertexTranslate + " " + height + " " + (c - (yVertexTranslate/2)) + "\n");
-				writer.write("v" + " " + r + " " + (c - yVertexTranslate) + " " + (c - yVertexTranslate) + "\n");			
-				writer.write("v" + " " + (r - xVertexTranslate) + " " + height + " " + (c - (yVertexTranslate/2)) + "\n");
-				writer.write("v" + " " + (r - xVertexTranslate) + " " + height + " " + c + (yVertexTranslate/2) + "\n");
-				writer.write("v" + " " + r + " " + 0 + " " + c + yVertexTranslate + "\n");
-				writer.write("v" + " " + r + xVertexTranslate + " " + 0 + " " + c + (yVertexTranslate/2) + "\n");
-				writer.write("v" + " " + r + xVertexTranslate + " " + 0 + " " + (c - (yVertexTranslate/2)) + "\n");			
-				writer.write("v" + " " + r + " " + 0 + " " + (c - yVertexTranslate) + "\n");
-				writer.write("v" + " " + (r - xVertexTranslate) + " " + 0 + " " + (c - (yVertexTranslate/2)) + "\n");
-				writer.write("v" + " " + (r - xVertexTranslate) + " " + c + 0 + " " + (yVertexTranslate/2) + "\n");
-				writer.write("v" + " " + r + " " + c + " " + height + "\n");
-				writer.write("v" + " " + r + " " + c + " " + 0 + "\n");
+				double[] xCoords = {x, x, x + n, x + tileWidth, x + tileWidth, x + n};
+		        double[] yCoords = {y + shift, y + rad + shift, y + rad * 1.5 + shift, y + rad + shift, y + shift, y - rad * 0.5 + shift};
+				int height = tile.getHeight();
+				
+				writer.write("v" + " " + xCoords[0] + " " + yCoords[0] + " " + 0 + "\n");
+				writer.write("v" + " " + xCoords[1] + " " + yCoords[1] + " " + 0 + "\n");
+				writer.write("v" + " " + xCoords[2] + " " + yCoords[2] + " " + 0 + "\n");
+				writer.write("v" + " " + xCoords[3] + " " + yCoords[3] + " " + 0 + "\n");
+				writer.write("v" + " " + xCoords[4] + " " + yCoords[4] + " " + 0 + "\n");
+				writer.write("v" + " " + xCoords[5] + " " + yCoords[5] + " " + 0 + "\n");
+				
+				writer.write("v" + " " + xCoords[0] + " " + yCoords[0] + " " + height + "\n");
+				writer.write("v" + " " + xCoords[1] + " " + yCoords[1] + " " + height + "\n");
+				writer.write("v" + " " + xCoords[2] + " " + yCoords[2] + " " + height + "\n");
+				writer.write("v" + " " + xCoords[3] + " " + yCoords[3] + " " + height + "\n");
+				writer.write("v" + " " + xCoords[4] + " " + yCoords[4] + " " + height + "\n");
+				writer.write("v" + " " + xCoords[5] + " " + yCoords[5] + " " + height + "\n");
 			}
 		}
 		
@@ -214,7 +219,9 @@ public class TerrainMapIO {
 		for (int i = 0; i < map.getNumRows(); i++) {
 			for (int j = 0; j < map.getNumColumns(); j++) {
 				Tile tile = map.getTileAt(i, j);
-		
+				writer.write("f" + " " + (1 + vertexCount) + " " + (2 + vertexCount) + " " + (3 + vertexCount)
+						+ " " + (4 + vertexCount) + " " + (5 + vertexCount) + " " + (6 + vertexCount) + "\n");
+				
 				writer.write("f" + " " + (1 + vertexCount) + " " + (7 + vertexCount) + " " + (8 + vertexCount)
 						+ " " + (2 + vertexCount) + "\n");
 				writer.write("f" + " " + (2 + vertexCount) + " " + (8 + vertexCount) + " " + (9 + vertexCount)
@@ -227,21 +234,12 @@ public class TerrainMapIO {
 						+ " " + (6 + vertexCount) + "\n");
 				writer.write("f" + " " + (6 + vertexCount) + " " + (12 + vertexCount) + " " + (7 + vertexCount)
 						+ " " + (1 + vertexCount) + "\n");
-				writer.write("f" + " " + (1 + vertexCount) + " " + (2 + vertexCount) + " " + (13 + vertexCount)+ "\n");
-				writer.write("f" + " " + (2 + vertexCount) + " " + (3 + vertexCount) + " " + (13 + vertexCount)+ "\n");
-				writer.write("f" + " " + (3 + vertexCount) + " " + (4 + vertexCount) + " " + (13 + vertexCount)+ "\n");
-				writer.write("f" + " " + (4 + vertexCount) + " " + (5 + vertexCount) + " " + (13 + vertexCount)+ "\n");
-				writer.write("f" + " " + (5 + vertexCount) + " " + (6 + vertexCount) + " " + (13 + vertexCount)+ "\n");
-				writer.write("f" + " " + (6 + vertexCount) + " " + (1 + vertexCount) + " " + (13 + vertexCount)+ "\n");
-				writer.write("f" + " " + (8 + vertexCount) + " " + (7 + vertexCount) + " " + (14 + vertexCount)+ "\n");
-				writer.write("f" + " " + (9 + vertexCount) + " " + (8 + vertexCount) + " " + (14 + vertexCount)+ "\n");
-				writer.write("f" + " " + (10 + vertexCount) + " " + (9 + vertexCount) + " " + (14 + vertexCount)+ "\n");
-				writer.write("f" + " " + (11 + vertexCount) + " " + (10 + vertexCount) + " " + (14 + vertexCount)+ "\n");			
-				writer.write("f" + " " + (12 + vertexCount) + " " + (11 + vertexCount) + " " + (14 + vertexCount)+ "\n");
-				writer.write("f" + " " + (7 + vertexCount) + " " + (12 + vertexCount) + " " + (14 + vertexCount)+ "\n");
+				
+				writer.write("f" + " " + (12 + vertexCount) + " " + (11 + vertexCount) + " " + (10 + vertexCount)
+						+ " " + (9 + vertexCount) + " " + (8 + vertexCount) + " " + (7 + vertexCount) + "\n");
 				
 				} 
-					vertexCount += 14;
+					vertexCount += 12;
 			}
 		writer.close();
 		
