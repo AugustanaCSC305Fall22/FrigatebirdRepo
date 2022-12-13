@@ -15,7 +15,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 	
 	private double radius;
     private double n;
-    private double tileHeight;
+    private double tileHeight; 
     private double tileWidth;
     private double shift;
     

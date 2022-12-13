@@ -73,11 +73,6 @@
                   </Menu>
                </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Edit">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#addRowAction" text="Add Row" />
@@ -89,6 +84,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#changeMap" text="Change map type" />
               </items>
             </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
+            </items>
+          </Menu>
         </menus>
       </MenuBar>
       <TabPane fx:id="canvasTabPane" layoutX="61.0" layoutY="26.0" prefHeight="575.0" prefWidth="573.0" tabClosingPolicy="UNAVAILABLE">
