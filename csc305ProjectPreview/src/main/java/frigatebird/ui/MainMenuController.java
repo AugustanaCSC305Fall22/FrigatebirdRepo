@@ -18,11 +18,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 
 public class MainMenuController {
 
 	@FXML
 	private JFXListView<String> listView;
+    @FXML
+    private Label noProjectsLabel;
 	private List<String> savedMapNames = new ArrayList<>();
 	private File dir;
 	private String[] directoryChildren;
@@ -37,6 +40,9 @@ public class MainMenuController {
 				savedMapNames.add(directoryChildren[i]);
 			}
 			listView.getItems().addAll(savedMapNames);
+			if(listView.getItems().size() != 0) {
+			    noProjectsLabel.setVisible(false);
+			}
 		}
 	}
 	

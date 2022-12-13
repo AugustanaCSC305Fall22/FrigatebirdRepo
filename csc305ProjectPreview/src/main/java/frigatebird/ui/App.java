@@ -32,7 +32,7 @@ public class App extends Application {
      * 
      * @param stage - the stage to be initialized to display the other scenes on
      * @throws IOException - general exception for failed or interrupted I/O operations
-     */
+     */ 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("mainMenu"), 900, 603);

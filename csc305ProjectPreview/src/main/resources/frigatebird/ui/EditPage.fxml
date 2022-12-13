@@ -51,7 +51,7 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <MenuBar prefHeight="25.0" prefWidth="900.0">
+      <MenuBar prefHeight="25.0" prefWidth="900.0" stylesheets="@style.css">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -85,11 +85,16 @@
                   <MenuItem mnemonicParsing="false" onAction="#addColumnAction" text="Add Column" />
                   <MenuItem mnemonicParsing="false" onAction="#removeRowAction" text="Remove Row" />
                   <MenuItem mnemonicParsing="false" onAction="#removeColumnAction" text="Remove Column" />
-                  <MenuItem mnemonicParsing="false" onAction="#clearAllTiles" text="Clear All" />
                   <MenuItem mnemonicParsing="false" onAction="#selectAllTiles" text="Select All" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearAllTiles" text="Clear All" />
                   <MenuItem mnemonicParsing="false" onAction="#changeMap" text="Change map type" />
               </items>
             </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
+            </items>
+          </Menu>
         </menus>
       </MenuBar>
       <TabPane fx:id="canvasTabPane" layoutX="61.0" layoutY="26.0" prefHeight="575.0" prefWidth="573.0" tabClosingPolicy="UNAVAILABLE">
@@ -98,7 +103,7 @@
             <content>
                   <ScrollPane>
                      <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="592.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="592.0" stylesheets="@style.css" />
                      </content>
                   </ScrollPane>
             </content>
