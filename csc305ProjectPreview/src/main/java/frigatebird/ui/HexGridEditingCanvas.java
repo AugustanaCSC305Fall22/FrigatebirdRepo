@@ -18,13 +18,27 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
     private double tileHeight;
     private double tileWidth;
     private double shift;
-	
+    
+    /**
+     * Creates a canvas with a size and a TerrainMap used to generate a hexagonal grid.
+	 * @param map - a TerrainMap object which will be displayed in the canvas
+	 * @param width - the width to make the canvas in pixels
+	 * @param height - the height to make the canvas in pixels
+     */
 	public HexGridEditingCanvas(TerrainMap map, double width, double height) {
 		super(map, width, height);
 		calculateTileSize();
 	}
 	
 	@Override
+	
+	/**
+	 * Draws the the grid editing canvas with all the hexagonal tiles in the map data field
+	 * 
+	 * @param editingCanvas - a given Canvas object to draw and draw on
+	 * @param selectedTileSet - a set of Tiles to draw on the canvas
+	 * @param numColors - an int used to generate the color of tiles based on the height of the highest tile
+	 */
 	public void drawMap(Set<Tile> selectedTileSet, int numColors) {
 		GraphicsContext gc = getGraphicsContext2D();
 		
@@ -52,6 +66,7 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 	}
 	
 	@Override
+
 	protected void drawMapTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
 		for (int r = 0; r < getMap().getNumRows(); r++) {
 			for (int c = 0; c < getMap().getNumColumns(); c++) {
@@ -108,6 +123,14 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 	}
 	
 	@Override
+	
+	
+	
+	/**
+	 * Draws signification of pointy tiles on the canvas
+	 * @param gc Graphics context used to draw pointyness indication
+	 * @selectedTileSet set of tiles that have been selected. 
+	 */
 	protected void drawPointyTiles(GraphicsContext gc, Set<Tile> selectedTileSet) {
 		Color color = Color.rgb(255, 100, 100);
 		gc.setStroke(color);

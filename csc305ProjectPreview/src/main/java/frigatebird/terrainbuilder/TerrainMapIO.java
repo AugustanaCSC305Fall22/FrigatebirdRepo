@@ -185,6 +185,12 @@ public class TerrainMapIO {
 		}
 	}
 	
+	/**
+	 * Creates a .obj for a hexagon terrain map by writing the vertices and faces to a file
+	 * @param map
+	 * @param objFile
+	 * @throws IOException
+	 */
 	private static void createHexObjFile(TerrainMap map, File objFile) throws IOException {
 		FileWriter writer = new FileWriter(objFile);
 		double y = rad * tileHeight * 0.75;
@@ -241,11 +247,18 @@ public class TerrainMapIO {
 				vertexCount += 12;
 
 				}
+	
 			}
 		writer.close();
 		
 	}
 
+	/**
+	 * Creates a .obj for a cube terrain map by writing the vertices and faces to a file
+	 * @param map
+	 * @param objFile
+	 * @throws IOException
+	 */
 	private static void createObjFile(TerrainMap map, File objFile) throws IOException {
 		FileWriter writer = new FileWriter(objFile);
 		for (int r = 0; r < map.getNumRows(); r++) {
@@ -301,6 +314,9 @@ public class TerrainMapIO {
 		writer.close();
 	}
 	
+	/**
+	 * Initializes templates when app opens
+	 */
 	private static void initializeTemplates() {
 		templateMapNames.add("bitcoinTemplate.terrainmap");
 		templateMapNames.add("buildingCombo.terrainmap");

@@ -35,7 +35,6 @@ public class HexMapPreviewController {
 	private ColorPicker colorPicker = new ColorPicker();
 	@FXML
 	private ComboBox<String> textureComboBox;
-
 	private Color color;
 	private TerrainMap map;
 	private HexCompoundGroup group = new HexCompoundGroup();
@@ -92,10 +91,10 @@ public class HexMapPreviewController {
 
 	@FXML
 	void changeTexture() {
-		applyTexture();
+		applyHexTexture();
 	}
 
-	private void applyTexture() {
+	private void applyHexTexture() {
 		color = Color.WHITE;
 		group.getChildren().clear();
 		create3DObjects();
@@ -122,11 +121,6 @@ public class HexMapPreviewController {
 
 				HexCompoundGroup hexagon = createHexGroup(tile);
 				group.getChildren().add(hexagon);
-				
-
-//				if (tile.getIsPointy()) {
-//					makePointy(material, tile);
-//				}
 			}
 		}
 		position3DObject();

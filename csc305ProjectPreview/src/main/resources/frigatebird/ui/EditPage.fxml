@@ -51,7 +51,7 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <MenuBar prefHeight="25.0" prefWidth="900.0">
+      <MenuBar prefHeight="25.0" prefWidth="900.0" stylesheets="@style.css">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -97,7 +97,7 @@
             <content>
                   <ScrollPane>
                      <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="592.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="592.0" stylesheets="@style.css" />
                      </content>
                   </ScrollPane>
             </content>
