@@ -77,6 +77,7 @@ public class TerrainMapIO {
 				savedMapNames.add(App.getMap().getName());
 				terrainMapToJSON(App.getMap(), file);
 				terrainMapToJSON(App.getMap(), saveFile);
+				openSave = false;
 			}
 		}
 		else {

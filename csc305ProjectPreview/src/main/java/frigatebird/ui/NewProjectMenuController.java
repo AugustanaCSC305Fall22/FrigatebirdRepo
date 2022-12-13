@@ -1,5 +1,6 @@
 package frigatebird.ui;
 
+import java.io.File;
 import java.io.IOException;
 
 import com.jfoenix.controls.JFXButton;
@@ -54,10 +55,12 @@ public class NewProjectMenuController {
 			}
 			else if(squareTileButton.isSelected()) {
 				App.setMap(new TerrainMap(mapName, numRows, numColumns, false));
+				App.setCurrentFile(new File("src\\main\\resources\\frigatebird\\SavedMaps\\" + App.getMap().getName() + ".terrainmap"));
 		        App.setRoot("EditPage");
 			}
 			else if(hexTileButton.isSelected()) {
 				App.setMap(new TerrainMap(mapName, numRows, numColumns, true));
+				App.setCurrentFile(new File("src\\main\\resources\\frigatebird\\SavedMaps\\" + App.getMap().getName() + ".terrainmap"));
 		        App.setRoot("EditPage");
 			}
 			else {
