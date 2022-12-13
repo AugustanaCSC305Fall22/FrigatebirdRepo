@@ -50,7 +50,12 @@ public class PremadeTemplatesController {
 	private void switchToMainMenu() throws IOException {
 		App.setRoot("MainMenu");
 	}
-
+	
+    /**
+     * Receives a MouseEvent based on the selected feature and returns a file path
+     * @param event - MouseEvent for the selected feature 
+     * @return It returns a file to be loaded by the caller method
+     */
 	private String pathFinder(MouseEvent event) {
 		if (event.getSource().equals(maze)) {
 			filePath = "src\\main\\resources\\frigatebird\\Templates\\maze1.terrainmap";

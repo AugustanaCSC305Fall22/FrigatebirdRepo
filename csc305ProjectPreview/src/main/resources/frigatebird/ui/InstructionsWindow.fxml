@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.AboutScreenController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="900.0">
+         <children>
+            <Label layoutX="159.0" layoutY="33.0" prefHeight="54.0" prefWidth="202.0" text="Instructions" textFill="#946c8f" textOverrun="CENTER_WORD_ELLIPSIS">
+               <font>
+                  <Font name="Bodoni MT Black Italic" size="29.0" />
+               </font>
+            </Label>
+            <Label layoutX="121.0" layoutY="96.0" text="Editing Tools" textFill="#7c5252">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="93.0" layoutY="132.0" text="Height Tools" textFill="#513b3b">
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="599.0" layoutY="467.0" text="Selection Tools" textFill="#654545">
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="387.0" fitWidth="382.0" layoutX="525.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/height%20tool.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="431.0" fitWidth="347.0" layoutX="247.0" layoutY="390.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/selection%20tool.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="223.0" fitWidth="217.0" layoutX="532.0" layoutY="860.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Templates/pictures%20for%20template/zoom%20buttons.jpg" />
+               </image>
+            </ImageView>
+            <Text layoutX="143.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Inscreases the selected tiles to a certain prompted height" wrappingWidth="322.38525390625" />
+            <Label layoutX="54.0" layoutY="189.0" text="Height Tool" />
+            <Label layoutX="74.0" layoutY="254.0" text="Fill Tool" />
+            <Text layoutX="135.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Fills area clicked with the height to a certain prompted height" wrappingWidth="319.7578125" />
+            <Label layoutX="544.0" layoutY="501.0" text="Single selection tool " />
+            <Label layoutX="599.0" layoutY="653.0" text="Selection at certain height " />
+            <Label layoutX="583.0" layoutY="577.0" text="Two-point selection tool " />
+            <Text layoutX="687.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Selects a single tile " />
+            <Label layoutX="613.0" layoutY="522.0" text="Right click" />
+            <Label layoutX="612.0" layoutY="543.0" text="Left click" />
+            <Text layoutX="687.0" layoutY="559.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Deselects tiles." />
+            <Text layoutX="544.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selects a certain region based on the bounds of the clicked two tiles." wrappingWidth="314.27392578125" />
+            <Text layoutX="572.0" layoutY="690.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" selects tiles at a certain prompted height." wrappingWidth="230.58544921875" />
+            <Text layoutX="200.0" layoutY="900.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom-In - Magnifies the map to allow better vision of the tiles " wrappingWidth="314.05224609375" />
+            <Text layoutX="200.0" layoutY="950.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom-out - Views the whole map after after working on a magnified portion of the map " wrappingWidth="314.05224609375" />
+            <Text layoutX="100.0" layoutY="1100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Add feature Tool - Adds the selected feature to an existing Map" />
+            <Text layoutX="76.0" layoutY="1150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Copy - Copies the selected tiles to move it to a specific place on map" />
+            <Text layoutX="88.0" layoutY="1170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Cut - Removes the Selected tiles after copying." />
+            <Text layoutX="100.0" layoutY="1190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Paste - Places the selected and copied tiles to a specific place on map" />
+            <Text layoutX="76.0" layoutY="1240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Random map generation tool - Generates a map with random height assigned to each tile" />
+            <Text layoutX="88.0" layoutY="1270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Preview - Views the edited object from a three dimentional perspective " />
+            <Text layoutX="100.0" layoutY="1300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tip - use the mouse drag to navigate the three dimentional preview" />
+            <ImageView fitHeight="85.0" fitWidth="92.0" layoutX="776.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/frigatebird%20icon.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="374.0" layoutY="1330.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Return" />
+         </children></AnchorPane>
+  </content>
+</ScrollPane>

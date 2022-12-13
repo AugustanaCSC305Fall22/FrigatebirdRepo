@@ -738,7 +738,7 @@ public class EditorController {
 		refresh();
 		undoRedoHandler.saveState();
 	}
-
+    
 	private void changeMapType() {
 		TerrainMap transformedMap;
 		if (map.isHexagonal()) {
@@ -844,7 +844,7 @@ public class EditorController {
 
 	@FXML
 	private void switchToInstructionScreen() throws IOException {
-		App.setRoot("EditPageInstructions");
+		App.setRoot("InstructionsWindow");
 	}
 
 	@FXML
