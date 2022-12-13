@@ -169,47 +169,7 @@ public class GridEditingCanvas extends Canvas {
 		}
 	}
 	
-	/**
-	 * Draws the TerrainMap on the canvas from a side view perspective
-	 * 
-	 * @param editingCanvas - a canvas to draw the side view on
-	 * @param numColors - an int used to determine which colors to use on the Tiles based on the height of the highest tile
-	 */
-	public void drawFrontPerspective(Canvas editingCanvas, int numColors) {
-    	GraphicsContext gc = editingCanvas.getGraphicsContext2D();
-    	ArrayList<Integer> heightList = new ArrayList<>();
 		
-		int height = 0;
-		int max = Integer.MIN_VALUE;
-		Color color = Color.rgb(245, 245, 245);
-		gc.setFill(color); 
-		gc.fillRect(0, 0, 1000, 1000);
-		for(int c = 0; c < map.getNumColumns(); c++) {
-			for(int r = 0; r < map.getNumRows(); r++) {
-				height = map.getTileAt(r, c).getHeight();
-				double x = c * tileSizeInPixels;
-				double y = r * tileSizeInPixels;
-				if(height > max) {
-					max = height;
-				}
-			}
-			
-			heightList.add(max);
-			max = 0;
-		}
-    	int index = heightList.size()-1;
-    	// rewrite this loop
-		for(int c = 0; c < map.getNumColumns(); c++) {
-			for(int r = index ; r > index - heightList.get(c); r--) {
-				double x = c * tileSizeInPixels;
-				double y = r * tileSizeInPixels;
-				double saturation = (double) (r+1)/numColors;
-				double brightness = 1 - (double) (r+1)/numColors;
-				gc.setFill(Color.hsb(230, saturation, brightness));
-				gc.fillRect(x, y, tileSizeInPixels-1, tileSizeInPixels-1);
-			}
-		}
-    }
 	
 	/**
 	 * Given an x-coordinate of a pixel in the MosaicCanvas, this method returns the
