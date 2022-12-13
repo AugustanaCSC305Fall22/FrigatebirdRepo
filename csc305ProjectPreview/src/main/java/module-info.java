@@ -9,6 +9,7 @@ module edu.augustana.FrigatebirdProject {
 	requires de.jensd.fx.glyphs.fontawesome;
 	requires javafx.base;
 	requires com.jfoenix;
+	requires org.junit.jupiter.api;
 	
 	
 	
