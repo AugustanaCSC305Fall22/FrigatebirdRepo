@@ -10,7 +10,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.AboutScreenController">
    <top>
       <Label text="About Page" BorderPane.alignment="CENTER">
@@ -50,6 +49,11 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Label>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Forrest Stonedahl: Outside Consultant" wrappingWidth="222.853515625">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
                </children>
             </VBox>
             <Button mnemonicParsing="false" onAction="#switchToMainMenu" text="Return to Edit Page" />
