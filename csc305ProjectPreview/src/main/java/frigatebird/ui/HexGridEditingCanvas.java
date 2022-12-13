@@ -19,29 +19,16 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
     private double tileWidth;
     private double shift;
 	
-	public HexGridEditingCanvas(TerrainMap map, double width, double height, int tileSizeInPixels, int border) {
-		super(map, width, height, tileSizeInPixels, border);
-		this.n = getTileSizeInPixels() / 2.0;
-		this.radius = n * 2 / Math.sqrt(3);
-        this.tileHeight = 2 * radius;
-        this.tileWidth = 2 * n;
-        this.shift = n / Math.sqrt(3);
+	public HexGridEditingCanvas(TerrainMap map, double width, double height) {
+		super(map, width, height);
+		calculateTileSize();
 	}
 	
 	@Override
 	public void drawMap(Set<Tile> selectedTileSet, int numColors) {
 		GraphicsContext gc = getGraphicsContext2D();
 		
-		double width = getWidth();
-		double length = getHeight();
-		double tempWidthSize = width/((double) getMap().getNumColumns() + 0.5);
-		double tempLengthSize = length/((double) getMap().getNumRows() * 1.5 / Math.sqrt(3) + 0.5 / Math.sqrt(3));
-		setTileSizeInPixels((int) Math.min(tempWidthSize, tempLengthSize));
-		n = getTileSizeInPixels() / 2.0;
-		radius = n * 2 / Math.sqrt(3);
-        tileHeight = 2 * radius;
-        tileWidth = 2 * n;
-        shift = n / Math.sqrt(3);
+		calculateTileSize();
 		
 		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());
@@ -51,7 +38,18 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 		drawMapNumbers(gc, selectedTileSet, numColors);
 	}
 	
-	
+	@Override
+	protected void calculateTileSize() {
+		double tempWidthSize = getWidth()/((double) getMap().getNumColumns() + 0.5);
+		double tempLengthSize = getHeight()/((double) getMap().getNumRows() * 1.5 / Math.sqrt(3) + 0.5 / Math.sqrt(3));
+		setTileSizeInPixels((int) Math.min(tempWidthSize, tempLengthSize));
+		setBorder(1 + getTileSizeInPixels() / 30);
+		n = getTileSizeInPixels() / 2.0;
+		radius = n * 2 / Math.sqrt(3);
+        tileHeight = 2 * radius;
+        tileWidth = 2 * n;
+        shift = n / Math.sqrt(3);
+	}
 	
 	@Override
 	protected void drawMapTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
@@ -131,4 +129,25 @@ public class HexGridEditingCanvas extends GridEditingCanvas {
 		gc.setLineWidth(1);
 	}
 	
+	@Override
+	public int[] pointsToRowColNumber(double x1, double y1) {
+		int[] array = {-1, -1};
+		double distance = Integer.MAX_VALUE;
+		for (int r = 0; r < getMap().getNumRows(); r++) {
+			for (int c = 0; c < getMap().getNumColumns(); c++) {
+				double x2 = c * tileWidth + n;
+		        double y2 = r * tileHeight * 0.75 + radius / 2;
+				if(r % 2 == 1) {
+					x2 += n;
+				}
+				double tempDistance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+				if(tempDistance < distance) {
+					distance = tempDistance;
+					array[0] = r;
+					array[1] = c;
+				}
+			}
+		}
+		return array;
+	}
 }

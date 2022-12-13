@@ -33,13 +33,10 @@ public class GridEditingCanvas extends Canvas {
 	 * @param tileSizeInPixels - the side length of a tile in pixels
 	 * @param border - the size of the grid lines and border in pixels
 	 */
-	public GridEditingCanvas(TerrainMap map, double width, double height, int tileSizeInPixels, int border) {
+	public GridEditingCanvas(TerrainMap map, double width, double height) {
 		super(width, height);
-		
 		this.map = map;
-		this.tileSizeInPixels = tileSizeInPixels;
-		this.border = border;
-		
+		calculateTileSize();	
 	}
 	
 	/**
@@ -69,7 +66,7 @@ public class GridEditingCanvas extends Canvas {
 		return tileSizeInPixels;
 	}
 	
-	public void setTileSizeInPixels(int tileSizeInPixels) {
+	protected void setTileSizeInPixels(int tileSizeInPixels) {
 		this.tileSizeInPixels = tileSizeInPixels;
 	}
 	
@@ -77,7 +74,7 @@ public class GridEditingCanvas extends Canvas {
 		return border;
 	}
 
-	public void setBorder(int border) {
+	protected void setBorder(int border) {
 		this.border = border;
 	}
 
@@ -91,11 +88,7 @@ public class GridEditingCanvas extends Canvas {
 	public void drawMap(Set<Tile> selectedTileSet, int numColors) {
 		GraphicsContext gc = getGraphicsContext2D();
 		
-		double width = getWidth();
-		double length = getHeight();
-		int tempWidthSize = (int) width/map.getNumColumns();
-		int tempLengthSize = (int) length/map.getNumRows();
-		tileSizeInPixels = Math.min(tempWidthSize, tempLengthSize);
+		calculateTileSize();
 		
 		gc.setFill(Color.rgb(245, 245, 245));
 		gc.fillRect(0, 0, getWidth(), getHeight());
@@ -103,6 +96,13 @@ public class GridEditingCanvas extends Canvas {
 		drawMapTiles(gc, selectedTileSet, numColors);
 		drawPointyTiles(gc, selectedTileSet);
 		drawMapNumbers(gc, selectedTileSet, numColors);
+	}
+	
+	protected void calculateTileSize() {
+		int tempWidthSize = (int) getWidth()/map.getNumColumns();
+		int tempLengthSize = (int) getHeight()/map.getNumRows();
+		tileSizeInPixels = Math.min(tempWidthSize, tempLengthSize);
+		border = 1 + tileSizeInPixels / 30;
 	}
 	
 	protected void drawMapTiles(GraphicsContext gc, Set<Tile> selectedTileSet, int numColors) {
@@ -203,6 +203,29 @@ public class GridEditingCanvas extends Canvas {
 		}
 		int row = (int) (y / tileSizeInPixels);
 		return row;
+	}
+	
+	public int[] pointsToRowColNumber(double x, double y) {
+		int col;
+		int row;
+		if (x < 0)
+			col = -1;
+		else if (x >= (map.getNumColumns() * tileSizeInPixels)) {
+			col = -1;
+		}
+		else {
+			col = (int) (x / tileSizeInPixels);
+		}
+		if (y < 0)
+			row = -1;
+		else if (y >= (map.getNumRows() * tileSizeInPixels)) {
+			row = -1;
+		}
+		else {
+			row = (int) (y / tileSizeInPixels);
+		}
+		int[] array = {row, col};
+		return array;
 	}
 	
 	/**

@@ -83,9 +83,9 @@ public class EditorController {
 	@FXML
 	private void initialize() {
 		if (App.getMap().isHexagonal()) {
-			editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+			editingCanvas = new HexGridEditingCanvas(App.getMap(), 3000, 3000);
 		} else {
-			editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000, 100, 3);
+			editingCanvas = new GridEditingCanvas(App.getMap(), 3000, 3000);
 		}
 		editingCanvas.setScaleX(0.16);
 		editingCanvas.setScaleY(0.16);
@@ -133,46 +133,11 @@ public class EditorController {
 		editingCanvas.drawMap(selectedTileSet, numColors);
 	}
 
-	
-
-	/**
-	 * Given an x-coordinate of a pixel in the MosaicCanvas, this method returns the
-	 * row number of the mosaic rectangle that contains that pixel. If the
-	 * x-coordinate does not lie within the bounds of the mosaic, the return value
-	 * is -1 or is equal to the number of columns, depending on whether x is to the
-	 * left or to the right of the mosaic.
-	 */
-	private int xCoordToColumnNumber(double x) {
-		if (x < 0)
-			return -1;
-		if (x >= (map.getNumColumns() * editingCanvas.getTileSizeInPixels())) {
-			return -1;
-		}
-		int col = (int) (x / editingCanvas.getTileSizeInPixels());
-		return col;
-	}
-
-	/**
-	 * Given a y-coordinate of a pixel in the MosaicCanvas, this method returns the
-	 * column number of the mosaic rectangle that contains that pixel. If the
-	 * y-coordinate does not lie within the bounds of the mosaic, the return value
-	 * is -1 or is equal to the number of rows, depending on whether y is above or
-	 * below the mosaic.
-	 */
-	private int yCoordToRowNumber(double y) {
-		if (y < 0)
-			return -1;
-		if (y >= (map.getNumRows() * editingCanvas.getTileSizeInPixels())) {
-			return -1;
-		}
-		int row = (int) (y / editingCanvas.getTileSizeInPixels());
-		return row;
-	}
-
 	private void changeHeight(MouseEvent e) {
 		if (selectedTileSet.isEmpty() && heightToggleButton.isSelected()) {
-			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+			int[] array = editingCanvas.pointsToRowColNumber((int) e.getX(), (int) e.getY());
+			int row = array[0];
+			int col = array[1];
 			Tile tile = map.getTileAt(row, col);
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				changeHeightHelper(e, tile);
@@ -283,8 +248,9 @@ public class EditorController {
 	private void selectTiles(MouseEvent e) {
 		if (e.getButton().equals(MouseButton.PRIMARY) && selectToggleButton.isSelected()
 				|| multiSelectToggleButton.isSelected()) {
-			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+			int[] array = editingCanvas.pointsToRowColNumber((int) e.getX(), (int) e.getY());
+			int row = array[0];
+			int col = array[1];
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
 				selectedTileSet.add(tile);
@@ -379,8 +345,9 @@ public class EditorController {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				int rowDiff = 0;
 				int colDiff = 0;
-				int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-				int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+				int[] array = editingCanvas.pointsToRowColNumber((int) e.getX(), (int) e.getY());
+				int row = array[0];
+				int col = array[1];
 				int rowColComboNum = 1000;
 				for (Tile tile : cutAndCopySet) {
 					if (tile.getRow() + tile.getCol() < rowColComboNum) {
@@ -427,8 +394,9 @@ public class EditorController {
 	}
 
 	private void floodFill(MouseEvent e) {
-		int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-		int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+		int[] array = editingCanvas.pointsToRowColNumber((int) e.getX(), (int) e.getY());
+		int row = array[0];
+		int col = array[1];
 		int targetTileHeight = map.getTileAt(row, col).getHeight();
 
 		int fillHeight = Integer.parseInt(fillToolInput.getText());
@@ -446,15 +414,17 @@ public class EditorController {
 
 	private void pointyTilesTool(MouseEvent e) {
 		if (e.getButton().equals(MouseButton.PRIMARY)) {
-			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+			int[] array = editingCanvas.pointsToRowColNumber((int) e.getX(), (int) e.getY());
+			int row = array[0];
+			int col = array[1];
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
 				tile.setIsPointy(true);
 			}
 		} else if (e.getButton().equals(MouseButton.SECONDARY)) {
-			int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-			int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+			int[] array = editingCanvas.pointsToRowColNumber((int) e.getX(), (int) e.getY());
+			int row = array[0];
+			int col = array[1];
 			if (row >= 0 && row < map.getNumRows() && col >= 0 && col < map.getNumColumns()) {
 				Tile tile = map.getTileAt(row, col);
 				tile.setIsPointy(false);
@@ -638,8 +608,9 @@ public class EditorController {
 	private void insertFeature(MouseEvent e) throws IOException {
 
 		String type = featureType.getValue();
-		int row = editingCanvas.yCoordToRowNumber((int) e.getY());
-		int col = editingCanvas.xCoordToColumnNumber((int) e.getX());
+		int[] array = editingCanvas.pointsToRowColNumber((int) e.getX(), (int) e.getY());
+		int row = array[0];
+		int col = array[1];
 		Tile initialTile = map.getTileAt(row, col);
 		File file = new File(insertFeatureHelper(type));
 
