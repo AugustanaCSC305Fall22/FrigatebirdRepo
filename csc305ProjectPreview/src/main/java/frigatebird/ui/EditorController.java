@@ -452,8 +452,9 @@ public class EditorController {
 	}
 
 	@FXML
-	private void newFile() {
-
+	private void newFile() throws IOException {
+		App.setRoot("NewProjectMenu");
+		
 	}
 
 	@FXML

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ToolBar?>
@@ -18,11 +16,6 @@
                   <Color red="0.5662280917167664" green="0.09210526198148727" blue="0.7105262875556946" opacity="0.7599999904632568" />
                </value>
             </ColorPicker>
-            <JFXButton fx:id="copyBtn" prefHeight="30.0" prefWidth="57.0" stylesheets="@style.css" text=" ">
-               <graphic>
-                  <FontAwesomeIconView fill="WHITE" glyphName="QUESTION" size="22" text="" wrappingWidth="12.0" />
-               </graphic>
-            </JFXButton>
         </items>
       </ToolBar>
    </children>
