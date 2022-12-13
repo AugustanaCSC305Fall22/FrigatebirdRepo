@@ -123,11 +123,9 @@ public class EditorController {
 		heightNumTextField.setOnKeyTyped(e -> setHeightNum(e));
 		heightTileSelectInput.setOnKeyTyped(e -> setSelectHeightNum(e));
 		fillToolInput.setOnKeyTyped(e -> setFillToolNum(e));
-		if (App.getView().equals("Top Down View")) {
+		
 			drawMap();
-		} else if (App.getView().equals("Side View")) {
-			drawFrontPerspective();
-		}
+		
 	}
 
 	private void drawMap() {
@@ -135,10 +133,7 @@ public class EditorController {
 		editingCanvas.drawMap(selectedTileSet, numColors);
 	}
 
-	private void drawFrontPerspective() {
-		int numColors = map.findMaxMapHeight() + 1;
-		editingCanvas.drawFrontPerspective(editingCanvas, numColors);
-	}
+	
 
 	/**
 	 * Given an x-coordinate of a pixel in the MosaicCanvas, this method returns the
@@ -209,22 +204,21 @@ public class EditorController {
 	}
 
 	private void handleCanvasMouse(MouseEvent e) throws IOException {
-		if (App.getView().equals("Top Down View")) {
-			if (toolbox.getCurrentTool().equals(ToolBox.Tool.HEIGHT)) {
-				changeHeight(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.SELECT)) {
-				selectTiles(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
-				twoPointSelectTool(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
-				pasteSelectedTiles(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
-				pointyTilesTool(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
-				floodFill(e);
-			} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
-				insertFeature(e);
-			}
+
+		if (toolbox.getCurrentTool().equals(ToolBox.Tool.HEIGHT)) {
+			changeHeight(e);
+		} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.SELECT)) {
+			selectTiles(e);
+		} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.TWO_POINT_SELECT)) {
+			twoPointSelectTool(e);
+		} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.PASTE)) {
+			pasteSelectedTiles(e);
+		} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.POINTY)) {
+			pointyTilesTool(e);
+		} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FILL)) {
+			floodFill(e);
+		} else if (toolbox.getCurrentTool().equals(ToolBox.Tool.FEATURE)) {
+			insertFeature(e);
 		}
 	}
 
@@ -472,11 +466,9 @@ public class EditorController {
 
 	private void refresh() {
 		this.map = App.getMap();
-		if (App.getView().equals("Top Down View")) {
-			drawMap();
-		} else if (App.getView().equals("Side View")) {
-			drawFrontPerspective();
-		}
+
+		drawMap();
+
 	}
 
 	/**
@@ -526,18 +518,6 @@ public class EditorController {
 	@FXML
 	private void terrainMapToObj(ActionEvent event) throws IOException {
 		TerrainMapIO.terrainMapToObj();
-	}
-
-	@FXML
-	private void topDownView() {
-		App.setView("Top Down View");
-		refresh();
-	}
-
-	@FXML
-	private void sideView() {
-		App.setView("Side View");
-		refresh();
 	}
 
 	@FXML
@@ -763,10 +743,10 @@ public class EditorController {
 		TerrainMap transformedMap;
 		if (map.isHexagonal()) {
 			transformedMap = new TerrainMap(map.getName(), map.getNumRows(), map.getNumColumns(), false);
-			
+
 		} else {
 			transformedMap = new TerrainMap(map.getName(), map.getNumRows(), map.getNumColumns(), true);
-			
+
 		}
 
 		for (int r = 0; r < map.getNumRows(); r++) {
@@ -804,7 +784,6 @@ public class EditorController {
 	void addRowAction(ActionEvent event) {
 		resizing(1, 0, 0, 0);
 	}
-	
 
 	@FXML
 	void removeColumnAction(ActionEvent event) {
@@ -831,7 +810,7 @@ public class EditorController {
 	void changeMap(ActionEvent event) {
 		changeMapType();
 	}
-	
+
 	@FXML
 
 	private void menuEditUndo() {

@@ -25,7 +25,7 @@ public class App extends Application {
     private static File currentFile = null;
     private static File directory;
 
-	private static String view = "Top Down View";
+	
 
     /**
      * Starts the application by displaying the scene the user sees
@@ -102,24 +102,7 @@ public class App extends Application {
 	public static void setCurrentFile(File file) {
 		currentFile = file;
 	}
-
-	/**
-	 * Returns the view variable from the App class's data fields
-	 * 
-	 * @return - the view variable from the App class's data fields
-	 */
-	public static String getView() {
-		return view;
-	}
-
-	/**
-	 * Sets the view variable in the App class's data fields
-	 * 
-	 * @param view - a string representing a view used to display the TerrainMap object
-	 */
-	public static void setView(String view) {
-		App.view = view;
-	}
+	
 	
 	/**
 	 * Returns the file directory variable from the App class's data fields

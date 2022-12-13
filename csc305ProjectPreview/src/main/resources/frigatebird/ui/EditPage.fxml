@@ -67,8 +67,7 @@
                <items>
                   <Menu mnemonicParsing="false" text="Preview">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#topDownView" text="Top Down View" />
-                        <MenuItem mnemonicParsing="false" onAction="#sideView" text="Side View" />
+                      
                         <MenuItem mnemonicParsing="false" onAction="#openPreviewPage" text="3D View" />
                     </items>
                   </Menu>
