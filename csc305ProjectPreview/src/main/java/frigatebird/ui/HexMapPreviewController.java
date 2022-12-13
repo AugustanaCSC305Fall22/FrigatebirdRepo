@@ -62,7 +62,7 @@ public class HexMapPreviewController {
 		AnchorPane fxmlPane = (AnchorPane) fxmlLoader.load();
 
 		color = colorPicker.getValue();
-		textureComboBox.getItems().addAll("Brick", "Flame", "Glass", "Grass", "Iron", "Paper", "Rock", "Sand", "Space",
+		textureComboBox.getItems().addAll("Brick", "Flame", "Glass", "Grass", "Iron", "Paper", "Rock", "Sand",
 				"Water", "Wood");
 		create3DObjects();
 

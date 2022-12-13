@@ -73,12 +73,6 @@
                   </Menu>
                </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
-              <MenuItem mnemonicParsing="false" onAction="#switchToInstructionScreen" text="Instruction" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Edit">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#addRowAction" text="Add Row" />
@@ -93,6 +87,7 @@
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#switchToAboutScreen" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#switchToInstructionScreen" text="Instruction" />
             </items>
           </Menu>
         </menus>

@@ -78,7 +78,7 @@ public class MapPreviewController {
         AnchorPane fxmlPane = (AnchorPane) fxmlLoader.load();
         
         color = colorPicker.getValue();
-        textureComboBox.getItems().addAll("Brick","Flame", "Glass", "Grass", "Iron", "Paper", "Rock", "Sand", "Space", "Water", "Wood");
+        textureComboBox.getItems().addAll("Brick","Flame", "Glass", "Grass", "Iron", "Paper", "Rock", "Sand", "Water", "Wood");
 		create3DObjects();
 		
 		Camera camera = new PerspectiveCamera();

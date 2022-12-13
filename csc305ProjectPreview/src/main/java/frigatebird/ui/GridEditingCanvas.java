@@ -1,11 +1,9 @@
 package frigatebird.ui;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import frigatebird.terrainbuilder.TerrainMap;
 import frigatebird.terrainbuilder.Tile;
-import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

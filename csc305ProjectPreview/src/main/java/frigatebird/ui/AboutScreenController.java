@@ -6,8 +6,7 @@ import javafx.fxml.FXML;
 public class AboutScreenController {
 	
 	@FXML
-    private void switchToMainMenu() throws IOException {
-        App.setRoot("MainMenu");
+    private void switchToEditPage() throws IOException {
+        App.setRoot("EditPage");
     }
-	
 }

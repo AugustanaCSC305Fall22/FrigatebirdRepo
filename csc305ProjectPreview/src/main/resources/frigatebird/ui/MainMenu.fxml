@@ -43,7 +43,7 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <Label fx:id="noProjectsLabel" layoutX="272.0" layoutY="110.0" prefHeight="43.0" prefWidth="470.0" styleClass="default_text" text="You have no projects yet." textFill="#d0d0d0">
+      <Label fx:id="noProjectsLabel" layoutX="269.0" layoutY="128.0" prefHeight="43.0" prefWidth="470.0" styleClass="default_text" text="You have no projects yet." textFill="#d0d0d0">
          <font>
             <Font size="34.0" />
          </font>
@@ -53,7 +53,7 @@
             <Font name="Verdana Bold" size="22.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="389.0" layoutY="164.0" onAction="#switchToTemplateMenu" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="365.0" layoutY="179.0" onAction="#switchToTemplateMenu" styleClass="template_text_button" text="Go to templates" textFill="WHITE">
          <padding>
             <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
          </padding>

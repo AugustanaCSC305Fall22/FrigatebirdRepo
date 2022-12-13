@@ -9,13 +9,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.AboutScreenController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.AboutScreenController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="900.0">
          <children>
             <Label layoutX="159.0" layoutY="33.0" prefHeight="54.0" prefWidth="202.0" text="Instructions" textFill="#946c8f" textOverrun="CENTER_WORD_ELLIPSIS">
                <font>
-                  <Font name="Bodoni MT Black Italic" size="29.0" />
+                  <Font name="Verdana Bold" size="29.0" />
                </font>
             </Label>
             <Label layoutX="121.0" layoutY="96.0" text="Editing Tools" textFill="#7c5252">
@@ -75,7 +75,7 @@
                   <Image url="@Images/frigatebird%20icon.png" />
                </image>
             </ImageView>
-            <Button layoutX="374.0" layoutY="1330.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Return" />
+            <Button layoutX="374.0" layoutY="1330.0" mnemonicParsing="false" onAction="#switchToEditPage" text="Return" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

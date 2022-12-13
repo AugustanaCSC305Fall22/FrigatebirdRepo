@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -7,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="frigatebird.ui.PremadeTemplatesController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frigatebird.ui.PremadeTemplatesController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="900.0">
          <children>
@@ -70,6 +72,11 @@
                   <Font name="Bell MT" size="24.0" />
                </font>
             </Label>
+            <JFXButton fx:id="copyBtn" layoutX="20.0" layoutY="18.0" onAction="#switchToMainMenu" prefHeight="40.0" prefWidth="48.0" stylesheets="@style.css" text=" " textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="HOME" size="22" text="" wrappingWidth="12.0" />
+               </graphic>
+            </JFXButton>
          </children></AnchorPane>
   </content>
 </ScrollPane>
